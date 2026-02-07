@@ -1,0 +1,74 @@
+Ah the classic 😄 There are **multiple ways**, depends what you’re centering.
+
+---
+
+## ✅ **Best modern way (both horizontal + vertical)**
+
+```css
+.parent {
+  display: flex;
+  justify-content: center; /* horizontal */
+  align-items: center;     /* vertical */
+  height: 100vh;
+}
+```
+
+---
+
+## ✅ **Using Grid (even simpler)**
+
+```css
+.parent {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+```
+
+---
+
+## ✅ **Only horizontal center**
+
+```css
+.child {
+  margin: 0 auto;
+  width: 200px;
+}
+```
+
+Works only if width is fixed.
+
+---
+
+## ✅ **Absolute positioning**
+
+```css
+.child {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+```
+
+---
+
+## 🧠 Which to use?
+
+| Case              | Best Method |
+| ----------------- | ----------- |
+| Layout centering  | Flexbox     |
+| Perfect 2D center | Grid        |
+| Old layouts       | Absolute    |
+| Only horizontal   | margin auto |
+
+---
+
+### One-line memory
+
+> **Flex/Grid for layout, margin auto for horizontal, transform for absolute positioning.**
+
+---
+
+Want to center **text inside a div** or the **div itself**?
+                                                                                                                                        

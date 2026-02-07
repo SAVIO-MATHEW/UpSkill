@@ -1,0 +1,92 @@
+import { useState, useCallback } from 'react';
+import { useAuth } from './AuthContext';
+
+function useApi() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { user } = useAuth();
+
+  const fetchData = useCallback(
+    async (url) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(url, {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(user?.token && { Authorization: `Bearer ${user.token}` }),
+          },
+        });
+        if (!response.ok) throw new Error('Failed to fetch');
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [user?.token]
+  );
+
+  return { data, loading, error, fetchData };
+}
+
+export default useApi;
+
+-------------------------------------------------------------------------------------------------------------------
+useApi is a custom hook because it:
+
+Is Named useApi: Follows the naming convention, indicating it’s a hook.
+It’s designed to be called at the top level of a component or another hook, adhering to React’s rules.
+Uses React Hooks: Leverages useState for managing data, loading, and error states, and useCallback to memoize the fetchData function.
+Integrates with React Context: Uses useAuth (another custom hook) to access authentication state, tying it to React’s ecosystem.
+Encapsulates API Logic: Abstracts the complexity of API calls (fetching, headers, error handling) into a reusable interface for components.
+Returns State and Functions: Provides a consistent API ({ data, loading, error, fetchData }) that components can use to interact with the API call’s state.
+
+====================================================================================================================
+import { useEffect } from 'react';
+import useApi from './useApi';
+import { useAuth } from './AuthContext';
+
+function Home() {
+  const { data, loading, error, fetchData } = useApi();
+  const { user, login } = useAuth();
+
+  useEffect(() => {
+    fetchData('https://jsonplaceholder.typicode.com/posts');
+  }, [fetchData]);
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Home</h1>
+      {!user && (
+        <button
+          onClick={() => login('abc123')} // Simulate login
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Log In
+        </button>
+      )}
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+      {data && (
+        <ul className="list-disc pl-5">
+          {data.slice(0, 3).map(post => (
+            <li key={post.id}>{post.title}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default Home;
+=================================================================================================================
+fetchData is used inside the useEffect callback, so it must be included in the dependency array to follow React’s rules and prevent stale closures or missed updates.
+Typically, dependency arrays include states or props (e.g., count, user) because effects often depend on those values changing.
+In this case, the effect depends on fetchData, a function that encapsulates the API call logic. The effect should re-run if fetchData changes, which happens when user?.token changes (due to useCallback’s dependency).
+No state is directly used in the useEffect callback here—only the fetchData function—so no state needs to be in the dependency array.
+The fetchData function includes user?.token in its headers for authenticated API calls. If the token changes (e.g., user logs in/out), useCallback creates a new fetchData function.
+Including fetchData in the dependency array ensures useEffect re-runs with the updated function when the token changes, keeping the API call in sync with the auth state.
