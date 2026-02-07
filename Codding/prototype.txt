@@ -1,0 +1,43 @@
+A prototype is an object from which other objects inherit properties. Every JavaScript object has an internal link to its prototype, forming a chain called the prototype chain. Property lookups traverse this chain until the property is found or the chain ends at Object.prototype.
+
+2. What is the difference between __proto__ and prototype?
+Answer:
+
+prototype: A property of constructor functions. It defines the object that will become the prototype of instances created with new.
+
+__proto__: An internal property of objects that points to their prototype. Example:
+
+js
+function Person() {}
+const p = new Person();
+console.log(p.__proto__ === Person.prototype); // true
+3. How does the prototype chain work?
+Answer: When accessing a property:
+
+JavaScript checks the object itself.
+
+If not found, it checks the object’s prototype (__proto__).
+
+This continues up the chain until Object.prototype.
+
+If still not found, the result is undefined.
+
+4. How are ES6 classes related to prototypes?
+Answer: ES6 classes are syntactic sugar over prototype-based inheritance. Methods defined in a class are placed on the constructor’s prototype. For example:
+
+js
+class Animal {
+  speak() { console.log("sound"); }
+}
+const dog = new Animal();
+console.log(typeof dog.speak); // function
+Here, speak lives on Animal.prototype.
+
+5. Why are prototypes important?
+Answer:
+
+They enable inheritance without duplicating methods across instances.
+
+They make memory usage efficient since methods are shared.
+
+They form the foundation of JavaScript’s object-oriented programming model.

@@ -1,0 +1,138 @@
+I think you mean **`useEffect` vs `useLayoutEffect`** (people sometimes casually say *afterEffect*).
+
+### Core difference
+
+* **`useEffect`** runs **after the browser paints** → non-blocking, best for data fetching, subscriptions.
+* **`useLayoutEffect`** runs **before paint (after DOM mutations)** → blocking, used for DOM measurements or layout fixes.
+
+### Rule of thumb
+
+> Use **`useEffect` by default**. Reach for **`useLayoutEffect` only when you must read/write layout** (e.g., `getBoundingClientRect`, preventing flicker).
+
+### One-liner for interviews 🧠
+
+> `useEffect` is async to paint and doesn’t block rendering, while `useLayoutEffect` runs synchronously before paint to handle layout-critical logic.
+-----------------------------------------------------------------------
+`useLayoutEffect` is **not for everyday logic** — it’s for **layout-critical, DOM-dependent work** where timing matters.
+
+---
+
+## When you should use `useLayoutEffect` (real applications)
+
+### 1️⃣ Measuring DOM size / position
+
+When you must read layout **before paint** to avoid flicker.
+
+```jsx
+useLayoutEffect(() => {
+  const { height } = ref.current.getBoundingClientRect();
+  setHeight(height);
+}, []);
+```
+
+Used in:
+
+* tooltips
+* popovers
+* dropdown positioning
+
+---
+
+### 2️⃣ Preventing visual flicker
+
+If UI jumps when effect runs.
+
+```jsx
+useLayoutEffect(() => {
+  ref.current.style.opacity = 1;
+}, []);
+```
+
+With `useEffect`, user might see the jump.
+
+---
+
+### 3️⃣ Sync DOM mutations
+
+When you **read and immediately write** layout values.
+
+```jsx
+useLayoutEffect(() => {
+  const width = ref.current.offsetWidth;
+  ref.current.style.width = `${width}px`;
+}, []);
+```
+
+---
+
+### 4️⃣ Scroll position control
+
+```jsx
+useLayoutEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
+```
+
+Used in:
+
+* route changes
+* chat apps
+* feed resets
+
+---
+
+### 5️⃣ Animation libraries / portals
+
+Libraries like:
+
+* Framer Motion
+* React Spring
+* Tooltip libs
+
+Need layout info **before paint**.
+
+---
+
+## When NOT to use it ❌
+
+* Data fetching
+* Event listeners
+* Timers
+* Logging
+* State sync
+
+👉 These go in `useEffect`.
+
+---
+
+## Performance warning ⚠️
+
+`useLayoutEffect` **blocks painting**.
+
+Overuse = jank.
+
+---
+
+## Decision table
+
+| Need            | Hook              |
+| --------------- | ----------------- |
+| After paint     | `useEffect`       |
+| Measure layout  | `useLayoutEffect` |
+| Prevent flicker | `useLayoutEffect` |
+| API calls       | `useEffect`       |
+
+---
+
+### Interview one-liner 🧠
+
+> `useLayoutEffect` runs synchronously before paint and should only be used for DOM measurements or layout fixes where timing is critical.
+
+If you want:
+
+* 🧪 Side-by-side flicker demo
+* ⚙️ `useLayoutEffect` vs CSS
+* 🧠 Internal render timing diagram
+* ⚠️ Common misuse examples
+
+Say 👍

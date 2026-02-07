@@ -1,0 +1,141 @@
+Good question — this is one of those things that *feels* wrong until you understand React’s mental model.
+
+## Short answer
+
+> A function component can have **any number of `useEffect` hooks** because each `useEffect` is an **independent side-effect subscription**, not a lifecycle replacement.
+
+---
+
+## How this works
+
+Think of a function component as:
+
+* a **description of UI**
+* plus a list of **effects to run after commit**
+
+Each `useEffect` call:
+
+* registers **one effect**
+* with its own dependencies
+* and its own cleanup
+
+```jsx
+function Component() {
+  useEffect(() => {
+    // effect A
+    return () => cleanupA();
+  }, [a]);
+
+  useEffect(() => {
+    // effect B
+    return () => cleanupB();
+  }, [b]);
+
+  return <UI />;
+}
+```
+
+React tracks them **by call order**, not by name.
+
+---
+
+## Why this is actually better
+
+### 1️⃣ Separation of concerns
+
+Instead of one huge effect:
+
+```js
+useEffect(() => {
+  fetchData();
+  addListener();
+  startTimer();
+  return () => {
+    removeListener();
+    clearTimer();
+  };
+}, []);
+```
+
+You split responsibilities:
+
+```js
+useEffect(fetchData, []);
+useEffect(addListener, []);
+useEffect(startTimer, []);
+```
+
+Each effect:
+
+* has its own lifecycle
+* cleans up itself
+* reruns only when its dependencies change
+
+---
+
+### 2️⃣ Independent lifecycles
+
+Each effect can:
+
+* run on mount
+* re-run on dependency change
+* clean up independently
+
+React doesn’t limit you to “componentDidMount once”.
+
+---
+
+## Internals (simple view)
+
+React stores effects like a list:
+
+```
+Component Fiber
+  ├─ Effect #1
+  ├─ Effect #2
+  ├─ Effect #3
+```
+
+On commit:
+
+* React iterates the list
+* executes each effect
+* stores each cleanup separately
+
+---
+
+## Important rule (hooks rule)
+
+Hooks must be:
+
+* called **unconditionally**
+* in the **same order every render**
+
+That’s how React matches “effect #1” across renders.
+
+---
+
+## Interview one-liner 🧠
+
+> A function component can have multiple `useEffect` hooks because each represents an independent side effect with its own lifecycle, and React tracks them by call order.
+
+---
+
+## When to use multiple `useEffect`s
+
+✅ Different concerns
+✅ Different dependencies
+✅ Different cleanup logic
+
+❌ Don’t combine unrelated logic just to “use fewer hooks”
+
+---
+
+If you want:
+
+* 🔁 What happens when dependencies overlap
+* ⚠️ Bugs from conditional hooks
+* 🧠 useEffect vs custom hooks
+* 🎯 Real interview trick questions
+
+Say 👍

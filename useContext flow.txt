@@ -1,0 +1,63 @@
+The **Context API** in React is a way to manage state across a component tree without having to pass props down manually at every level. Here's the flow:
+
+---
+
+### **1. Create Context**
+- **What**: Use `createContext()` to create a context object.
+- **How**: This object will be used to share data (state) between components.
+- **Example**:
+  ```javascript
+  import { createContext } from 'react';
+
+  const MyContext = createContext();
+  ```
+
+---
+
+### **2. Provide Context**
+- **What**: Use a `Provider` component to wrap the parts of the app where context data should be available.
+- **How**: The `Provider` component has a `value` prop, which holds the data to be shared.
+- **Example**:
+  ```javascript
+  import { useState } from 'react';
+
+  function App() {
+    const [value, setValue] = useState('Hello Context!');
+
+    return (
+      <MyContext.Provider value={value}>
+        <Child />
+      </MyContext.Provider>
+    );
+  }
+  ```
+
+---
+
+### **3. Consume Context**
+- **What**: Access the context data in child components using `useContext()` or the `Consumer` component.
+- **How**: `useContext()` is the most common and straightforward way to consume context.
+- **Example**:
+  ```javascript
+  import { useContext } from 'react';
+
+  function Child() {
+    const value = useContext(MyContext); // Access shared data
+    return <p>{value}</p>;
+  }
+  ```
+
+---
+
+### **Flow Summary**
+1. **Create a Context**: Use `createContext()` to define a context object.
+2. **Provide the Context**: Wrap components with the `Provider` and supply the shared state using its `value` prop.
+3. **Consume the Context**: Use `useContext()` in child components to retrieve the shared state.
+
+---
+
+### **When to Use Context**
+- Avoid **prop drilling** (passing data through many nested components).
+- Share **global state**, such as themes, authentication data, or user preferences.
+
+Let me know if you'd like to see a real-world example or explore advanced concepts like nested contexts!

@@ -1,0 +1,118 @@
+Here’s a **clean, reusable `useModal` hook** that handles:
+
+* Escape key close
+* Outside click close
+* Ref handling
+* Open/close state
+
+This is a **senior-level reusable pattern**.
+
+---
+
+## `useModal` hook
+
+```jsx
+import { useState, useRef, useEffect } from "react";
+
+export function useModal(initial = false) {
+  const [open, setOpen] = useState(initial);
+  const modalRef = useRef(null);
+
+  const close = () => setOpen(false);
+  const openModal = () => setOpen(true);
+
+  // ESC key close
+  useEffect(() => {
+    if (!open) return;
+
+    const handleEsc = (e) => {
+      if (e.key === "Escape") close();
+    };
+
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, [open]);
+
+  // Outside click close
+  useEffect(() => {
+    if (!open) return;
+
+    const handleClickOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        close();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, [open]);
+
+  return { open, openModal, close, modalRef };
+}
+```
+
+---
+
+## Modal component (dumb/presentational)
+
+```jsx
+export function Modal({ open, onClose, modalRef, children }) {
+  if (!open) return null;
+
+  return (
+    <div className="backdrop">
+      <div className="modal" ref={modalRef}>
+        {children}
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+## Usage example
+
+```jsx
+import { useModal } from "./useModal";
+import { Modal } from "./Modal";
+
+export default function App() {
+  const { open, openModal, close, modalRef } = useModal();
+
+  return (
+    <div>
+      <button onClick={openModal}>Open Modal</button>
+
+      <Modal open={open} onClose={close} modalRef={modalRef}>
+        <h2>Hello Modal</h2>
+      </Modal>
+    </div>
+  );
+}
+```
+
+---
+
+## Why this is a good pattern
+
+* Logic separated from UI
+* Reusable across app
+* Testable
+* No duplicated event logic
+* Clean component APIs
+
+---
+
+### Interview one-liner 🧠
+
+> A `useModal` hook centralizes open state and close logic like Escape and outside clicks, making the modal component purely presentational and reusable.
+
+If you want next:
+
+* Focus trap (accessibility)
+* Portal-based modal
+* Animation with Framer Motion
+* Unit tests for this hook

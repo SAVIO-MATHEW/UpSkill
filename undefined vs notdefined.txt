@@ -1,0 +1,34 @@
+undefined vs not defined (ReferenceError)
+
+undefined
+
+Variable exists but has no value assigned
+
+let a;
+console.log(a); // undefined
+
+
+Also happens when:
+
+function test(x) {}
+test(); // x === undefined
+
+
+not defined
+
+Variable does NOT exist in scope
+
+Accessing it throws an error
+
+console.log(b); // ReferenceError: b is not defined
+
+🔑 Key difference (interview-ready)
+Aspect	undefined	not defined
+Variable declared	✅ Yes	❌ No
+Value assigned	❌ No	—
+Error thrown	❌ No	✅ ReferenceError
+
+One-liner:
+
+undefined = declared but no value
+not defined = never declared

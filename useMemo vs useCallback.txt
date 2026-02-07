@@ -1,0 +1,20 @@
+useMemo and useCallback are React hooks designed to optimize performance by memoizing values or functions, preventing unnecessary computations or re-renders. They are often used in conjunction with React.memo to optimize functional components, a topic relevant to Tech Mahindra interviews where performance optimization is emphasized.
+
+1. useMemo
+Purpose: Memoizes a computed value to avoid recalculating it on every render unless its dependencies change.
+Use Case: Use for expensive calculations or derived data (e.g., filtering an array, computing totals) that don’t need to recompute if inputs are unchanged.
+Syntax:
+
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+How It Works: Runs the provided function and caches its result. Returns the cached value unless the dependencies ([a, b]) change.
+
+
+2. useCallback
+Purpose: Memoizes a function to prevent recreating it on every render unless its dependencies change.
+Use Case: Use when passing functions as props to React.memo-wrapped components to prevent unnecessary re-renders, or in event handlers that depend on specific values.
+Syntax:
+
+const memoizedCallback = useCallback(() => {
+  doSomething(a, b);
+}, [a, b]);
+How It Works: Returns a memoized version of the function, which remains the same between renders unless the dependencies ([a, b]) change.
