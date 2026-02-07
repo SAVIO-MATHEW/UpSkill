@@ -1,0 +1,183 @@
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment(state) { state.value++ },
+    decrement(state) { state.value-- }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUsers.pending, (state) => {
+      state.loading = true;
+    }).addMatcher(
+    (action) => action.type.endsWith('/pending'),
+    (state) => {
+      state.loading = true;
+    }
+   );
+  }
+});
+----------------------------------------------------------------------
+mutile action type variations
+
+builder.addMatcher(
+  (action) =>
+    ['login/fulfilled', 'signup/fulfilled'].includes(action.type),
+  (state) => {
+    state.isAuthenticated = true;
+  }
+);
+
+````````````````````````````````````
+builder.addMatcher(
+  isAnyOf(login.fulfilled, signup.fulfilled),
+  (state) => {
+    state.isAuthenticated = true;
+  }
+);
+
+``````````````````````````````````````
+builder.addMatcher(
+  (action) => /^auth\/.*\/fulfilled$/.test(action.type),
+  reducer
+);
+👉 Matches:
+
+auth/login/fulfilled
+
+auth/signup/fulfilled
+`````````````````````````````````
+(action) =>
+  action.type.startsWith('auth/') &&
+  action.type.endsWith('/fulfilled')
+
+`````````````````````````````````````
+builder.addMatcher(
+  login.fulfilled.match,
+  reducer
+);
+
+.match(action) returns true/false
+
+````````````````````````````````````````
+(action) => action.meta?.retry === true
+
+````````````````````````````````````````
+(action) => action.error != null
+
+`````````````````````````````````````````
+(action) => action.payload?.requiresLogout
+
+``````````````````````````````````````````
+Use when: multiple thunks
+builder.addMatcher(
+  isAnyOf(login.pending, signup.pending),
+  reducer
+);
+
+`````````````````````````````````````````
+(action) => action.type.split('/')[0] === 'auth'
+
+````````````````````````````````````````````
+(action) => !action.type.includes('internal')
+`````````````````````````````````````````````````
+Any JS boolean expression on action can be a matcher.
+Order matters: addMatcher runs after addCase
+
+--------------------------------------------------------------
+
+Here **`reducer` is just a name for a function** — nothing special.
+
+In this code:
+
+```js
+builder.addMatcher(
+  login.fulfilled.match,
+  reducer
+);
+```
+
+### What `reducer` means
+
+It is a **case reducer function** with the signature:
+
+Example:
+
+```js
+const reducer = (state, action) => {
+  state.user = action.payload;
+};
+```
+
+So the full code is really:
+
+```js
+builder.addMatcher(
+  login.fulfilled.match,
+  (state, action) => {
+    state.user = action.payload;
+  }
+);
+```
+
+### Why it’s called a reducer
+
+* It **reduces** `(previousState + action)` → `newState`
+* Same concept as normal Redux reducers
+* Uses **Immer**, so mutation-looking code is allowed
+
+### Key takeaway
+
+* `reducer` here is **not the slice reducer**
+* It’s a **case reducer** (handles one matched action)
+
+### One-liner
+
+> **In `addMatcher`, `reducer` is the function that updates state when the matcher returns true.**
+
+---------------------------------------------------------------
+1️⃣ General Rules
+
+addCase and addMatcher define handlers for actions.
+
+Execution is always sequential, not parallel.
+
+Each handler sees the updated state from previous handlers.
+
+Reducers in RTK must be synchronous.
+
+2️⃣ Order of Execution
+Step	Handler Type	Order
+1	addCase	All defined addCases execute first, in the order they were added
+2	addMatcher	All defined addMatchers execute after all addCase, in the order they were added
+
+Code order in builder does not change this grouping.
+
+3️⃣ Example
+builder
+  .addCase(actionA, reducerA)
+  .addMatcher(matcherB, reducerB)
+  .addCase(actionC, reducerC)
+  .addMatcher(matcherD, reducerD);
+
+
+Execution for a dispatched action:
+
+Check addCase(actionA) → runs if matches
+
+Check addCase(actionC) → runs if matches
+
+Check addMatcher(matcherB) → runs if matches
+
+Check addMatcher(matcherD) → runs if matches
+
+Important: Even if matcherB is defined before actionC, addCase always runs first.
+
+4️⃣ Sequential Execution Notes
+
+Each handler sees the latest state from previous handlers.
+
+If a handler is CPU-heavy, it blocks the thread; other handlers wait.
+
+Reducers cannot contain async code — use thunks or middleware for async work.
+----------------------------------------------------------------------
+In Redux Toolkit, a builder can only be used inside a single extraReducers function per slice. Multiple builders in the same slice are not allowed. Always define all addCase and addMatcher calls in the same builder.
