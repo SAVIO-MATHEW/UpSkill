@@ -1,0 +1,68 @@
+Event propagation refers to the way events travel through the DOM (Document Object Model) hierarchy when triggered. It happens in two main phases: **capturing** and **bubbling**, allowing developers to decide how they want their event handlers to interact with one another.
+
+### The Two Phases of Event Propagation:
+
+1. **Capturing Phase**: Events move from the root element (highest level in the DOM) down to the target element.
+2. **Bubbling Phase**: After the event reaches the target element, it travels back up the DOM tree toward the root.
+
+### Example of Event Propagation:
+```html
+<div id="parent" style="padding: 20px; background-color: lightblue;">
+  Parent
+  <div id="child" style="padding: 20px; background-color: lightgreen;">Child</div>
+</div>
+
+<script>
+  const parent = document.getElementById("parent");
+  const child = document.getElementById("child");
+
+  // Parent listener
+  parent.addEventListener("click", (event) => {
+    console.log("Parent clicked!");
+  });
+
+  // Child listener
+  child.addEventListener("click", (event) => {
+    console.log("Child clicked!");
+  });
+</script>
+```
+If you click the "Child" element, both the parent and child listeners will trigger. This happens because of the bubbling phase.
+
+---
+
+### Controlling Propagation:
+You can modify event propagation using these techniques:
+
+1. **Stopping Propagation**: 
+   To prevent an event from traveling further (either during bubbling or capturing):
+   ```javascript
+   child.addEventListener("click", (event) => {
+     console.log("Child clicked!");
+     event.stopPropagation(); // Stops the event here
+   });
+   ```
+
+2. **Listening in the Capturing Phase**:
+   Use the `capture` option when adding an event listener:
+   ```javascript
+   parent.addEventListener("click", (event) => {
+     console.log("Parent clicked during capturing!");
+   }, true); // 'true' indicates capturing phase
+   ```
+
+---
+
+### Event Delegation:
+Instead of adding listeners to individual child elements, you can use a parent element to handle events. This approach is efficient and helps with dynamically added elements.
+```javascript
+parent.addEventListener("click", (event) => {
+ const child = event.target.closest("#child");
+  if (child) {
+    console.log("Child clicked via delegation!");
+  }
+});
+```
+<div id="child">
+  <span>Text</span>
+</div>
