@@ -1,0 +1,57 @@
+Attributes (Props) of <Link>
+The <Link> component creates a navigational link to a route, preventing full page reloads. It’s used to navigate between routes or update the URL. Below are the key attributes (props) for <Link>:
+
+1)to (string or object, required):
+Purpose: Specifies the destination URL or route path to navigate to.
+Details: Can be a string (e.g., "/profile") or an object for complex navigation (e.g., { pathname: "/profile", search: "?key=value" }). Supports relative paths (e.g., "profile" for a child route).
+Example:
+
+<Link to="/profile">Go to Profile</Link>
+<Link to={{ pathname: "/settings", search: "?theme=dark" }}>Settings</Link>
+
+
+2)replace (boolean, optional):
+Purpose: Replaces the current history entry instead of adding a new one when navigating.
+Details: Prevents adding a new entry to the browser’s history stack, so the back button skips the current URL.
+Example:
+
+<Link to="/new" replace>Replace History</Link>
+
+
+3)reloadDocument (boolean, optional):
+Purpose: Forces a full page reload when navigating to the to URL.
+Details: Bypasses client-side routing, useful for external links or server-rendered pages.
+Example:
+
+<Link to="/external" reloadDocument>Go to External</Link>
+
+
+4)state (any, optional):
+Purpose: Attaches state to the navigation, accessible via useLocation().state.
+Details: Useful for passing data between routes without URL parameters.
+Example:
+
+<Link to="/profile" state={{ userId: 123 }}>View Profile</Link>
+
+
+5)className (string or function, optional):
+Purpose: Applies CSS classes to the <Link> element.
+Details: Can be a static string or a function that receives { isActive, isPending } for dynamic styling (similar to <NavLink>).
+Example:
+
+<Link
+  to="/home"
+  className={({ isActive }) => (isActive ? "text-blue-600" : "text-gray-600")}
+>
+  Home
+</Link>
+
+
+6)onClick (function, optional):
+Purpose: Handles click events on the link.
+Details: Can be used for custom logic before navigation (e.g., analytics tracking).
+Example:
+
+<Link to="/settings" onClick={() => console.log("Navigating to settings")}>
+  Settings
+</Link>

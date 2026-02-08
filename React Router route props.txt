@@ -1,0 +1,76 @@
+Attributes (Props) of <Route>
+The <Route> component defines a mapping between a URL path and a component or behavior. It’s used within a <Routes> component to specify what to render for a given URL. Below are the primary attributes (props) for <Route> in React Router v6:
+
+1)path (string, optional):
+Purpose: Specifies the URL path pattern to match for rendering the route’s content.
+Details: Supports static paths (e.g., "/profile") and dynamic segments (e.g., "/users/:id"). Use "*" for a catch-all route.
+Example:
+
+<Route path="/profile" element={<Profile />} />
+Matches /profile and renders the Profile component.
+
+
+2)element (React element, optional):
+Purpose: The React component to render when the route’s path matches the URL.
+Details: Introduced in v6, it replaces component and render from v5. Pass a JSX element (e.g., <Profile />).
+Example:
+
+<Route path="/settings" element={<Settings />} />
+
+
+3)index (boolean, optional):
+Purpose: Marks a route as the default child route for a parent route when no additional path segment is present.
+Details: Used in nested routes to render when the parent’s path is matched exactly (e.g., / for a parent route).
+Example:
+
+<Route path="/users" element={<Layout />}>
+  <Route index element={<Home />} />
+</Route>
+Renders Home when the URL is /users.
+
+
+4)caseSensitive (boolean, optional):
+Purpose: Makes the path matching case-sensitive.
+Details: By default, paths are case-insensitive. Set to true to enforce case sensitivity.
+Example:
+
+<Route path="/Profile" caseSensitive element={<Profile />} />
+Only matches /Profile, not /profile.
+
+
+5)children (React elements, optional):
+Purpose: Defines nested <Route> components for hierarchical routing.
+Details: Used with <Outlet> in the parent component to render child routes.
+Example:
+
+<Route path="/dashboard" element={<Dashboard />}>
+  <Route path="profile" element={<Profile />} />
+  <Route path="settings" element={<Settings />} />
+</Route>
+
+
+6)loader (function, optional):
+Purpose: A function to fetch data before rendering the route (part of React Router’s data APIs).
+Details: Runs when the route is matched, often used for server-side data fetching.
+Example:
+
+<Route
+  path="/data"
+  element={<DataComponent />}
+  loader={async () => fetch('/api/data').then(res => res.json())}
+/>
+
+
+7)action (function, optional):
+Purpose: Handles form submissions or other actions for the route.
+Details: Used with <Form> components for data mutations.
+Example:
+
+<Route
+  path="/submit"
+  element={<FormComponent />}
+  action={async ({ request }) => {
+    const data = await request.formData();
+    // Handle form submission
+  }}
+/>
