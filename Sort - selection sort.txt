@@ -1,0 +1,67 @@
+Here’s Selection Sort — the “find the minimum and place it” one.
+
+🔹 Idea
+
+Assume first element of unsorted part is the smallest
+
+Scan rest of array to find the real minimum
+
+Swap it with the first unsorted position
+
+Move boundary forward
+
+JavaScript Code
+function selectionSort(arr) {
+  let n = arr.length;
+
+  for (let i = 0; i < n - 1; i++) {
+    let minIndex = i;
+
+    // find smallest element in remaining array
+    for (let j = i + 1; j < n; j++) {
+      if (arr[j] < arr[minIndex]) {
+        minIndex = j;
+      }
+    }
+
+    // swap if needed
+    if (minIndex !== i) {
+      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+    }
+  }
+
+  return arr;
+}
+
+console.log(selectionSort([5, 3, 4, 1, 2]));
+
+🔹 How it works (example)
+
+Start: [5, 3, 4, 1, 2]
+
+Pass	Smallest Found	Array After Swap
+1	1	[1, 3, 4, 5, 2]
+2	2	[1, 2, 4, 5, 3]
+3	3	[1, 2, 3, 5, 4]
+4	4	[1, 2, 3, 4, 5]
+⏱ Complexity
+Case	Time
+Best	O(n²)
+Average	O(n²)
+Worst	O(n²)
+
+Always scans remaining elements.
+
+💾 Space
+
+O(1) (in-place)
+
+⚠️ Stability
+
+❌ Not stable (swap may change order of equal elements)
+
+One-line difference vs Bubble/Insertion
+Algorithm	Strategy
+Bubble	Repeated neighbor swaps
+Insertion	Insert into sorted part
+Selection	Find min, place once per pass
