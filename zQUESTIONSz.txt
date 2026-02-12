@@ -1,0 +1,49 @@
+Display content using fetch or axious
+pagination component 
+Table display madothu
+Then product cart
+Timer implementation 
+Traffic light simulatorconst employee = { name: "aaa", age: 14, friends: [ { name: "bbb", age:24 }, { name: "ccc", age:45, friends: [ { name: "ddd", age: 25 } ] } ] }
+[{name:"aaa", age: 14}, {}, {},{}]
+
+Object flat and array flat questions
+
+Javascript 
+Hoisting 
+Closure 
+Es6 features 
+Object destructiring 
+Above all with example each
+Javascript output based questions on let ,var
+Hoisting, settimeout questions from interviewbit
+Promises 
+Setinterval
+Javascript event handling
+
+React
+Lifecycle methods 
+Difference between functional and class based
+Hooks
+Useeffect and useCallback differences 
+State and props difference 
+Scenario based questions 
+How force rerender
+Child to parent data
+Redux flow
+Context api flow
+-------
+Coding
+---
+Useeffect output based questions 
+Traffic light simulator
+Fetch api usecases
+Todo table
+Pagination component 
+-------
+Javascript programs
+Duplicate elements from the array without set
+Read 0' s in array, add those 0's at thenend of the array
+String reverse
+Vowels count
+Multiply without multiply operator
+Based on slice,splice, filter,map,reduce

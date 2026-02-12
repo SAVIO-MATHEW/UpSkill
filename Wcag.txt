@@ -1,0 +1,9 @@
+What are the core principles of web accessibility, and how do you apply them in React?
+
+Expectation: Reference WCAG principles (Perceivable, Operable, Understandable, Robust) and practical React examples.
+Sample Answer: The core WCAG principles are:
+Perceivable: Content must be accessible to all senses (e.g., alt text for images, captions for videos). In React, I use semantic HTML (<nav>, <main>) and add alt props to <img> tags.
+Operable: Users must navigate and interact (e.g., keyboard support). I ensure components are focusable using tabIndex and handle keyboard events.
+Understandable: UI must be clear (e.g., clear error messages). I use ARIA labels for complex components.
+Robust: Code should work across assistive technologies. I test with screen readers like NVDA.
+In React, I use libraries like react-axe for auditing and ensure ARIA attributes like aria-label or role are correctly applied.
