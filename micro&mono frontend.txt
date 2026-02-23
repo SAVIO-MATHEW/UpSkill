@@ -1,0 +1,41 @@
+**Microfrontend** is an architectural approach where a frontend app is split into **independently developed, deployed, and owned UI modules**, similar to microservices on the backend.
+
+**Key points (concise):**
+
+* Each microfrontend is a **self-contained app** (own tech stack, repo, CI/CD).
+* Teams work **independently** and deploy without impacting others.
+* Composed together at runtime or build time to form one UI.
+
+**Common approaches:**
+
+* **Module Federation (Webpack 5)** – most popular.
+* **Single-SPA** – framework-agnostic orchestration.
+* **iFrames** – strong isolation, heavier.
+* **Web Components** – standards-based.
+
+**Pros:** scalability, independent releases, team autonomy.
+**Cons:** performance overhead, shared state complexity, duplication.
+
+
+
+**Monofrontend** is the traditional frontend architecture where the **entire UI is built, deployed, and scaled as a single application**.
+
+**Key points (concise):**
+
+* Single codebase, single build, single deployment.
+* Shared state, routing, and components in one app.
+* One tech stack (e.g., React + Redux).
+
+**Pros:** simple setup, easier debugging, better performance, simpler state management.
+**Cons:** slower builds, tightly coupled teams, risky deployments as app grows.
+
+**Monofrontend vs Microfrontend (quick view):**
+
+* **Codebase:** one repo vs many
+* **Deployment:** one pipeline vs independent
+* **Team scaling:** harder vs easier
+* **Complexity:** low vs high
+
+**When to choose monofrontend:** small–medium apps, single team, fast iteration.
+If you want, I can show **when to migrate from monofrontend → microfrontend** with clear signals.
+

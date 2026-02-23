@@ -1,0 +1,193 @@
+1️⃣ Using throw Error (default JS failure)
+Async thunk
+export const login = createAsyncThunk(
+  'auth/login',
+  async (data) => {
+    const res = await api.login(data);
+
+    if (!res.ok) {
+      throw new Error('Invalid credentials');
+    }
+
+    return res.data;
+  }
+);
+```````````````````````````````````````
+Rejected action produced
+{
+  type: 'auth/login/rejected',
+  payload: undefined,
+  error: {
+    message: 'Invalid credentials'
+  }
+}
+```````````````````````````````````````
+Slice usage
+.addCase(login.rejected, (state, action) => {
+  state.error = action.error.message; // 👈 must read error.message
+});
+`````````````````````````````````````````````````````````````
+unwrap() behavior
+try {
+  await dispatch(login()).unwrap();
+} catch (err) {
+  err.message === 'Invalid credentials'; // ✅
+}
+---------------------------------------------------------
+
+2️⃣ Using rejectWithValue (controlled failure)
+Async thunk
+export const login = createAsyncThunk(
+  'auth/login',
+  async (data, thunkAPI) => {
+    try {
+      const res = await api.login(data);
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue({
+        message: 'Invalid credentials',
+        code: 401
+      });
+    }
+  }
+);
+````````````````````````````````````````````````````````
+Rejected action produced
+{
+  type: 'auth/login/rejected',
+  payload: {
+    message: 'Invalid credentials',
+    code: 401
+  },
+  error: {
+    message: 'Rejected'
+  }
+}
+````````````````````````````````````````````````
+Slice usage
+.addCase(login.rejected, (state, action) => {
+  state.error = action.payload.message; // 👈 clean & structured
+});
+`````````````````````````````````````````
+unwrap() behavior
+try {
+  await dispatch(login()).unwrap();
+} catch (err) {
+  err.message; 
+  err.code === 401; // ✅
+}
+
+------------------------------------------------------------------------
+Yes, when you use thunkAPI.rejectWithValue, the action.error object will always exist with message: 'Rejected'.
+
+But let’s break it down carefully.
+
+1️⃣ Structure of a rejected action
+
+When a thunk is rejected via rejectWithValue, the action looks like this:
+
+{
+  type: 'yourThunk/rejected',
+  payload: { message: 'Invalid credentials', code: 401 },  // what you passed
+  error: {
+    message: 'Rejected',   // always 'Rejected' for rejectWithValue
+    name: 'Error',         // optional
+    stack: undefined
+  },
+  meta: { ... }
+}
+
+``````````````````````````````````````````````````````````
+payload = the custom value you provided
+
+error.message = always 'Rejected' for rejectWithValue
+
+If you throw new Error() instead, payload is undefined and error.message contains the error message
+``````````````````````````````````````````````````````````````````````````````````````````````````
+2️⃣ Why error.message is 'Rejected'
+
+RTK needs a flag to indicate the action was rejected
+
+If you pass rejectWithValue, RTK cannot know the “real error” (you could return anything)
+
+So Redux sets error.message = 'Rejected' as a placeholder
+
+3️⃣ How to use it properly
+.addCase(login.rejected, (state, action) => {
+  state.loading = false;
+  state.error = action.payload || action.error.message;
+});
+
+
+✅ If rejectWithValue → payload exists → use it
+
+✅ If thrown error → payload undefined → fallback to error.message
+-------------------------------------------------------------------------------------------------
+Exactly ✅ — you are 100% free to create any object structure you want with rejectWithValue.
+
+It does not need to follow message and code — those are just common conventions.
+
+Example with a completely custom payload
+return thunkAPI.rejectWithValue({
+  friendlyMessage: 'Please log in again',
+  backendMessage: err.response?.data?.error,
+  timestamp: Date.now(),
+  context: 'loginForm'
+});
+```````````````````````````````````````````````
+Slice usage
+.addCase(login.rejected, (state, action) => {
+  state.loading = false;
+  state.error = action.payload?.friendlyMessage;
+  state.backendError = action.payload?.backendMessage;
+  state.at = action.payload?.timestamp;
+});
+``````````````````````````````````````
+Unwrap usage
+try {
+  await dispatch(login()).unwrap();
+} catch (err) {
+  console.log(err.friendlyMessage);
+  console.log(err.backendMessage);
+  console.log(err.timestamp);
+}
+`````````````````````````````````````````````
+Key points
+
+rejectWithValue can be any JS object — array, nested object, anything.
+
+action.payload will exactly equal what you pass.
+
+action.error.message will still be 'Rejected' (ignore it if you’re using a custom payload).
+
+You can structure it in whatever way makes your UI and logic easiest.
+
+One-line interview answer
+
+rejectWithValue accepts any object you want; Redux Toolkit doesn’t enforce a message or code structure.
+----------------------------------------------
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from './authThunk';
+
+function LoginForm() {
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.auth.loading);
+
+  const handleLogin = async () => {
+    try {
+      const user = await dispatch(login({ username: 'john', password: '123' })).unwrap();
+      console.log('Logged in user:', user);
+    } catch (err) {
+      console.log(err.friendlyMessage);  // custom message
+      console.log(err.backendMessage);   // backend error
+      console.log(err.timestamp);        // timestamp
+    }
+  };
+
+  return (
+    <button onClick={handleLogin} disabled={loading}>
+      {loading ? 'Logging in...' : 'Login'}
+    </button>
+  );
+}
+

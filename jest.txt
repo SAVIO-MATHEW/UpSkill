@@ -1,0 +1,232 @@
+
+“Testing in JavaScript ensures code correctness and prevents regressions. The three popular frameworks are Jest, Mocha, and Jasmine. Jest is zero-config and great for React, Mocha is flexible and often paired with Chai for backend testing, and Jasmine is a BDD framework with built-in assertions and spies. They all serve the same purpose: writing automated unit tests, but differ in setup and style.”
+
+“Jest is the easiest to start with, especially for React, since it includes everything. Mocha is more flexible but requires extra libraries like Chai and Sinon. Jasmine is a BDD framework with built-in assertions and spies, making it simple but less popular today compared to Jest.”
+
+In React, Jest is the most common testing framework because it integrates with React Testing Library and supports snapshot testing. 
+
+sum.test.js
+test('adds 2 + 3 to equal 5', () => {
+  expect(2 + 3).toBe(5);
+});
+
+
+Write tests in *.test.js or *.spec.js.
+
+// Button.js
+export default function Button({ label }) {
+  return <button>{label}</button>;
+}
+
+// Button.test.js
+import { render, screen } from '@testing-library/react';
+import Button from './Button';
+
+test('renders button with label', () => {
+  render(<Button label="Click Me" />);
+  expect(screen.getByText("Click Me")).toBeInTheDocument();
+});
+
+npm run test
+``````````````````````````````````````````````````````````````````````````
+
+| Concept       | Meaning             |
+| ------------- | ------------------- |
+| `test()`      | Defines a test case |
+| `expect()`    | Assertion           |
+| `render()`    | Mount component     |
+| `fireEvent()` | Simulate events     |
+| `screen`      | Query DOM           |
+
+-------------------------------------------------------------------------------
+
+Good 👍 you’re asking about the **different `toBe*` matchers in Jest**.
+
+Here are the important ones you should know for interviews.
+
+---
+
+# 🔥 1️⃣ `toBe()`
+
+Checks **strict equality (===)**.
+
+```js
+expect(2 + 2).toBe(4);
+```
+
+Use for:
+
+* Primitives (number, string, boolean)
+
+---
+
+# 🔥 2️⃣ `toEqual()`
+
+Checks **deep equality** (objects & arrays).
+
+```js
+expect({ name: "Mathew" }).toEqual({ name: "Mathew" });
+```
+
+Use for:
+
+* Objects
+* Arrays
+
+⚠️ `toBe()` would fail here because objects compare by reference.
+
+---
+
+# 🔥 3️⃣ `toStrictEqual()`
+
+Stricter version of `toEqual()`.
+
+It also checks:
+
+* Undefined properties
+* Object types
+
+---
+
+# 🔥 4️⃣ `toBeTruthy()`
+
+Checks if value is truthy.
+
+```js
+expect("hello").toBeTruthy();
+```
+
+Truthy values:
+
+* true
+* non-empty string
+* non-zero number
+* objects
+
+---
+
+# 🔥 5️⃣ `toBeFalsy()`
+
+Checks if value is falsy.
+
+```js
+expect(0).toBeFalsy();
+```
+
+Falsy values:
+
+* false
+* 0
+* ""
+* null
+* undefined
+* NaN
+
+---
+
+# 🔥 6️⃣ `toBeNull()`
+
+```js
+expect(null).toBeNull();
+```
+
+---
+
+# 🔥 7️⃣ `toBeUndefined()`
+
+```js
+expect(undefined).toBeUndefined();
+```
+
+---
+
+# 🔥 8️⃣ `toContain()`
+
+Checks if array or string contains a value.
+
+```js
+expect([1, 2, 3]).toContain(2);
+expect("hello").toContain("ell");
+```
+
+---
+
+# 🔥 9️⃣ `toHaveLength()`
+
+```js
+expect([1, 2, 3]).toHaveLength(3);
+```
+
+---
+
+# 🔥 🔟 `toBeGreaterThan()`
+
+```js
+expect(10).toBeGreaterThan(5);
+```
+
+Also:
+
+* `toBeLessThan()`
+* `toBeGreaterThanOrEqual()`
+* `toBeLessThanOrEqual()`
+
+---
+
+# 🔥 1️⃣1️⃣ `toThrow()`
+
+Used for testing errors.
+
+```js
+function errorFunc() {
+  throw new Error("Error");
+}
+
+expect(() => errorFunc()).toThrow("Error");
+```
+
+---
+
+# 🔥 1️⃣2️⃣ `toMatch()`
+
+Used for regex/string matching.
+
+```js
+expect("React Fiber").toMatch(/Fiber/);
+```
+
+---
+
+# 🔥 1️⃣3️⃣ `toHaveBeenCalled()`
+
+Used with mocks.
+
+```js
+const fn = jest.fn();
+fn();
+
+expect(fn).toHaveBeenCalled();
+```
+
+Also:
+
+* `toHaveBeenCalledTimes(1)`
+* `toHaveBeenCalledWith(args)`
+
+---
+
+# 🧠 Interview-Level Summary
+
+> `toBe` checks strict equality, `toEqual` checks deep equality, `toContain` checks presence, and `toHaveBeenCalled` is used for mock function assertions. Different matchers are used depending on the type of value being tested.
+
+---
+
+If you want, I can next explain:
+
+* Mocking API calls in Jest
+* Testing async code in Jest
+* Difference between `toBe` vs `toEqual` (deep internal explanation)
+* Real-world React testing patterns
+
+Tell me 👌
+

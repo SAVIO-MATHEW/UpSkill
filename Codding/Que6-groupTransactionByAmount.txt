@@ -1,0 +1,33 @@
+function groupTransactionsByDate(transactions) {
+  // Create a map to group transactions by date
+  const groups = {};
+
+  // Group each transaction by its date
+  for (const transaction of transactions) {
+    const { date } = transaction;
+
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+
+    groups[date].push(transaction);
+  }
+
+  // Sort transactions in each group by amount in descending order
+  for (const date in groups) {
+    groups[date].sort((a, b) => b.amount - a.amount);
+  }
+
+  return groups;
+}
+
+// Example usage:
+const transactions = [
+  { id: 't1', amount: 100, date: '2025-11-11' },
+  { id: 't2', amount: 300, date: '2025-11-10' },
+  { id: 't3', amount: 200, date: '2025-11-11' },
+  { id: 't4', amount: 150, date: '2025-11-11' },
+  { id: 't5', amount: 300, date: '2025-11-10' }
+];
+
+console.log(groupTransactionsByDate(transactions));

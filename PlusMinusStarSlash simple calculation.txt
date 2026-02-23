@@ -1,0 +1,24 @@
++ prioritises string concatenation
+
+1+2 => 3
+"1"+"2" => 12
+1+"2"=> 12
+"1"+2 => 12
+
+Invalid strings (e.g., "abc" * "2") result in NaN for -, *, /.
+Division by zero (e.g., "10" / "0") returns Infinity.
+
+"abd"*2 => NaN
+"abc"*"2"=> NaN
+
+- * / converts everything to number and then does the calculations.
+
+"1" - "2" + 5 => 4
+"1" / "2" * "3" => 1.5
+"1" * "6" / 3 => 2
+
+[1,2,3]-[4,5,6,6]  => NaN -NaN =>NaN(tries to convert to number but fails since its an array
+//NaN
+
+[1,2,3]+[4,5,6,6]  => "1,2,3" + "4,5,6,6" => "1,2,34,5,6,6"(converts to string and then it concatenates two strings)
+//1,2,34,5,6,6

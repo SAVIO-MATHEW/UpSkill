@@ -1,0 +1,7 @@
+| Feature            | Git                           | GitHub                                       |
+| ------------------ | ----------------------------- | -------------------------------------------- |
+| Type               | Version Control System        | Hosting platform for Git repositories        |
+| Purpose            | Tracks code changes locally   | Stores code remotely & enables collaboration |
+| Internet Required? | No (works locally)            | Yes (cloud-based platform)                   |
+| Created By         | Linus Torvalds                | Company (now owned by Microsoft)             |
+| Functionality      | Commit, branch, merge, rebase | Pull requests, CI/CD, issues, reviews        |

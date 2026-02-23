@@ -1,0 +1,27 @@
+Great question! Both `useEffect` and `useCallback` are React hooks, but they serve very different purposes. Here's how they differ:
+
+### `useEffect`
+- **Purpose**: It is used for side effects in functional components, like data fetching, subscriptions, or manually changing the DOM.
+- **Usage**: It runs after the component renders, and you can control when it runs by passing dependencies in an array.
+- **Example**:
+  ```javascript
+  useEffect(() => {
+    console.log("This runs after the component renders.");
+  }, [dependency]); // Runs whenever 'dependency' changes
+  ```
+
+### `useCallback`
+- **Purpose**: It is used to memoize a callback function, preventing unnecessary re-creation of the function on every render.
+- **Usage**: Useful when passing a function as a prop to child components to optimize rendering and performance.
+- **Example**:
+  ```javascript
+  const memoizedCallback = useCallback(() => {
+    console.log("This is memoized.");
+  }, [dependency]); // Updates only if 'dependency' changes
+  ```
+
+**Key Difference**:
+- `useEffect` is for managing side effects based on render cycles.
+- `useCallback` is for memoizing functions to optimize performance.
+
+Feel free to ask if you'd like a deeper dive into either of them!

@@ -1,0 +1,58 @@
+**A JavaScript `Symbol` is a unique and immutable primitive value, often used as an object property key to avoid name collisions.**  
+
+---
+
+### 🔎 What is a Symbol?
+- **Primitive type**: Introduced in ES6, `Symbol` is one of JavaScript’s primitive data types (like `string`, `number`, `boolean`, `null`, `undefined`, and `bigint`).
+- **Uniqueness**: Every call to `Symbol()` creates a completely unique value, even if you pass the same description.
+  ```js
+  const s1 = Symbol('id');
+  const s2 = Symbol('id');
+  console.log(s1 === s2); // false
+  ```
+- **Immutable**: Once created, a symbol cannot be changed.
+- **Hidden keys**: Symbols are often used as object property keys that won’t accidentally clash with other keys, and they don’t show up in normal property enumerations like `for...in`.
+
+---
+
+### 🛠️ How to Create Symbols
+```js
+const sym1 = Symbol();          // unique symbol
+const sym2 = Symbol('desc');    // unique symbol with description
+console.log(sym2.description);  // "desc"
+```
+
+---
+
+### 🌍 Global Symbol Registry
+- `Symbol.for(key)` looks up symbols in a **global registry**.
+- If a symbol with that key exists, it returns the same one; otherwise, it creates a new one.
+  ```js
+  const a = Symbol.for('shared');
+  const b = Symbol.for('shared');
+  console.log(a === b); // true
+  ```
+
+---
+
+### ⚡ Use Cases
+- **Unique object keys**:
+  ```js
+  const id = Symbol('id');
+  const user = { name: 'Alice', [id]: 123 };
+  console.log(user[id]); // 123
+  ```
+- **Avoiding property name collisions** in large codebases or libraries.
+- **Well-known symbols**: JavaScript defines built-in symbols like `Symbol.iterator` or `Symbol.toStringTag` that customize object behavior.
+
+---
+
+### 🚨 Risks & Trade-offs
+- Symbols are **not enumerable** in `for...in` or `Object.keys()`, so they can be “hidden” from casual inspection.
+- They are **not automatically serialized** in JSON, which can be surprising if you expect them to persist across data transfers.
+- Overusing symbols can make debugging harder since they don’t expose much information beyond their description.
+
+---
+
+### ✅ Key Takeaway
+Symbols are best used when you need **unique, collision-free property keys** or want to tap into JavaScript’s built-in extensibility points (like iterators).  

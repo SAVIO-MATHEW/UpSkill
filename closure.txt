@@ -1,0 +1,26 @@
+In JavaScript, "closure" is a concept that allows a function to access variables from its enclosing scope, even after the outer function has finished executing. It's a powerful feature often used for encapsulation, data privacy, and maintaining state.
+
+Here’s a simple example to demonstrate closures:
+
+```javascript
+function outerFunction() {
+  let count = 0; // A local variable in outerFunction
+
+  function innerFunction() {
+    count++; // Inner function has access to outerFunction's variables
+    console.log(`Count is now: ${count}`);
+  }
+
+  return innerFunction; // Returning the inner function
+}
+
+const closureExample = outerFunction(); // Create a closure
+closureExample(); // Count is now: 1
+closureExample(); // Count is now: 2
+```
+
+In this example:
+- The `innerFunction` can access the variable `count` from `outerFunction`, even though `outerFunction` has already finished executing.
+- The combination of the function and its surrounding state (variables it can access) is called a "closure."
+
+Closures are widely used in JavaScript, including scenarios like callbacks, event handlers, and private variables.

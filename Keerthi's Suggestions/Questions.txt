@@ -1,0 +1,117 @@
+ function sumArray(arr) {
+  // Base case: if the array is empty, return 0
+  if (arr.length === 0) return 0;
+  // Recursive step: first element + sum of the rest of the array
+  return arr[0] + sumArray(arr.slice(1));
+}
+
+console.log(sumArray([1, 2, 3, 4, 5])); // Output: 15
+--------------------------------------------------------------------------
+ Anagram
+
+// Cak & arc => false
+ 
+// Car & arc => true
+
+// function isAnagram(s1,s2){
+    
+//     let str1= s1.toLowerCase().split("").sort().join("");
+//     let str2= s2.toLowerCase().split("").sort().join("");
+    
+//     if(str1 === str2){
+//         return true;
+//     }else{
+//         return false;
+//     }
+// }
+// let s1='Car';
+// let s2='arc';
+// console.log(isAnagram(s1,s2)
+--------------------------------------------------------------------
+ // function multiply(a,b){
+//     let mul=0;
+//     for(let i=0;i<b;i++){
+//         mul+=a
+//     }
+//  return mul;
+    
+// }
+
+// console.log(multiply(3,3));
+ // only get numbers from the array
+---------------------------------------------------------------------------
+// let a = [1, null, undefined, “”, 2, 3];
+
+// let numbers= a.filter(item=> typeof(item)==="number");
+
+// console.log(numbers);
+// console.log(typeof(undefined));
+Common Coercion Scenarios
+
+-------------------------------------------------------------------------------
+// Numbers
+typeof 37 === "number";
+typeof 3.14 === "number";
+typeof(42) === "number";
+typeof Math.LN2 === "number";
+typeof Infinity === "number";
+typeof NaN === "number"; // Despite being "Not-A-Number"
+typeof Number("1") === "number";      // Number tries to parse things into numbers
+typeof Number("shoe") === "number";   // including values that cannot be type coerced to a number
+
+typeof 42n === "bigint";
+
+
+// Strings
+typeof "" === "string";
+typeof "bla" === "string";
+typeof template literal === "string";
+typeof "1" === "string"; // note that a number within a string is still typeof string
+typeof (typeof 1) === "string"; // typeof always returns a string
+typeof String(1) === "string"; // String converts anything into a string, safer than toString
+
+
+// Booleans
+typeof true === "boolean";
+typeof false === "boolean";
+typeof Boolean(1) === "boolean"; // Boolean() will convert values based on if they're truthy or falsy
+typeof !!(1) === "boolean"; // two calls of the ! (logical NOT) operator are equivalent to Boolean()
+
+
+// Symbols
+typeof Symbol() === "symbol"
+typeof Symbol("foo") === "symbol"
+typeof Symbol.iterator === "symbol"
+
+
+// Undefined
+typeof undefined === "undefined";
+typeof declaredButUndefinedVariable === "undefined";
+typeof undeclaredVariable === "undefined";
+
+
+// Objects
+typeof {a: 1} === "object";
+
+// use Array.isArray or Object.prototype.toString.call
+// to differentiate regular objects from arrays
+typeof [1, 2, 4] === "object";
+
+typeof new Date() === "object";
+typeof /regex/ === "object"; // See Regular expressions section for historical results
+
+
+// The following are confusing, dangerous, and wasteful. Avoid them.
+typeof new Boolean(true) === "object";
+typeof new Number(1) === "object";
+typeof new String("abc") === "object";
+
+
+// Functions
+typeof function() {} === "function";
+typeof class C {} === "function";
+typeof Math.sin === "function";
+-------------------------------------------------------------------------------------------
+ Undefined
+ Not defined
+ Primitive

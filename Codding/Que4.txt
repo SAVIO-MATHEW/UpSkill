@@ -1,0 +1,80 @@
+function createStore(reducer, initialState = undefined) {
+  let currentState = initialState;
+  const listeners = [];
+
+  // Initialize state if reducer supports it (optional)
+  if (initialState === undefined && typeof reducer(undefined, { type: '@@INIT' }) !== 'undefined') {
+    currentState = reducer(undefined, { type: '@@INIT' });
+  }
+
+  return {
+    // Returns the current state
+    getState() {
+      return currentState;
+    },
+
+    // Dispatches an action, updates state via reducer, and notifies listeners
+    dispatch(action) {
+      if (!action || typeof action.type === 'undefined') {
+        throw new Error('Actions must have a type property');
+      }
+
+      const newState = reducer(currentState, action);
+      currentState = newState;
+
+      // Notify all listeners
+      listeners.forEach(listener => listener());
+
+      return action; // For chaining / testing
+    },
+
+    // Subscribes a listener, returns an unsubscribe function
+    subscribe(listener) {
+      if (typeof listener !== 'function') {
+        throw new Error('Listener must be a function');
+      }
+
+      listeners.push(listener);
+
+      // Return unsubscribe function
+      return function unsubscribe() {
+        const index = listeners.indexOf(listener);
+        if (index !== -1) {
+          listeners.splice(index, 1);
+        }
+      };
+    }
+  };
+}
+
+// Example usage:
+
+// Reducer
+function counterReducer(state = 0, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1;
+    case 'DECREMENT':
+      return state - 1;
+    default:
+      return state;
+  }
+}
+
+// Create store
+const store = createStore(counterReducer);
+
+// Subscribe to changes
+const unsubscribe = store.subscribe(() => {
+  console.log('State changed:', store.getState());
+});
+
+// Dispatch actions
+store.dispatch({ type: 'INCREMENT' }); // logs: State changed: 1
+store.dispatch({ type: 'INCREMENT' }); // logs: State changed: 2
+
+// Unsubscribe
+unsubscribe();
+
+store.dispatch({ type: 'DECREMENT' }); // no log
+console.log('Final state:', store.getState()); // Final state: 1

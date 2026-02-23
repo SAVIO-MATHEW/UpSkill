@@ -1,0 +1,44 @@
+🔹 What is a Server?
+
+A server is a system (hardware or software) that provides services, data, or resources to other systems called clients over a network.
+
+👉 Example:
+When you open a website, your browser (client) sends a request to a server, and the server responds with data.
+
+🔹 Types of Servers
+1️⃣ Web Server
+
+Handles HTTP requests and serves web pages.
+Examples:
+
+Apache HTTP Server
+
+Nginx
+
+2️⃣ Application Server
+
+Runs backend logic and business rules.
+Example:
+
+Node.js
+
+3️⃣ Database Server
+
+Stores and manages data.
+Example:
+
+MySQL
+
+🔹 How It Works (Simple Flow)
+
+Browser → Sends Request → Server → Processes → Sends Response
+
+Example:
+You visit amazon.com
+Browser sends HTTP request
+Server processes request
+Returns HTML/JSON
+
+🔥 Interview-Ready Answer
+
+A server is a system that listens for client requests and responds with data or services over a network. It can be a web server, application server, or database server depending on its role.

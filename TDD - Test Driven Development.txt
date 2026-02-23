@@ -1,0 +1,103 @@
+Nice — **TDD** is a big one in interviews and real projects.
+
+## 🧪 What is TDD?
+
+**TDD = Test-Driven Development**
+
+> You **write tests first**, then write code to pass the tests.
+
+---
+
+## 🔁 TDD Cycle (Red → Green → Refactor)
+
+### 🔴 1. Red
+
+Write a test that fails.
+
+```js
+test("adds two numbers", () => {
+  expect(add(2, 3)).toBe(5);
+});
+```
+
+Fails because `add` doesn’t exist.
+
+---
+
+### 🟢 2. Green
+
+Write the **minimum code** to pass.
+
+```js
+function add(a, b) {
+  return a + b;
+}
+```
+
+Test passes ✅
+
+---
+
+### 🔵 3. Refactor
+
+Improve code without breaking tests.
+
+```js
+const add = (a, b) => a + b;
+```
+
+Tests still pass → safe.
+
+---
+
+## 🧠 Why TDD?
+
+| Benefit          | Why it matters          |
+| ---------------- | ----------------------- |
+| Fewer bugs       | Code must satisfy tests |
+| Better design    | Forces modular code     |
+| Safe refactoring | Tests catch breakage    |
+| Documentation    | Tests explain behavior  |
+
+---
+
+## ❌ Without TDD
+
+You write code → then try testing → bugs found late.
+
+## ✅ With TDD
+
+You define behavior first → code only to satisfy it.
+
+---
+
+## 🧩 Example (real scenario)
+
+Building login validation:
+
+**Test first**
+
+```js
+test("password must be at least 6 chars", () => {
+  expect(validatePassword("123")).toBe(false);
+});
+```
+
+Then write function.
+
+---
+
+## ⚠️ Important
+
+TDD does **not** mean testing UI manually.
+It means **automated tests** (Jest, Mocha, etc.)
+
+---
+
+## 🧠 One-line understanding
+
+> TDD = **Write failing test → make it pass → clean the code**
+
+---
+
+If you want, I can show **TDD for a React component** (very common interview topic).

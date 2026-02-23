@@ -1,0 +1,169 @@
+1. Virtual DOM
+
+Virtual DOM is a lightweight JavaScript copy of the real DOM kept in memory. When state or props change, React creates a new VDOM tree and compares it with the previous one using a diffing algorithm. Only the changed nodes are updated in the real DOM instead of reloading everything. This process is called reconciliation. Since direct DOM manipulation is expensive, this improves performance. It also makes UI updates predictable.
+
+2. Functional vs Class Components
+
+Functional components are plain JavaScript functions that return JSX. They use hooks like useState and useEffect to manage state and lifecycle. Class components use ES6 classes and lifecycle methods like componentDidMount. Functional components are easier to read and test. They have less boilerplate and are preferred in modern React. React team recommends hooks-based functional components.
+
+3. JSX
+
+JSX is a syntax extension for JavaScript that allows writing HTML-like code inside JS. It makes UI code more readable and expressive. JSX gets compiled into React.createElement() calls. It supports embedding JavaScript expressions using {}. Browsers don’t understand JSX directly; tools like Babel convert it. It helps structure UI in a declarative way.
+ 
+4. Keys in Lists
+
+Keys help React identify which items changed, added, or removed in a list. During reconciliation, React uses keys to match old and new elements. Without keys, React may re-render entire lists unnecessarily. Keys should be unique and stable, like database IDs. Using array index as key can cause UI bugs. Proper keys improve rendering efficiency.
+
+5. Controlled vs Uncontrolled
+
+Controlled components use React state to manage input values. The input value is tied to state and updated via onChange. This allows validation and dynamic updates. Uncontrolled components rely on the DOM to manage state, accessed using refs. Controlled components are predictable and easier to debug. They are preferred for complex forms.
+
+6. useEffect
+
+useEffect is used to handle side effects in functional components. Side effects include API calls, subscriptions, and DOM updates. It runs after the render phase. You can control execution using dependency arrays. It can also return a cleanup function. This prevents memory leaks and ensures proper resource management.
+
+7. When does useEffect run
+
+If no dependency array is provided, it runs after every render. If an empty array [] is used, it runs only once after the first render. If dependencies are provided, it runs when those values change. Cleanup functions run before the next effect or when the component unmounts. It mimics lifecycle methods.
+Case	Number of renders
+useEffect(() => {}, [])			1 render
+useEffect(() => { setState() }, [])	2 renders
+---------------------------------------
+useEffect(() => {
+  console.log("Effect runs");
+
+  return () => {
+    console.log("Cleanup runs");
+  };
+}, []);
+
+8. useRef
+
+useRef is used to access DOM elements directly. It also stores mutable values that persist across renders. Updating a ref does not trigger re-render. It is useful for timers, previous state values, or focusing inputs. It acts like an instance variable in class components.
+
+9. useMemo vs useCallback
+
+useMemo memoizes computed values to avoid expensive recalculations. It recalculates only when dependencies change. useCallback memoizes functions to prevent recreation on each render. This is useful when passing functions to child components. Both optimize performance by preventing unnecessary renders.
+
+const result = useMemo(() => {
+  return expensiveCalculation(a, b);
+}, [a, b]);
+-----------------------
+const handleClick = useCallback(() => {
+  console.log("Clicked", count);
+}, [count]);
+--------------------------
+10. React.memo
+
+React.memo is a higher-order component. It prevents re-rendering if props haven’t changed. It does shallow comparison of props. Useful for optimizing functional components. It reduces unnecessary rendering cycles.
+
+const MyComponent = React.memo(function MyComponent(props) {
+  console.log("Rendered");
+  return <div>{props.name}</div>;
+});
+--------------------------
+const MyComponent = React.memo((props) => {
+  console.log("Rendered");
+  return <div>{props.name}</div>;
+});
+-------------------------------------------
+
+11. Why Redux
+
+Redux centralizes application state. It avoids prop drilling in large apps. State becomes predictable and easier to debug. All changes happen via actions and reducers. Useful in complex state scenarios.
+
+12. Redux Flow
+
+Redux follows a unidirectional data flow. A user interaction triggers an action dispatch. The action is a plain object describing what happened. The reducer receives the action and the current state, then returns a new updated state. The store saves this new state. React components subscribed to the store get updated and re-render. This predictable flow makes debugging easier.
+
+13. Reducer
+
+A reducer is a pure function in Redux. It takes the previous state and an action as arguments. Based on the action type, it calculates and returns a new state. It must never mutate the original state. Pure functions ensure predictable behavior and easier testing. Reducers define how the state changes in response to actions.
+
+14. Middleware
+
+Middleware sits between the action dispatch and the reducer. It intercepts actions before they reach the reducer. It is mainly used for handling asynchronous operations like API calls. Common middleware includes Redux Thunk and Redux Saga. Middleware helps keep reducers pure and focused only on state changes. It also allows logging and error handling.
+
+15. useState vs Redux
+
+useState manages local component state and is simple to use. It works well for small or isolated UI logic. Redux manages global state shared across components. Redux is useful when state needs to be accessed by many parts of the app. It provides better debugging and predictable updates. For small apps, useState is enough; large apps benefit from Redux.
+
+16. Next.js
+
+Next.js is a React framework for production-grade applications. It supports server-side rendering (SSR) and static site generation (SSG). It has file-based routing, making navigation easier. It improves SEO and performance with pre-rendered pages. It also supports API routes for backend logic. Next.js simplifies deployment and optimization.
+
+17. SSR vs CSR
+
+In CSR, the browser downloads a basic HTML file and renders content using JavaScript. In SSR, the server sends fully rendered HTML. SSR improves SEO and faster first paint. CSR is better for highly interactive apps after initial load. SSR reduces blank screen time. Next.js supports both methods.
+
+18. getServerSideProps
+
+getServerSideProps runs on the server for every request. It fetches data dynamically before rendering the page. The page is rendered with fresh data each time. Useful for dashboards or frequently changing data. It ensures SEO since HTML is generated server-side.
+
+19. getStaticProps
+
+getStaticProps runs at build time. It generates static HTML pages. These pages are served quickly via CDN. Best for content that doesn’t change often. Improves performance and reduces server load.
+
+20. SEO in Next.js
+
+Next.js improves SEO by pre-rendering pages on the server. Search engines can easily crawl HTML content. Faster page load improves ranking. Meta tags can be dynamically added using next/head. SSR ensures content is visible without JavaScript execution.
+
+21. Closure
+
+A closure is when a function retains access to variables from its outer scope. This works due to JavaScript’s lexical scoping. Even after the outer function finishes, inner functions remember those variables. Closures are used in debouncing, data privacy, and callbacks. They help maintain state without global variables.
+
+22. Event Loop
+
+The event loop handles asynchronous operations in JavaScript. The call stack executes synchronous code first. Async callbacks go to queues (microtask and macrotask). The event loop checks if the stack is empty, then pushes tasks from the queue. Promises run in the microtask queue before timers. This enables non-blocking execution.
+
+23. == vs ===
+
+== checks equality after type conversion. This can lead to unexpected results. === checks both value and type without conversion. Using strict equality avoids bugs. Best practice is to use ===.
+
+24. Promise vs async/await
+
+Promises represent future values of async operations. async/await is syntactic sugar built on promises. It makes asynchronous code look synchronous. Error handling is easier using try/catch. Both work with the event loop and microtasks.
+
+25. Debounce
+
+Debounce delays execution of a function until after a wait period. Each new call resets the timer. The function runs only once after the last event. Common in search inputs and resize events. It reduces API calls and improves performance.
+
+26. Why React re-renders
+
+React re-renders when state or props change. Parent re-render can cause child re-render. Context changes also trigger updates. Re-renders ensure UI stays in sync with state. Optimization techniques can reduce unnecessary re-renders.
+
+27. Optimization
+
+React performance can be improved using memoization (React.memo, useMemo). Code splitting and lazy loading reduce bundle size. Avoid inline functions that trigger re-renders. Optimize API calls and list rendering. Use React Profiler to detect issues.
+
+28. Reconciliation
+
+Reconciliation is React’s process of updating the DOM efficiently. React compares the new Virtual DOM with the previous one. It identifies changed elements using diffing. Only necessary updates are made to the real DOM. Keys help optimize this process.
+
+29. interface vs type
+
+Both define types in TypeScript. Interfaces are extendable and better for object-oriented design. Types can define unions and intersections. Interfaces are preferred for class contracts. Types are more flexible in advanced cases.
+
+30. Typing Props
+
+Props can be typed using TypeScript interfaces or types. This ensures correct data types are passed. It improves developer experience and prevents runtime errors. Type checking helps maintain large codebases.
+
+31. Jest
+
+Jest is a JavaScript testing framework mainly used for unit testing React applications. It provides features like test runners, assertions, and mocking capabilities. With Jest, we can test individual components, functions, and reducers. It supports snapshot testing to track UI changes. Jest runs tests in isolation, making debugging easier. It ensures code reliability and reduces production bugs.
+
+32. Mocking
+
+Mocking means replacing real functions, APIs, or modules with simulated ones during testing. This allows us to test components without depending on external services. For example, we mock API calls to return fake responses. It helps test edge cases and failure scenarios. Mocking improves test speed and reliability. Jest provides built-in mocking features.
+
+33. How do you ensure code quality?
+
+I ensure code quality through proper code reviews and following coding standards. I use ESLint and Prettier for consistent formatting. Writing unit tests helps catch issues early. I follow component reusability and separation of concerns. I also ensure performance and accessibility best practices. Continuous integration helps maintain standards.
+
+34. How do you debug a React app?
+
+I use React DevTools to inspect component state and props. Browser DevTools help track network requests and performance issues. Console logs and breakpoints help trace logic flow. I check re-render patterns using the profiler. I also monitor API responses and errors. Systematic debugging helps isolate issues faster.
+
+35. Example of performance issue fixed
+
+In one project, a large list component was re-rendering on every state change. I identified unnecessary renders using React DevTools Profiler. By using React.memo and useCallback, I prevented child components from re-rendering. I also implemented list virtualization. This significantly reduced rendering time and improved UI responsiveness.

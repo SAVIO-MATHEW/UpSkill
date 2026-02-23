@@ -1,0 +1,35 @@
+function fetchWithTimeout(url, timeout) {
+  return new Promise((resolve, reject) => {
+    // Set up the timeout
+    const timeoutId = setTimeout(() => {
+      reject(new Error('Timeout error'));
+    }, timeout);
+
+    // Perform the fetch
+    fetch(url)
+      .then(response => {
+        clearTimeout(timeoutId); // Clear timeout if fetch succeeds
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Assuming JSON response; adjust if needed
+      })
+      .then(data => {
+        resolve(data);
+      })
+      .catch(error => {
+        clearTimeout(timeoutId); // Clear timeout on any error
+        // Re-throw timeout errors as-is, otherwise wrap network errors
+        if (error.message === 'Timeout error') {
+          reject(error);
+        } else {
+          reject(new Error(`Fetch failed: ${error.message}`));
+        }
+      });
+  });
+}
+
+// Example usage:
+// fetchWithTimeout('https://api.example.com/data', 5000)
+//   .then(data => console.log(data))
+//   .catch(err => console.error(err.message));

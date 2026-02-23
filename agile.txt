@@ -1,0 +1,91 @@
+Good — these are very common managerial questions 👌
+
+---
+
+# 🔹 Agile
+
+**Agile** is a software development methodology focused on:
+
+* Iterative development
+* Continuous feedback
+* Customer collaboration
+* Quick delivery
+
+Instead of building everything at once (like Waterfall), Agile delivers software in **small increments**.
+
+---
+
+## 🔥 Key Agile Principles
+
+* Working software over documentation
+* Customer collaboration over contracts
+* Responding to change over rigid plans
+
+---
+
+# 🔹 Scrum (Framework under Agile)
+
+**Scrum** is a specific framework used to implement Agile.
+
+It divides work into fixed time periods called:
+
+👉 **Sprints** (usually 2 weeks)
+
+---
+
+## 🔹 Scrum Roles
+
+1️⃣ **Product Owner**
+Defines requirements and prioritizes backlog.
+
+2️⃣ **Scrum Master**
+Ensures Scrum process is followed and removes blockers.
+
+3️⃣ **Development Team**
+Developers, testers, designers.
+
+---
+
+## 🔹 Scrum Events
+
+* Sprint Planning
+* Daily Standup (15 mins)
+* Sprint Review
+* Sprint Retrospective
+
+---
+
+# 🔥 Simple Difference
+
+| Agile         | Scrum                              |
+| ------------- | ---------------------------------- |
+| Methodology   | Framework under Agile              |
+| Broad concept | Specific implementation            |
+| Flexible      | Structured with roles & ceremonies |
+
+---
+
+# 🎯 Interview-Ready Answer
+
+> Agile is a methodology focused on iterative development and continuous feedback. Scrum is a framework under Agile that organizes work into sprints with defined roles and ceremonies.
+
+---
+
+# 🔥 For You (React 5 Years)
+
+If they ask:
+
+> How do you work in Scrum?
+
+Say:
+
+> We follow 2-week sprints. During sprint planning, tasks are estimated using story points. Daily standups track progress. I ensure my tasks are completed within sprint and raise blockers early. Code reviews and testing happen before sprint review.
+
+---
+
+If you want next:
+
+* Story points explanation
+* How estimation works
+* How to answer “What if sprint fails?”
+* Agile interview traps 🚀

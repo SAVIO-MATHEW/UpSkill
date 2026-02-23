@@ -1,0 +1,28 @@
+**Promise callbacks run before `setTimeout`** — even if the timeout is `0ms`.
+
+```js
+setTimeout(() => console.log("timeout"), 0);
+
+Promise.resolve().then(() => console.log("promise"));
+
+console.log("sync");
+```
+
+**Output**
+
+```
+sync
+promise
+timeout
+```
+
+### Why?
+
+* `console.log("sync")` → **Call stack** (runs first)
+* `.then()` → **Microtask queue**
+* `setTimeout` → **Macrotask queue**
+
+Event loop rule:
+👉 Finish stack → run **all microtasks** → then run **macrotasks**
+
+So **Promises (microtasks) beat setTimeout (macrotasks)** every time.

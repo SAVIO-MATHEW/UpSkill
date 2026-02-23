@@ -1,0 +1,105 @@
+Nice — this is about **code quality for CSS** 👌
+
+## 🎯 CSS Linting
+
+Linting = **finding problems in your CSS automatically**
+
+A **linter** checks for:
+
+* Errors
+* Bad practices
+* Inconsistent styles
+
+### Example issues a linter catches:
+
+```css
+color: #fffff;   /* ❌ invalid hex */
+margin: 10px 10px 10px 10px;  /* ❌ can shorten */
+```
+
+---
+
+### 🧰 Popular CSS Linters
+
+| Tool           | Use                     |
+| -------------- | ----------------------- |
+| **Stylelint**  | Most popular CSS linter |
+| ESLint plugins | For CSS-in-JS           |
+
+Example rule:
+
+```json
+{
+  "rules": {
+    "color-no-invalid-hex": true,
+    "declaration-block-no-duplicate-properties": true
+  }
+}
+```
+
+---
+
+## 🎨 CSS Formatting
+
+Formatting = **making code look clean & consistent**
+
+This is about:
+
+* Indentation
+* Spacing
+* Line breaks
+* Order of properties
+
+### Before
+
+```css
+.button{color:red;background:blue}
+```
+
+### After (formatted)
+
+```css
+.button {
+  background: blue;
+  color: red;
+}
+```
+
+---
+
+### 🧰 Formatting Tools
+
+| Tool               | Purpose            |
+| ------------------ | ------------------ |
+| **Prettier**       | Auto-formats CSS   |
+| VS Code formatters | On save formatting |
+
+---
+
+## 🧠 Difference
+
+| Linting                 | Formatting             |
+| ----------------------- | ---------------------- |
+| Checks correctness      | Fixes style/appearance |
+| Finds bugs              | Improves readability   |
+| Enforces best practices | Enforces code style    |
+
+---
+
+## 🚀 Why important in teams
+
+✔ Consistent codebase
+✔ Fewer bugs
+✔ Easier reviews
+✔ Cleaner Git diffs
+
+---
+
+## 🧠 One-line memory
+
+> **Linting = quality control**
+> **Formatting = neat presentation**
+
+---
+
+Want to see how to set up **Stylelint + Prettier** in a React project?

@@ -1,0 +1,44 @@
+In React, passing data from a child component to a parent component typically involves using a callback function provided by the parent. Here's how it works:
+
+### **Step-by-Step Approach**
+
+1. **Define a function in the parent component**:
+   - This function will handle the data received from the child.
+   - Pass this function as a prop to the child component.
+
+2. **Invoke the parent's function in the child**:
+   - Call the function and pass the required data when an event occurs in the child component.
+
+### **Example Code**
+
+#### **Parent Component**:
+```javascript
+function Parent() {
+  const handleDataFromChild = (data) => {
+    console.log("Data received from child:", data);
+  };
+
+  return <Child sendDataToParent={handleDataFromChild} />;
+}
+```
+
+#### **Child Component**:
+```javascript
+function Child({ sendDataToParent }) {
+  const handleClick = () => {
+    sendDataToParent("Hello from Child!"); // Send data to parent
+  };
+
+  return <button onClick={handleClick}>Send Data to Parent</button>;
+}
+```
+
+### **What Happens**:
+- The **parent** defines a function `handleDataFromChild` to process data.
+- The **parent** passes this function to the child as a prop `sendDataToParent`.
+- When the button in the child is clicked, the child calls `sendDataToParent` and sends data (`"Hello from Child!"`) to the parent.
+- The parent logs or uses the received data.
+
+### Key Takeaway:
+By passing a function as a prop, the parent component can listen to and act on data coming from its child. This is a common pattern in React for communication between child and parent components.
+

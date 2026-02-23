@@ -1,0 +1,97 @@
+Let's explore how the JavaScript methods `slice`, `splice`, `filter`, `map`, and `reduce` can be used to solve various problems. Here's a breakdown of each and an example of how you can use them:
+
+---
+
+### **1. `slice`**  
+The `slice()` method extracts a portion of an array without modifying the original array. It takes two arguments: the start and end index.
+
+**Example: Reverse a string using `slice`**
+```javascript
+function reverseStringWithSlice(str) {
+  return str.split('').slice().reverse().join('');
+}
+
+console.log(reverseStringWithSlice("hello")); // Output: "olleh"
+```
+
+---
+
+### **2. `splice`**  
+The `splice()` method removes, replaces, or adds elements to an array. Unlike `slice`, it **modifies the original array**.
+
+**Example: Multiply elements of an array and then modify**
+```javascript
+function multiplyAndSplice(arr, multiplier) {
+  const multiplied = arr.map(num => num * multiplier);
+  multiplied.splice(2, 1, 'replaced'); // Replace the 3rd element
+  return multiplied;
+}
+
+console.log(multiplyAndSplice([1, 2, 3, 4], 2)); // Output: [2, 4, 'replaced', 8]
+```
+
+---
+
+### **3. `filter`**  
+The `filter()` method creates a new array with elements that pass a test (a condition defined in a callback).
+
+**Example: Filter vowels from a string**
+```javascript
+function filterVowels(str) {
+  const vowels = 'aeiouAEIOU';
+  return str.split('').filter(char => vowels.includes(char)).join('');
+}
+
+console.log(filterVowels("hello world")); // Output: "eoo"
+```
+
+---
+
+### **4. `map`**  
+The `map()` method creates a new array by applying a function to every element of the original array.
+
+**Example: Square elements of an array**
+```javascript
+function squareArray(arr) {
+  return arr.map(num => num ** 2);
+}
+
+console.log(squareArray([1, 2, 3, 4])); // Output: [1, 4, 9, 16]
+```
+
+---
+
+### **5. `reduce`**  
+The `reduce()` method applies a function against an accumulator and each element of the array, reducing it to a single value.
+
+**Example: Multiply two numbers without using the `*` operator**
+```javascript
+function multiplyUsingReduce(a, b) {
+  const positiveB = Math.abs(b);
+  const result = Array(positiveB).fill(a).reduce((acc, num) => acc + num, 0);
+  return b < 0 ? -result : result;
+}
+
+console.log(multiplyUsingReduce(5, -3)); // Output: -15
+```
+
+---
+
+### **Combined Usage**
+You can combine these methods for more complex tasks. Here's an example:
+
+**Example: Reverse a string and filter out vowels using `slice`, `filter`, and `map`**
+```javascript
+function reverseAndFilterVowels(str) {
+  return str.split('')
+    .reverse() // Reverse string
+    .filter(char => !"aeiouAEIOU".includes(char)) // Remove vowels
+    .join('');
+}
+
+console.log(reverseAndFilterVowels("hello world")); // Output: "dlrW llh"
+```
+
+---
+
+Each of these methods is powerful on its own, but they shine even brighter when combined. If you'd like, I can craft more examples or go deeper into any of these methods! Let me know. 😊

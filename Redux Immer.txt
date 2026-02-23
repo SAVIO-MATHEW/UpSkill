@@ -1,0 +1,49 @@
+Immer is a library that simplifies the process of writing immutable update logic.
+
+Immer provides a function called produce, which accepts two arguments: your original state, and a callback function. The callback function is given a "draft" version of that state, and inside the callback, it is safe to write code that mutates the draft value. Immer tracks all attempts to mutate the draft value and then replays those mutations using their immutable equivalents to create a safe, immutably updated result:
+
+Redux Toolkit's createReducer API uses Immer internally automatically. So, it's already safe to "mutate" state inside of any case reducer function that is passed to createReducer:
+const todosReducer = createReducer([], (builder) => {
+  builder.addCase('todos/todoAdded', (state, action) => {
+    // "mutate" the array by calling push()
+    state.push(action.payload)
+  })
+})
+````````````````````````
+In turn, createSlice uses createReducer inside, so it's also safe to "mutate" state there as well:
+
+const todosSlice = createSlice({
+  name: 'todos',
+  initialState: [],
+  reducers: {
+    todoAdded(state, action) {
+      state.push(action.payload)
+    },
+  },
+})
+---------------------------------------------------------------------------------------------------
+Basics of Immutability
+"Mutable" means "changeable". If something is "immutable", it can never be changed.
+
+JavaScript objects and arrays are all mutable by default. If I create an object, I can change the contents of its fields. If I create an array, I can change the contents as well:
+
+const obj = { a: 1, b: 2 }
+// still the same object outside, but the contents have changed
+obj.b = 3
+
+const arr = ['a', 'b']
+// In the same way, we can change the contents of this array
+arr.push('c')
+arr[1] = 'd'
+
+This is called mutating the object or array. It's the same object or array reference in memory, but now the contents inside the object have changed.
+
+In order to update values immutably, your code must make copies of existing objects/arrays, and then modify the copies.
+----------------------------------------------------------------------------
+There are several reasons why you must not mutate state in Redux:
+
+It causes bugs, such as the UI not updating properly to show the latest values
+It makes it harder to understand why and how the state has been updated
+It makes it harder to write tests
+It breaks the ability to use "time-travel debugging" correctly
+It goes against the intended spirit and usage patterns for Redux

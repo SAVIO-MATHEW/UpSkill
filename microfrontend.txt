@@ -1,0 +1,19 @@
+**Microfrontend** is an architectural approach where a frontend app is split into **independently developed, deployed, and owned UI modules**, similar to microservices on the backend.
+
+**Key points (concise):**
+
+* Each microfrontend is a **self-contained app** (own tech stack, repo, CI/CD).
+* Teams work **independently** and deploy without impacting others.
+* Composed together at runtime or build time to form one UI.
+
+**Common approaches:**
+
+* **Module Federation (Webpack 5)** – most popular.
+* **Single-SPA** – framework-agnostic orchestration.
+* **iFrames** – strong isolation, heavier.
+* **Web Components** – standards-based.
+
+**Pros:** scalability, independent releases, team autonomy.
+**Cons:** performance overhead, shared state complexity, duplication.
+
+

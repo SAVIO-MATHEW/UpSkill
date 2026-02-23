@@ -1,0 +1,65 @@
+Que:Create two React functional components: ParentComponent and ChildComponent, ParentComponent should maintain a counter' state and an
+unrelatedState. It passes the counter value down to ChildComponent' as a prop. ChildComponent should display the counter value. Optimize ChildComponent so that it only re-renders when its 'counter prop actually changes, even if 'ParentComponent re-renders due to changes in unrelatedState or other reasons not affecting ChildComponent's props. Include console logs to demonstrate the re-rendering behavior.
+
+import React, { useState, memo } from 'react';
+
+// ChildComponent - Only re-renders when 'counter' changes
+const ChildComponent = memo(({ counter }) => {
+  console.log('ChildComponent rendered with counter:', counter);
+  return (
+    <div style={{ marginTop: '1rem', padding: '1rem', background: '#f0f8ff', borderRadius: '8px' }}>
+      <strong>Counter value: {counter}</strong>
+    </div>
+  );
+});
+
+ChildComponent.displayName = 'ChildComponent';
+
+// ParentComponent - Has counter and unrelatedState
+const ParentComponent = () => {
+  const [counter, setCounter] = useState(0);
+  const [unrelatedState, setUnrelatedState] = useState(0);
+
+  console.log('ParentComponent rendered');
+
+  return (
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: '2rem', maxWidth: '600px', margin: 'auto' }}>
+      <h1 style={{ color: '#333' }}>React.memo Demo</h1>
+
+      <div style={{ marginBottom: '1rem' }}>
+        <button
+          onClick={() => setCounter(c => c + 1)}
+          style={buttonStyle}
+        >
+          Increment Counter ({counter})
+        </button>
+
+        <button
+          onClick={() => setUnrelatedState(s => s + 1)}
+          style={{ ...buttonStyle, backgroundColor: '#ff9800' }}
+        >
+          Increment Unrelated State ({unrelatedState})
+        </button>
+      </div>
+
+      <p><strong>Unrelated State:</strong> {unrelatedState}</p>
+      <hr style={{ margin: '1.5rem 0' }} />
+
+      <ChildComponent counter={counter} />
+    </div>
+  );
+};
+
+// Optional: Inline button style
+const buttonStyle = {
+  padding: '0.5rem 1rem',
+  marginRight: '0.5rem',
+  fontSize: '1rem',
+  cursor: 'pointer',
+  backgroundColor: '#4caf50',
+  color: 'white',
+  border: 'none',
+  borderRadius: '4px'
+};
+
+export default ParentComponent;

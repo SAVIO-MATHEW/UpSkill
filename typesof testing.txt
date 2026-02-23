@@ -1,0 +1,7 @@
+⚖️ Types of Testing
+Type	Purpose
+Unit Testing	Tests individual functions/components in isolation.
+Integration	Ensures different modules work together correctly.
+End-to-End	Simulates real user scenarios across the whole application.
+Regression	Confirms old features still work after new changes.
+Performance	Checks speed, scalability, and resource usage.

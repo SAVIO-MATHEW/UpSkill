@@ -1,0 +1,125 @@
+React.memo is a higher-order component that memoizes a functional component.
+It prevents a component from re-rendering if its props have not changed.
+You’re basically asking:
+
+> “A function is recreated every render… so what’s the big deal?”
+
+Let’s slow it down.
+
+---
+
+## 🔥 First truth
+
+Yes — **functions are recreated every render**.
+
+```js
+function Parent() {
+  const handleClick = () => console.log("Hi");
+}
+```
+
+On every render → **new function object in memory**.
+
+---
+
+## 🧠 Why is that a problem?
+
+Because in JavaScript:
+
+```js
+() => {} !== () => {}
+```
+
+Even if code is identical, references are different.
+
+React uses **reference equality** for props comparison.
+
+---
+
+## 🎯 Where this matters
+
+### Case without `useCallback`
+
+```js
+const Child = React.memo(({ onClick }) => {
+  console.log("Child rendered");
+  return <button onClick={onClick}>Click</button>;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => console.log("Hi");
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>+</button>
+      <Child onClick={handleClick} />
+    </>
+  );
+}
+```
+
+Every time Parent re-renders:
+
+* New `handleClick` function
+* `onClick` prop reference changes
+* `React.memo` sees props changed
+* Child re-renders ❌
+
+Even though logic is same.
+
+---
+
+## ✅ With `useCallback`
+
+```js
+const handleClick = useCallback(() => {
+  console.log("Hi");
+}, []);
+```
+
+Now React says:
+
+> “Dependencies didn’t change → reuse the same function reference.”
+
+So:
+
+```
+prevOnClick === nextOnClick  → true
+```
+
+Child does NOT re-render ✅
+
+---
+
+## 💡 So the difference is NOT behavior — it's **identity**
+
+| Without useCallback      | With useCallback      |
+| ------------------------ | --------------------- |
+| New function each render | Same function reused  |
+| New reference            | Stable reference      |
+| Breaks React.memo        | Works with React.memo |
+
+---
+
+## 🧠 Important insight
+
+If you are **not passing the function to a memoized child**, `useCallback` does NOTHING useful.
+
+```js
+<button onClick={handleClick} />
+```
+
+Here React doesn’t compare props → no benefit.
+
+---
+
+## 🧩 Simple memory trick
+
+> `useCallback` is not for speed
+> It’s for **reference stability**
+
+---
+
+Want to see a visual “render log timeline” of Parent & Child with and without `useCallback`? That’s where it clicks forever.

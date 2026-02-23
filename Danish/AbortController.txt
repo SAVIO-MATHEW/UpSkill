@@ -1,0 +1,130 @@
+Here’s a **simple and interview-ready AbortController implementation** for cancelling a fetch request.
+
+---
+
+## Basic idea
+
+`AbortController` lets you **cancel an ongoing request**.
+
+Common uses:
+
+* Cancel API call when component unmounts
+* Cancel previous search requests
+* Prevent memory leaks
+
+---
+
+## Basic JavaScript example
+
+```js
+const controller = new AbortController();
+const signal = controller.signal;
+
+fetch("https://jsonplaceholder.typicode.com/users", { signal })
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(err => {
+    if (err.name === "AbortError") {
+      console.log("Request aborted");
+    } else {
+      console.log("Error:", err);
+    }
+  });
+
+// abort after 2 seconds
+setTimeout(() => {
+  controller.abort();
+}, 2000);
+```
+
+---
+
+## React interview-ready example (with `useEffect`)
+
+This is the **most commonly asked pattern**.
+
+```js
+import { useEffect, useState } from "react";
+
+export default function Users() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch("https://jsonplaceholder.typicode.com/users", {
+      signal: controller.signal,
+    })
+      .then((res) => res.json())
+      .then((data) => setData(data))
+      .catch((err) => {
+        if (err.name === "AbortError") {
+          console.log("Request cancelled");
+        } else {
+          console.log("Error:", err);
+        }
+      });
+
+    // cleanup: cancel request on unmount
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  return (
+    <ul>
+      {data.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+---
+
+## What happens step-by-step
+
+1. Component mounts
+2. Fetch starts
+3. If component unmounts before fetch completes
+4. Cleanup runs → `controller.abort()`
+5. Fetch stops immediately
+
+---
+
+## One-line interview answer
+
+> AbortController is used to cancel ongoing asynchronous operations like fetch requests, usually in a `useEffect` cleanup to prevent memory leaks.
+
+---
+
+If you want, I can give:
+
+* A **custom hook using AbortController**
+* A **debounced search with cancellation**
+* An **interview question based on this**.
+-----------------------------------------------------------------------------------
+AbortController is a built-in browser API used to cancel asynchronous operations, most commonly fetch requests.
+
+Why we use it
+
+Without it:
+
+A request keeps running even if the component unmounts
+
+Can cause memory leaks
+
+Can cause state updates on unmounted components
+
+With AbortController:
+
+You can stop the request immediately
+
+Basic structure
+const controller = new AbortController();
+const signal = controller.signal;
+
+Part		Purpose
+controller	Controls the operation
+signal		Passed to fetch to listen for abort

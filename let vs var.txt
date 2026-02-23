@@ -1,0 +1,95 @@
+Here are a few JavaScript questions related to the behavior of `let` and `var`, along with the explanation of their outputs:
+
+---
+
+### 1. **Scope Difference**
+```javascript
+function testScope() {
+  if (true) {
+    var x = 10;
+    let y = 20;
+  }
+  console.log(x);
+  console.log(y);
+}
+testScope();
+```
+**Output:**
+- `10` (for `x`, because `var` is function-scoped and accessible outside the block)
+- `ReferenceError: y is not defined` (for `y`, because `let` is block-scoped)
+
+---
+
+### 2. **Variable Hoisting**
+```javascript
+console.log(a);
+console.log(b);
+var a = 5;
+let b = 10;
+```
+**Output:**
+- `undefined` (for `a`, because `var` is hoisted but its value is not initialized)
+- `ReferenceError: Cannot access 'b' before initialization` (for `b`, because `let` is hoisted but in a temporal dead zone until its declaration)
+
+---
+
+### 3. **Re-declaration**
+```javascript
+var a = 1;
+var a = 2; // Allowed with var
+
+let b = 1;
+let b = 2; // SyntaxError: Identifier 'b' has already been declared
+```
+**Output:**
+- `a` can be re-declared without issues.
+- A `SyntaxError` occurs for `b` because `let` doesn't allow re-declaration in the same scope.
+
+---
+
+### 4. **Loop with Closures**
+```javascript
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+
+for (let j = 0; j < 3; j++) {
+  setTimeout(() => console.log(j), 1000);
+}
+```
+**Output:**
+- The first loop prints `3` three times. This is because `var` is function-scoped, and all closures share the same `i` variable, which ends up being `3` after the loop finishes.
+- The second loop prints `0`, `1`, `2`. This is because `let` is block-scoped, and a new `j` is created for each iteration.
+
+---
+
+### 5. **Reassignment**
+```javascript
+var x = 10;
+x = 20; // Allowed
+
+let y = 30;
+y = 40; // Allowed
+
+const z = 50;
+z = 60; // TypeError: Assignment to constant variable
+```
+**Output:**
+- Both `var` and `let` allow reassignment.
+- `const` does not allow reassignment, resulting in a `TypeError`.
+
+---
+
+### 6. **Temporal Dead Zone**
+```javascript
+{
+  console.log(a); // ReferenceError
+  let a = 5;
+}
+```
+**Output:**
+- `ReferenceError: Cannot access 'a' before initialization` occurs because `a` is in the temporal dead zone until its declaration is executed.
+
+---
+
+These questions highlight the nuances of `var` and `let`. Would you like explanations for more advanced topics or specific scenarios?

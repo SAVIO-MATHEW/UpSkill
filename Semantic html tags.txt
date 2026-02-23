@@ -1,0 +1,97 @@
+Good 👍 this is commonly asked in frontend interviews.
+
+# 🔥 What is Semantic HTML?
+
+Semantic HTML means using HTML elements that **clearly describe their meaning and purpose**.
+
+Instead of using generic `<div>` and `<span>`, we use meaningful tags like:
+
+* `<header>`
+* `<nav>`
+* `<section>`
+* `<article>`
+* `<footer>`
+* `<main>`
+
+---
+
+# ✅ Example (Non-Semantic vs Semantic)
+
+### ❌ Non-Semantic
+
+```html
+<div class="header"></div>
+<div class="nav"></div>
+<div class="content"></div>
+<div class="footer"></div>
+```
+
+### ✅ Semantic
+
+```html
+<header></header>
+<nav></nav>
+<main>
+  <section></section>
+</main>
+<footer></footer>
+```
+
+---
+
+# 🔥 Why Semantic HTML is Important
+
+## 1️⃣ Accessibility
+
+Screen readers understand semantic tags better.
+
+## 2️⃣ SEO
+
+Search engines understand page structure.
+
+## 3️⃣ Maintainability
+
+Code becomes more readable and structured.
+
+---
+
+# 🔥 Common Semantic Tags
+
+| Tag            | Purpose             |
+| -------------- | ------------------- |
+| `<header>`     | Top section of page |
+| `<nav>`        | Navigation links    |
+| `<main>`       | Main content        |
+| `<section>`    | Thematic grouping   |
+| `<article>`    | Independent content |
+| `<aside>`      | Sidebar             |
+| `<footer>`     | Bottom section      |
+| `<figure>`     | Media content       |
+| `<figcaption>` | Caption for media   |
+
+---
+
+# 🧠 Interview-Level Answer (3–4 sentences)
+
+> Semantic HTML uses meaningful tags that describe the purpose of content instead of generic containers. It improves accessibility, SEO, and code readability. For example, using `<nav>` for navigation and `<article>` for blog posts helps screen readers and search engines understand the structure of the page.
+
+---
+
+# 🔥 Senior-Level Tip
+
+Semantic HTML also:
+
+* Improves keyboard navigation
+* Reduces need for ARIA roles
+* Helps in building accessible React apps
+
+---
+
+If you want, I can next explain:
+
+* Semantic HTML in React
+* Accessibility best practices
+* ARIA roles vs semantic tags
+* Real-world page structure example
+
+Tell me 👌

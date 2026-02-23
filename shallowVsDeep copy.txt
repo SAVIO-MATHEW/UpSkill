@@ -1,0 +1,33 @@
+**Shallow copy vs Deep copy** (quick + precise):
+
+**Shallow copy**
+
+* Copies only the **top-level object**.
+* Nested objects **share the same reference**.
+* Changes in nested data affect both.
+
+```js
+const a = { x: 1, y: { z: 2 } };
+const b = { ...a };
+b.y.z = 10; // affects a
+```
+
+**Deep copy**
+
+* Copies **all levels** (new references everywhere).
+* Changes do **not** affect the original.
+
+```js
+const a = { x: 1, y: { z: 2 } };
+const b = structuredClone(a);
+b.y.z = 10; // does NOT affect a
+```
+
+**Common methods**
+
+* Shallow: `Object.assign()`, spread `{...obj}`, `Array.slice()`
+* Deep: `structuredClone()` (recommended), `JSON.parse(JSON.stringify())` (loses functions, dates)
+
+**Rule of thumb:**
+Use **shallow copy** for immutable state updates (React).
+Use **deep copy** only when you must fully isolate nested data.

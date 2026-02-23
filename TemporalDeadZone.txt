@@ -1,0 +1,25 @@
+**Temporal Dead Zone (TDZ)** is the period between when a variable is **declared** and when it is **initialized**, during which you **cannot access it** — otherwise JavaScript throws a **ReferenceError**.
+
+It applies to **let** and **const**, not **var**.
+
+### Quick example
+
+```js
+console.log(a);  // ❌ ReferenceError (TDZ)
+let a = 10;
+
+console.log(b);  // ❌ ReferenceError (TDZ)
+const b = 20;
+```
+
+### Why it happens
+
+Even though `let` and `const` are *hoisted*, they are not initialized until execution reaches their line.
+Accessing them earlier = TDZ error.
+
+### Simple explanation
+
+* **var → hoisted + initialized = usable early (but undefined)**
+* **let/const → hoisted but NOT initialized = TDZ error**
+
+If you want, I can show TDZ behaviour with functions, classes, or use-cases in React.

@@ -1,0 +1,138 @@
+It’s called **lazy state initialization** because the **initial value is calculated only when the component first renders**, not on every render.
+
+---
+
+## Normal state initialization
+
+```js
+const [todos, setTodos] = useState(
+  JSON.parse(localStorage.getItem("todos")) || []
+);
+```
+
+### What happens
+
+* Every time the component renders
+* `localStorage.getItem()` runs again
+* Even though React ignores it after the first render
+
+So the computation is **wasted** on re-renders.
+
+---
+
+## Lazy state initialization
+
+```js
+const [todos, setTodos] = useState(() => {
+  const saved = localStorage.getItem("todos");
+  return saved ? JSON.parse(saved) : [];
+});
+
+ // sync to localStorage
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todoList));
+  }, [todoList]);
+```
+
+Here:
+
+* You pass a **function** to `useState`
+* React calls that function **only once** (on initial render)
+* Never again on re-renders
+
+---
+
+## Why it’s called “lazy”
+
+Because the value is:
+
+* **Not computed immediately**
+* Computed **only when needed** (on first render)
+
+This is the same idea as lazy loading.
+
+---
+
+## Visual comparison
+
+### Normal
+
+```
+Render 1 → compute initial value
+Render 2 → compute again ❌
+Render 3 → compute again ❌
+```
+
+### Lazy
+
+```
+Render 1 → compute initial value ✅
+Render 2 → skip
+Render 3 → skip
+```
+
+---
+
+## One-line interview answer
+
+> Lazy initialization means passing a function to `useState` so the initial state is computed only once during the first render, improving performance.
+
+If you want, I can give:
+
+* A real interview question around this
+* Situations where lazy initialization actually matters.
+
+---------------------------------------------------------------------------------------
+
+import { useEffect, useState } from "react";
+
+export default function TodoList() {
+  const [todo, setTodo] = useState("");
+  const [todoList, setTodoList] = useState(() => {
+    // lazy initialization
+    const saved = localStorage.getItem("todos");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const addTodo = () => {
+    if (!todo.trim()) return;
+    setTodoList(prev => [...prev, todo]);
+    setTodo("");
+  };
+
+  const removeTodo = (indexToRemove) => {
+    setTodoList(prev =>
+      prev.filter((_, index) => index !== indexToRemove)
+    );
+  };
+
+  // sync to localStorage
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todoList));
+  }, [todoList]);
+
+  return (
+    <div>
+      <input
+        value={todo}
+        placeholder="Enter todo"
+        onChange={(e) => setTodo(e.target.value)}
+      />
+      <button onClick={addTodo}>Add</button>
+
+      <ul>
+        {todoList.length ? (
+          todoList.map((item, index) => (
+            <li key={index}>
+              {item}
+              <button onClick={() => removeTodo(index)}>❌</button>
+            </li>
+          ))
+        ) : (
+          "No todos yet"
+        )}
+      </ul>
+    </div>
+  );
+}
+

@@ -1,0 +1,117 @@
+Nice one — this is a **classic senior-level JS question**. Here’s a crisp, step-by-step answer you can say in interviews.
+
+---
+
+## Question
+
+**What happens step-by-step when JavaScript executes a function inside another function?**
+
+---
+
+## Step-by-step execution
+
+### 1️⃣ Global Execution Context (GEC) is created
+
+When the script starts:
+
+* Global Execution Context is pushed to the call stack
+* `this` → `window` (browser)
+* Memory phase:
+
+  * Functions stored fully
+  * Variables hoisted (`undefined`)
+
+---
+
+### 2️⃣ Outer function is called
+
+```js
+function outer() {
+  let a = 10;
+  inner();
+}
+outer();
+```
+
+* A **new Execution Context** for `outer` is created
+* It has:
+
+  * Its own **Lexical Environment**
+  * Access to **Global scope** via scope chain
+* `a = 10` is stored
+
+---
+
+### 3️⃣ Inner function is called
+
+```js
+function inner() {
+  console.log(a);
+}
+```
+
+* A **new Execution Context** for `inner` is created
+* It contains:
+
+  * Local variables (if any)
+  * Reference to **outer’s lexical environment**
+
+👉 This reference chain is the **Scope Chain**
+
+---
+
+### 4️⃣ Variable lookup via Scope Chain
+
+When `inner()` executes:
+
+* JS looks for `a` in `inner` scope ❌
+* Moves up to `outer` scope ✅
+* Finds `a = 10`
+* Stops searching
+
+---
+
+### 5️⃣ Execution contexts are destroyed
+
+* `inner()` finishes → its context is popped
+* `outer()` finishes → its context is popped
+* Global context remains until program ends
+
+---
+
+## Visual stack
+
+```
+Call Stack
+---------
+inner()
+outer()
+Global
+```
+
+---
+
+## Key concepts involved
+
+* Execution Context
+* Lexical Environment
+* Scope Chain
+* Call Stack
+* Variable resolution
+
+---
+
+## One-liner interview answer 🧠
+
+> When a function is called, JavaScript creates a new execution context with its own lexical environment. If a variable isn’t found locally, JS resolves it via the scope chain by moving up to parent environments until found or reaching global scope.
+
+---
+
+If you want next:
+
+* 🔥 Diagram version (memory + call stack)
+* ⚠️ Common pitfalls (`var`, shadowing)
+* 🧠 How closures are formed here
+* 🎯 Tricky follow-up interview questions
+
+Just say 👍

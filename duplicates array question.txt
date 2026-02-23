@@ -1,0 +1,78 @@
+You can find duplicate elements in an array without using a `Set` by employing other approaches like nested loops, a hash map (object), or sorting. Here’s how you could do it:
+
+---
+
+### **1. Using a Hash Map (Object)**
+This approach tracks the frequency of each element using an object.
+```javascript
+function findDuplicates(arr) {
+  const duplicates = [];
+  const elementCount = {};
+
+  for (let num of arr) {
+    elementCount[num] = (elementCount[num] || 0) + 1; // Count occurrences
+  }
+
+  for (let num in elementCount) {
+    if (elementCount[num] > 1) {
+      duplicates.push(parseInt(num)); // Add duplicates to result
+    }
+  }
+
+  return duplicates;
+}
+
+console.log(findDuplicates([1, 2, 3, 2, 4, 5, 5])); // Output: [2, 5]
+```
+
+---
+
+### **2. Using Sorting**
+You can sort the array first and then check for consecutive duplicates.
+```javascript
+function findDuplicates(arr) {
+  const duplicates = [];
+  arr.sort((a, b) => a - b); // Sort the array
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] === arr[i + 1] && !duplicates.includes(arr[i])) {
+      duplicates.push(arr[i]); // Avoid adding the same duplicate again
+    }
+  }
+
+  return duplicates;
+}
+
+console.log(findDuplicates([1, 2, 3, 2, 4, 5, 5])); // Output: [2, 5]
+```
+
+---
+
+### **3. Using Nested Loops**
+This is a brute force approach that compares each element with every other element.
+```javascript
+function findDuplicates(arr) {
+  const duplicates = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] === arr[j] && !duplicates.includes(arr[i])) {
+        duplicates.push(arr[i]);
+      }
+    }
+  }
+
+  return duplicates;
+}
+
+console.log(findDuplicates([1, 2, 3, 2, 4, 5, 5])); // Output: [2, 5]
+```
+
+---
+
+Each of these approaches has different performance characteristics:
+- **Hash Map**: Fastest for large arrays (O(n) time complexity).
+- **Sorting**: Slightly slower (O(n log n) due to sorting).
+- **Nested Loops**: Least efficient (O(n²)) but straightforward.
+
+Let me know which method you find most interesting, or if you’d like to explore further tweaks!

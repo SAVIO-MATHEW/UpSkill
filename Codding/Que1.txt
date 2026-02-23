@@ -1,0 +1,17 @@
+import React, { useState } from 'react';
+
+const ToggleButton = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <div>
+      <h1>Hello World!</h1>
+      <button onClick={() => setIsVisible(!isVisible)}>
+        {isVisible ? 'Hide' : 'Show'} Text
+      </button>
+      {isVisible && <p>This text is visible!</p>}
+    </div>
+  );
+};
+
+export default ToggleButton;

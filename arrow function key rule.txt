@@ -1,0 +1,76 @@
+Excellent question — the difference between those two snippets comes down to **how arrow functions return values in JavaScript**.  
+
+---
+
+## 🔎 First Version
+```jsx
+<List
+  height={400}
+  itemCount={data.length}
+  itemSize={35}
+  width={300}
+>
+  {({ index, style }) => {
+    <div style={style}>{data[index]}</div>
+  }}
+</List>
+```
+
+### Problem
+- You’re using **curly braces `{}`** in the arrow function.
+- In JavaScript, curly braces mean you’re writing a **function body**, not an implicit return.
+- Since you didn’t explicitly write `return`, the function returns `undefined`.
+- Result: Nothing is rendered inside the list.
+
+---
+
+## 🔎 Second Version
+```jsx
+<List
+  height={400}
+  itemCount={data.length}
+  itemSize={35}
+  width={300}
+>
+  {({ index, style }) => (
+    <div style={style}>{data[index]}</div>
+  )}
+</List>
+```
+
+### Why It Works
+- You’re using **parentheses `()`** instead of curly braces.
+- In arrow functions, parentheses mean **implicit return**.
+- So the `<div>` is returned correctly.
+- Result: Each row renders as expected.
+
+---
+
+## ⚡ Key Rule
+- **Arrow function with `{}`** → must use `return`:
+  ```js
+  ({ index, style }) => {
+    return <div style={style}>{data[index]}</div>;
+  }
+  ```
+- **Arrow function with `()`** → implicit return:
+  ```js
+  ({ index, style }) => (
+    <div style={style}>{data[index]}</div>
+  )
+  ```
+
+---
+
+## 🎯 Why It’s Executed This Way
+JavaScript distinguishes between:
+- **Function body** `{}` → you control what happens, must explicitly `return`.
+- **Expression body** `()` → the value of the expression is automatically returned.
+
+React relies on your function returning JSX. If you forget `return`, React gets `undefined` and nothing shows up.
+
+---
+
+✅ **Takeaway:**  
+Your first code doesn’t render because the arrow function returns `undefined`. The second works because it implicitly returns the JSX.  
+

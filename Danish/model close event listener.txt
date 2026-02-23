@@ -1,0 +1,100 @@
+Got it — **modal closing with event listeners** (outside click + ESC). This is the real-world pattern 🔥
+
+Below is a **clean, senior-level React example**.
+
+---
+
+## Modal with event listeners (ESC + outside click)
+
+```jsx
+import { useEffect, useRef } from "react";
+
+export default function Modal({ open, onClose }) {
+  const modalRef = useRef(null);
+
+  // ESC key listener
+  useEffect(() => {
+    if (!open) return;
+
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEsc);
+
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, [open, onClose]);
+
+  // Outside click listener
+  useEffect(() => {
+    if (!open) return;
+
+    const handleClickOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div className="backdrop">
+      <div className="modal" ref={modalRef}>
+        <h2>Modal</h2>
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+## Why this pattern is correct (interview gold)
+
+* ✅ **Event listeners are added only when modal is open**
+* ✅ **Cleaned up on unmount** (no memory leaks)
+* ✅ `useRef` prevents false outside clicks
+* ✅ No re-render loops
+* ✅ Works for nested elements
+
+---
+
+## Usage
+
+```jsx
+const [open, setOpen] = useState(false);
+
+<Modal open={open} onClose={() => setOpen(false)} />
+```
+
+---
+
+## Common mistakes (you avoided)
+
+❌ Attaching listeners on every render
+❌ Forgetting cleanup
+❌ Using `stopPropagation()` hacks
+❌ Closing modal on any click
+
+---
+
+If you want next:
+
+* ✨ **Focus trap (accessibility)**
+* ⚡ **Reusable `useOutsideClick` hook**
+* 🧠 **One `useEffect` instead of two**
+* 🧪 **How libraries like MUI do this**
+
+Say the word.

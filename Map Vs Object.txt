@@ -1,0 +1,44 @@
+Yes — **a Map is an object**, but **not the same kind of object as `{}`**.
+
+In JS, almost everything is an object, and Map is a special built-in object designed for key-value storage.
+
+---
+
+## Map vs Normal Object `{}`
+
+| Feature          | `Map`                                   | `{}` Object                             |
+| ---------------- | --------------------------------------- | --------------------------------------- |
+| Type             | Special object                          | Plain object                            |
+| Keys allowed     | **Any type** (object, function, number) | **Strings & Symbols only**              |
+| Order            | Preserves insertion order               | Mostly insertion order (but with rules) |
+| Size             | `map.size`                              | `Object.keys(obj).length`               |
+| Built-in methods | `set, get, has, delete`                 | None (you manage manually)              |
+
+---
+
+### Example difference
+
+```js
+const obj = {};
+obj[{}] = "value";
+console.log(obj); // key becomes "[object Object]"
+```
+
+```js
+const map = new Map();
+map.set({}, "value");
+console.log(map); // real object key stored
+```
+
+---
+
+### Key idea
+
+* `{}` is for **simple structured data**
+* `Map` is for **dynamic key-value storage**
+
+---
+
+### One-line answer
+
+> Map is a special type of object made specifically for key-value storage, more powerful than plain objects.

@@ -1,0 +1,163 @@
+Good — this is important for production apps 👍
+
+Axios interceptors let you **intercept requests and responses globally** before `.then()` or `.catch()` runs.
+
+Used for:
+
+* Attaching tokens
+* Handling 401 automatically
+* Refresh token logic
+* Logging
+* Global error handling
+
+---
+
+# ✅ 1️⃣ Request Interceptor (Attach Token Automatically)
+
+Instead of adding token manually in every API call:
+
+```js
+axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("accessToken");
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+```
+
+Now every request automatically has the token.
+
+---
+
+# ✅ 2️⃣ Response Interceptor (Handle 401 Globally)
+
+```js
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      alert("Session expired. Please login again.");
+      window.location.href = "/login";
+    }
+
+    return Promise.reject(error);
+  }
+);
+```
+
+Now you don’t need to check `res.status === 401` everywhere.
+
+---
+
+# 🔥 Production-Level Pattern (With Refresh Token)
+
+This prevents forcing logout immediately.
+
+```js
+let isRefreshing = false;
+let failedQueue = [];
+
+axios.interceptors.response.use(
+  res => res,
+  async error => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then(token => {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return axios(originalRequest);
+        });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const { data } = await axios.post("/refresh-token");
+        localStorage.setItem("accessToken", data.accessToken);
+
+        failedQueue.forEach(p => p.resolve(data.accessToken));
+        failedQueue = [];
+
+        return axios(originalRequest);
+      } catch (err) {
+        failedQueue.forEach(p => p.reject(err));
+        failedQueue = [];
+        window.location.href = "/login";
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+```
+
+---
+
+# 🔐 Why This Is Important
+
+Without interceptors:
+
+* You repeat token logic everywhere
+* Hard to manage expiry
+* Messy code
+
+With interceptors:
+
+* Centralized control
+* Clean API layer
+* Production-ready
+
+---
+
+# 🎯 Enterprise Pattern
+
+Create a separate `api.js` file:
+
+```js
+const api = axios.create({
+  baseURL: "https://api.example.com"
+});
+
+export default api;
+```
+
+Add interceptors to this instance only.
+
+---
+
+# ⚠️ Common Mistakes
+
+* Infinite refresh loops
+* Not checking `_retry`
+* Multiple refresh calls at same time
+* Storing tokens in insecure places
+
+---
+
+# 🔥 Interview One-Liner
+
+> “Axios interceptors centralize authentication handling and allow automatic token attachment and refresh without duplicating logic.”
+
+---
+
+If you want, next I can explain:
+
+* Why HTTP-only cookies are safer than localStorage
+* How interceptors work internally
+* How this compares to Fetch
+* Or how to do this in React Query
+
+What level depth do you want?

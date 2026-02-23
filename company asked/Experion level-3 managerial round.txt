@@ -1,0 +1,162 @@
+🔹 1. Tell me about a project where you took ownership.
+
+Answer:
+In my current project, I owned the frontend architecture for a client-facing dashboard built with React and Redux Toolkit. I was responsible for requirement analysis, component design, API integration, code reviews, and production deployment.
+When performance issues occurred due to large datasets, I implemented memoization, lazy loading, and virtualization, reducing load time by 40%. I ensured timely delivery and zero critical production bugs post-release.
+
+🔹 2. Have you mentored juniors?
+
+Answer:
+Yes. I mentored 2 junior developers by conducting code reviews, explaining React best practices, and guiding them on reusable component design. I also helped them understand performance optimization and debugging strategies. This improved our sprint velocity and reduced rework.
+
+🔹 3. How do you handle changing client requirements?
+
+Answer:
+First, I analyze impact on scope, timeline, and dependencies. Then I discuss with the product owner and communicate clearly about effort changes. I ensure proper documentation and adjust sprint planning accordingly. I focus on flexibility without compromising code quality.
+
+🔹 4. How do you ensure code quality?
+
+Answer:
+
+Follow clean architecture and reusable components
+
+Use ESLint & Prettier standards
+
+Conduct peer code reviews
+
+Write unit tests (Jest/RTL)
+
+Test edge cases before raising PR
+
+Quality is ensured before it reaches production.
+
+🔹 5. How do you handle production issues?
+
+Answer:
+I stay calm, reproduce the issue locally or in staging, identify root cause using logs/debugging tools, and provide a hotfix if critical. After resolution, I document the issue and add preventive checks to avoid recurrence.
+
+🔹 6. Why are you leaving your current company?
+
+Answer (Safe & Professional):
+I’m looking for better growth opportunities, exposure to challenging projects, and a chance to work in a structured environment where I can take on more responsibility and contribute strategically.
+
+🔹 7. Why Experion Technologies?
+
+Answer:
+Experion is known for product engineering excellence and working with global clients. I’m particularly interested in contributing to scalable digital solutions and being part of a team that values ownership and innovation.
+
+🔹 8. Where do you see yourself in 3–5 years?
+
+Answer:
+I see myself growing into a Senior/Lead Frontend Engineer role, driving architectural decisions, mentoring teams, and contributing to technical strategy while still being hands-on with development.
+
+🔹 9. How do you prioritize tasks when everything is urgent?
+
+Answer:
+I evaluate:
+
+Business impact
+
+Production severity
+
+Dependencies
+
+Deadline risk
+
+Then I align with the product owner and team to prioritize based on value and risk.
+
+🔹 10. What differentiates you from other React developers?
+
+Answer:
+
+Strong fundamentals (JS + React internals)
+
+Focus on performance optimization
+
+Ownership mindset
+
+Good client communication
+
+Ability to balance clean code with delivery timelines
+
+🔹 11. Tell me about a failure.
+
+Answer:
+Early in my career, I underestimated a complex API integration which delayed delivery. I learned to break tasks properly, estimate buffer time, and communicate risks early. Since then, my estimations have become much more accurate.
+
+🔹 12. What motivates you?
+
+Answer:
+Building scalable solutions that users interact with daily motivates me. I enjoy solving performance bottlenecks and seeing measurable improvements in application efficiency.
+
+--------------------------------------------------------------------------------
+🔹 1. Why should we hire you over other candidates?
+
+Smart Answer:
+I combine strong technical fundamentals with ownership and client communication. Beyond writing code, I focus on performance, scalability, and business impact. With 5 years of React experience, I can contribute immediately without heavy supervision while also mentoring juniors.
+
+🔹 2. What if we don’t select you?
+
+Smart Answer:
+I would request feedback to understand areas of improvement. I see every interview as a learning opportunity. If not selected, I’ll work on improving those gaps and continue growing.
+
+👉 Shows maturity, not ego.
+
+🔹 3. You’ve changed companies — how do we know you’ll stay?
+
+Smart Answer:
+My transitions were based on growth opportunities and role expansion, not short-term decisions. I’m currently looking for stability, long-term contribution, and ownership in a technically strong environment.
+
+👉 Focus on growth, not salary.
+
+🔹 4. What if your manager gives you a task you disagree with?
+
+Smart Answer:
+I would respectfully share my perspective with technical reasoning. If the final decision differs, I’ll align with it and execute professionally. Team alignment is more important than individual preference.
+
+🔹 5. What is your biggest weakness?
+
+Smart Answer (Safe & Growth-Oriented):
+Earlier, I used to spend extra time perfecting UI details. Over time, I’ve learned to balance perfection with delivery timelines and prioritize based on business value.
+
+👉 Never say “I work too hard.”
+
+🔹 6. Are you interviewing elsewhere?
+
+Smart Answer:
+Yes, I am exploring a few opportunities that align with my experience. However, I’m prioritizing roles that offer strong technical growth and ownership.
+
+👉 Shows demand but not desperation.
+
+🔹 7. What if we offer slightly less than your expectation?
+
+Smart Answer:
+Compensation is important, but role clarity, learning opportunities, and growth matter more to me. I’m open to discussion if the role aligns well with my expectations.
+
+👉 Keeps negotiation flexible.
+
+🔹 8. If selected, how soon can you join?
+
+Smart Answer (Based on your case):
+I am currently serving my notice period, and my last working day is 14 April 2026. I can coordinate for knowledge transfer and try to join at the earliest possible date.
+
+🔹 9. What motivates you besides salary?
+
+Smart Answer:
+Challenging projects, performance optimization problems, learning new architectural patterns, and being part of a team where I can contribute meaningfully.
+
+🔹 10. If your performance drops, what will you do?
+
+Smart Answer:
+I’ll first analyze the root cause — workload, clarity, or skill gap. Then I’ll proactively seek feedback and improve. I believe in taking responsibility rather than waiting for escalation.
+
+🔹 11. Where do you see yourself long term — management or technical?
+
+Smart Answer:
+In the near term, I want to deepen my technical expertise and grow into a senior/lead frontend role. Eventually, I’d like to balance technical leadership with mentoring responsibilities.
+
+🔥 BONUS – Very Tricky One:
+🔹 “Why should we trust you with client communication?”
+
+Smart Answer:
+I’ve worked in offshore models and handled client demos, requirement clarifications, and change discussions. I ensure clarity, document decisions, and communicate risks early — which builds trust.

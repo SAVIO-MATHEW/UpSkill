@@ -1,0 +1,174 @@
+// ===============================
+// 🚦 Functional Traffic Light Simulator Component
+// ===============================
+function TrafficSimulator(config = {}) {
+
+  // --- Default configuration ---
+  const durations = {
+    green: config.green || 6,
+    yellow: config.yellow || 2,
+    red: config.red || 6
+  };
+
+  const mainLights = ['green', 'yellow', 'red'];
+  const crossLights = ['red', 'yellow', 'green'];
+  let current = 0, interval, timeout;
+  let paused = false, blinking = false, emergency = false;
+  let remaining = durations.green;
+
+  // --- DOM Elements ---
+  const lampElems = {
+    main: {
+      red: document.getElementById('mainRed'),
+      yellow: document.getElementById('mainYellow'),
+      green: document.getElementById('mainGreen')
+    },
+    cross: {
+      red: document.getElementById('crossRed'),
+      yellow: document.getElementById('crossYellow'),
+      green: document.getElementById('crossGreen')
+    }
+  };
+
+  const progressBars = {
+    main: {
+      red: document.getElementById('barMainRed'),
+      yellow: document.getElementById('barMainYellow'),
+      green: document.getElementById('barMainGreen')
+    },
+    cross: {
+      red: document.getElementById('barCrossRed'),
+      yellow: document.getElementById('barCrossYellow'),
+      green: document.getElementById('barCrossGreen')
+    }
+  };
+
+  const spans = {
+    main: {
+      red: lampElems.main.red.querySelector('span'),
+      yellow: lampElems.main.yellow.querySelector('span'),
+      green: lampElems.main.green.querySelector('span')
+    },
+    cross: {
+      red: lampElems.cross.red.querySelector('span'),
+      yellow: lampElems.cross.yellow.querySelector('span'),
+      green: lampElems.cross.green.querySelector('span')
+    }
+  };
+
+  const pedestrian = {
+    main: document.getElementById('pedMain'),
+    cross: document.getElementById('pedCross')
+  };
+
+  // ===============================
+  // 🔧 Internal Helper Functions
+  // ===============================
+
+  function setLight(intersection, color) {
+    Object.keys(lampElems[intersection]).forEach(c => {
+      lampElems[intersection][c].classList.remove('on', c);
+      spans[intersection][c].textContent = '';
+      progressBars[intersection][c].style.width = '0%';
+    });
+    if (color) lampElems[intersection][color].classList.add('on', color);
+  }
+
+  function stopCycle() {
+    clearInterval(interval);
+    clearTimeout(timeout);
+    ['main', 'cross'].forEach(int => {
+      setLight(int, null);
+      pedestrian[int].innerHTML = '🚶‍♂️ <span class="dont">DON’T WALK</span>';
+    });
+  }
+
+  function updatePedestrian(mainColor, crossColor) {
+    pedestrian.main.innerHTML = mainColor === 'red'
+      ? '🚶‍♂️ <span class="walk">WALK</span>'
+      : '🚶‍♂️ <span class="dont">DON’T WALK</span>';
+
+    pedestrian.cross.innerHTML = crossColor === 'red'
+      ? '🚶‍♂️ <span class="walk">WALK</span>'
+      : '🚶‍♂️ <span class="dont">DON’T WALK</span>';
+  }
+
+  // ===============================
+  // 🔁 Main Cycle Logic
+  // ===============================
+  function startCycle() {
+    if (paused || blinking || emergency) return;
+    clearInterval(interval);
+    clearTimeout(timeout);
+
+    const mainColor = mainLights[current];
+    const crossColor = crossLights[current];
+
+    setLight('main', mainColor);
+    setLight('cross', crossColor);
+    updatePedestrian(mainColor, crossColor);
+
+    remaining = durations[mainColor];
+    spans.main[mainColor].textContent = remaining;
+    spans.cross[crossColor].textContent = remaining;
+    progressBars.main[mainColor].style.width = '100%';
+    progressBars.cross[crossColor].style.width = '100%';
+
+    interval = setInterval(() => {
+      if (paused) return;
+      remaining--;
+      spans.main[mainColor].textContent = remaining;
+      spans.cross[crossColor].textContent = remaining;
+      progressBars.main[mainColor].style.width = `${(remaining / durations[mainColor]) * 100}%`;
+      progressBars.cross[crossColor].style.width = `${(remaining / durations[crossColor]) * 100}%`;
+    }, 1000);
+
+    timeout = setTimeout(() => {
+      clearInterval(interval);
+      current = (current + 1) % mainLights.length;
+      startCycle();
+    }, durations[mainColor] * 1000);
+  }
+
+  // ===============================
+  // 🧭 Public API (Methods)
+  // ===============================
+  return {
+    start() {
+      blinking = false;
+      emergency = false;
+      paused = false;
+      startCycle();
+    },
+    stop() { stopCycle(); },
+    pause() { paused = true; },
+    resume() { paused = false; },
+    blink() {
+      stopCycle();
+      blinking = true;
+      let on = false;
+      const yellowMain = lampElems.main.yellow;
+      const yellowCross = lampElems.cross.yellow;
+      setInterval(() => {
+        if (!blinking) return;
+        on = !on;
+        yellowMain.classList.toggle('on', on);
+        yellowCross.classList.toggle('on', on);
+      }, 500);
+    },
+    emergencyMode() {
+      stopCycle();
+      emergency = true;
+      setLight('main', 'green');
+      setLight('cross', 'red');
+      spans.main.green.textContent = 'EMERGENCY';
+      pedestrian.main.innerHTML = '🚒 Emergency Mode — Main Road Clear!';
+    },
+    pedestrianRequest() {
+      if (mainLights[current] !== 'red') {
+        current = 2; // jump to red
+        startCycle();
+      }
+    }
+  };
+}

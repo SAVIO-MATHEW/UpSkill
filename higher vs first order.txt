@@ -1,0 +1,53 @@
+### **First-Order Component vs Higher-Order Component (React)**
+
+|             | **First-Order Component (FOC)** | **Higher-Order Component (HOC)**                                     |
+| ----------- | ------------------------------- | -------------------------------------------------------------------- |
+| Meaning     | Normal React component          | Function that takes a component and returns a new enhanced component |
+| Purpose     | Renders UI directly             | Reuses logic across components                                       |
+| Type        | Component                       | Function → Component                                                 |
+| Reusability | Low                             | High                                                                 |
+
+---
+
+### ✅ First-Order Component
+
+Just a regular component.
+
+```jsx
+function Button({ label }) {
+  return <button>{label}</button>;
+}
+```
+
+---
+
+### 🚀 Higher-Order Component
+
+Enhances another component.
+
+```jsx
+function withLoading(Component) {
+  return function EnhancedComponent({ isLoading, ...props }) {
+    if (isLoading) return <p>Loading...</p>;
+    return <Component {...props} />;
+  };
+}
+```
+
+Usage:
+
+```jsx
+const ButtonWithLoading = withLoading(Button);
+```
+
+---
+
+### 🧠 Easy Interview Line
+
+> **FOC shows UI. HOC shares logic.**
+
+Examples of HOCs:
+
+* `connect()` in Redux
+* `withRouter()` (React Router v5)
+* Custom logging/auth wrappers

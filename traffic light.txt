@@ -1,0 +1,49 @@
+import React, { useState, useEffect } from "react";
+
+const TrafficLight = () => {
+  const [color, setColor] = useState("red");
+
+  useEffect(() => {
+    let timer;
+
+    if (color === "red") {
+      timer = setTimeout(() => setColor("green"), 4000);
+    } else if (color === "green") {
+      timer = setTimeout(() => setColor("yellow"), 3000);
+    } else if (color === "yellow") {
+      timer = setTimeout(() => setColor("red"), 2000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [color]);
+
+  return (
+    <div style={styles.container}>
+      <div style={{ ...styles.light, backgroundColor: color === "red" ? "red" : "gray" }}></div>
+      <div style={{ ...styles.light, backgroundColor: color === "yellow" ? "yellow" : "gray" }}></div>
+      <div style={{ ...styles.light, backgroundColor: color === "green" ? "green" : "gray" }}></div>
+    </div>
+  );
+};
+
+// Inline styles
+const styles = {
+  container: {
+    width: "80px",
+    backgroundColor: "#333",
+    padding: "10px",
+    borderRadius: "10px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "10px",
+  },
+  light: {
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    transition: "background-color 0.3s",
+  },
+};
+
+export default TrafficLight;

@@ -1,0 +1,118 @@
+Ahh **BEM** — front-end CSS structuring method 👌
+
+## 🎯 What is BEM?
+
+**BEM = Block Element Modifier**
+
+It’s a naming convention to write **clean, scalable CSS**.
+
+---
+
+## 🧱 Structure
+
+```
+Block__Element--Modifier
+```
+
+| Part         | Meaning                    |
+| ------------ | -------------------------- |
+| **Block**    | Independent component      |
+| **Element**  | Part of block              |
+| **Modifier** | Variation of block/element |
+
+---
+
+## 🔹 1. Block
+
+Standalone component.
+
+```html
+<div class="card"></div>
+```
+
+CSS:
+
+```css
+.card { border: 1px solid #ccc; }
+```
+
+---
+
+## 🔹 2. Element (`__`)
+
+Child part of block.
+
+```html
+<div class="card">
+  <h2 class="card__title">Title</h2>
+</div>
+```
+
+```css
+.card__title { font-size: 18px; }
+```
+
+---
+
+## 🔹 3. Modifier (`--`)
+
+Different state or version.
+
+```html
+<button class="button button--primary">Save</button>
+<button class="button button--disabled">Cancel</button>
+```
+
+```css
+.button--primary { background: blue; }
+.button--disabled { opacity: 0.5; }
+```
+
+---
+
+## 🧠 Why BEM?
+
+Without BEM:
+
+```css
+.title { color: red; }
+```
+
+Conflicts everywhere.
+
+With BEM:
+
+```css
+.card__title { color: red; }
+```
+
+Scoped & predictable.
+
+---
+
+## 🧩 Example full
+
+```html
+<div class="menu menu--dark">
+  <div class="menu__item menu__item--active">Home</div>
+</div>
+```
+
+---
+
+## ✅ Benefits
+
+* No CSS conflicts
+* Easy to maintain
+* Clear component structure
+* Great for large apps
+
+---
+
+## 🧠 One-line memory
+
+> BEM = **Name CSS based on component structure, not design**
+
+---
+
+Want to see how BEM fits perfectly with **React components**?

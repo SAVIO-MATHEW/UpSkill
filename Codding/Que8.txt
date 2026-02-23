@@ -1,0 +1,19 @@
+function debounce(func, delay) {
+  let timeoutId; // ← lives in closure, shared across calls
+
+  return function (...args) {        // ← the debounced function
+    const context = this;            // ← preserve `this`
+
+    clearTimeout(timeoutId);         // ← cancel previous
+
+    timeoutId = setTimeout(() => {   // ← schedule new
+      func.apply(context, args);     // ← call func with correct this/args
+    }, delay);
+  };
+}
+
+const debouncedLog = debounce((msg) => console.log(msg), 1000);
+
+debouncedLog('First');   // t = 0ms
+debouncedLog('Second');  // t = 100ms
+debouncedLog('Third');   // t = 200ms

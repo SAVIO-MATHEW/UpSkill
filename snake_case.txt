@@ -1,0 +1,27 @@
+**snake_case** is a naming style where words are **lowercase** and joined using **underscores**.
+
+**Example:**
+
+```text
+first_name
+total_amount
+user_id
+```
+
+### Where it’s commonly used
+
+* Python variables/functions
+* Database column names
+* File names
+* Some APIs/JSON fields
+
+### Compare with others
+
+| Style      | Example     |
+| ---------- | ----------- |
+| snake_case | `user_name` |
+| camelCase  | `userName`  |
+| PascalCase | `UserName`  |
+| kebab-case | `user-name` |
+
+**Rule:** lowercase + `_` between words.

@@ -1,0 +1,390 @@
+Nice grind list 😄 Here are **clean minimal implementations** for each.
+
+---
+
+### **1 & 19. JS value → JSON string (basic stringify)**
+
+```js
+function myStringify(val) {
+  if (val === null) return "null";
+  if (typeof val === "number" || typeof val === "boolean") return String(val);
+  if (typeof val === "string") return `"${val}"`;
+  if (Array.isArray(val)) return `[${val.map(myStringify)}]`;
+  if (typeof val === "object") {
+    return `{${Object.entries(val).map(([k,v]) => `"${k}":${myStringify(v)}`)}}`;
+  }
+}
+```
+
+---
+
+### **2. Deep copy with circular refs**
+
+```js
+function deepClone(obj, map = new WeakMap()) {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (map.has(obj)) return map.get(obj);
+  const copy = Array.isArray(obj) ? [] : {};
+  map.set(obj, copy);
+  for (let k in obj) copy[k] = deepClone(obj[k], map);
+  return copy;
+}
+```
+
+---
+
+### **3. Table of contents from HTML**
+
+```js
+function getTOC() {
+  return [...document.querySelectorAll("h1,h2,h3")].map(h => ({
+    text: h.innerText,
+    id: h.id
+  }));
+}
+```
+
+---
+
+### **4. Filter rows**
+
+```js
+const filterRows = (rows, fn) => rows.filter(fn);
+```
+
+---
+
+### **5. Insertion Sort**
+
+```js
+function insertionSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let key = arr[i], j = i - 1;
+    while (j >= 0 && arr[j] > key) arr[j + 1] = arr[j--];
+    arr[j + 1] = key;
+  }
+  return arr;
+}
+```
+
+---
+
+### **6. Memoize (multi-arg)**
+
+```js
+function memoize(fn) {
+  const cache = new Map();
+  return (...args) => {
+    const key = JSON.stringify(args);
+    if (!cache.has(key)) cache.set(key, fn(...args));
+    return cache.get(key);
+  };
+}
+```
+function add(a, b) {
+  return a + b;
+}
+const memoAdd = memoize(add);
+memoAdd(2,3);
+---
+
+### **7. Custom setInterval**
+
+```js
+function myInterval(fn, delay) {
+  let id = setInterval(fn, delay);
+  return () => clearInterval(id);
+}
+```
+
+---
+
+### **8. Merge two objects**
+
+```js
+const merge = (a, b) => ({ ...a, ...b });
+```
+
+---
+
+### **9 & 12. Highlight search text**
+
+```js
+function highlight(text, term) {
+  const re = new RegExp(`(${term})`, "gi");
+  return text.replace(re, "<mark>$1</mark>");
+}
+```
+
+---
+
+### **10. Recursive transform**
+
+```js
+function transform(obj, fn) {
+  if (Array.isArray(obj)) return obj.map(v => transform(v, fn));
+  if (obj && typeof obj === "object") {
+    return Object.fromEntries(Object.entries(obj).map(([k,v]) => [k, transform(v, fn)]));
+  }
+  return fn(obj);
+}
+```
+
+---
+
+### **11. Deep equal**
+
+```js
+function deepEqual(a, b) {
+  if (a === b) return true;
+  if (typeof a !== "object" || typeof b !== "object" || !a || !b) return false;
+  const keys = Object.keys(a);
+  if (keys.length !== Object.keys(b).length) return false;
+  return keys.every(k => deepEqual(a[k], b[k]));
+}
+```
+
+---
+
+### **13. Squash object (flatten)**
+
+```js
+function squash(obj) {
+  const result = {};
+
+  function helper(current, prefix) {
+    for (const key of Object.keys(current)) {
+      const value = current[key];
+      const newKey = prefix ? `${prefix}.${key}` : key;
+
+      if (
+        value !== null &&
+        typeof value === "object" &&
+        !Array.isArray(value) &&
+        !(value instanceof Date)
+      ) {
+        helper(value, newKey); // recurse
+      } else {
+        result[newKey] = value; // assign leaf
+      }
+    }
+  }
+
+  helper(obj, "");
+  return result;
+}
+
+```
+
+---
+
+### **14. Resumable interval**
+
+```js
+function resumableTime() {
+  let running = false;
+  let id = null;
+
+  return function toggle() {
+    if (!running) {
+      id = setInterval(() => {
+        console.log("running");
+      }, 5000);
+      running = true;
+    } else {
+      clearInterval(id);
+      running = false;
+    }
+    //return running;
+  };
+}
+
+const timer = resumableTime();
+timer();
+setTimeout(() => {
+  timer(); // stop after 12s
+}, 12000);
+
+```
+
+---
+
+### **15. Promise.any**
+
+```js
+function myAny(proms) {
+  return new Promise((res, rej) => {
+    let errors = [], count = 0;
+    proms.forEach(p => Promise.resolve(p).then(res).catch(e => {
+      errors.push(e);
+      if (++count === proms.length) rej(errors);
+    }));
+  });
+}
+```
+
+---
+
+### **16. Promise.allSettled**
+
+```js
+function allSettled(proms) {
+  return Promise.all(proms.map(p =>
+    Promise.resolve(p)
+      .then(v => ({ status: "fulfilled", value: v }))
+      .catch(e => ({ status: "rejected", reason: e }))
+  ));
+}
+```
+
+---
+
+### **17. Memoize single arg**
+
+```js
+const memoOne = fn => {
+  const cache = {};
+  return x => cache[x] ?? (cache[x] = fn(x));
+};
+```
+
+---
+
+### **18. Format list**
+
+```js
+const formatList = arr =>
+  arr.length < 2 ? arr.join("") :
+  `${arr.slice(0,-1).join(", ")} and ${arr.at(-1)}`;
+```
+
+---
+
+### **20. EventEmitter**
+
+```js
+class Emitter {
+  events = {};
+  on(e, fn) { (this.events[e] ||= []).push(fn); }
+  emit(e, ...a) { (this.events[e]||[]).forEach(fn => fn(...a)); }
+}
+```
+const emitter = new Emitter();
+
+emitter.on("greet", name => console.log(`Hello, ${name}!`));
+emitter.on("greet", name => console.log(`Welcome, ${name}!`));
+
+emitter.emit("greet", "Alice");
+
+---
+Hello, Alice!
+Welcome, Alice!
+
+### **21. Debounce with cancel**
+
+```js
+function debounce(fn, d) {
+  let t;
+  const f = (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), d); };
+  f.cancel = () => clearTimeout(t);
+  return f;
+}
+```
+const debouncedSearch = debounce(searchFn, 500);
+debouncedSearch("hello");
+
+---
+
+### **22. Merge rows by user**
+
+```js
+function mergeByUser(rows) {
+  return Object.values(rows.reduce((acc,r)=>{
+    acc[r.user] = acc[r.user] ? {...acc[r.user], ...r} : r;
+    return acc;
+  },{}));
+}
+```
+
+---
+
+### **23. Flatten array**
+
+```js
+const flatten = arr => arr.flat(Infinity);
+```
+
+---
+
+### **24. Remove falsy values**
+
+```js
+const removeFalsy = obj =>
+  Object.fromEntries(Object.entries(obj).filter(([_,v]) => v));
+```
+
+---
+
+### **25. Resolve to Promise**
+
+```js
+const toPromise = v => Promise.resolve(v);
+```
+
+---
+
+### **26. Turtle class**
+
+```js
+class Turtle {
+  x=0; y=0;
+  move(dx,dy){ this.x+=dx; this.y+=dy; }
+}
+```
+
+---
+
+### **27. Run async tasks in series**
+
+```js
+async function series(tasks) {
+  const res=[];
+  for (let t of tasks) res.push(await t());
+  return res;
+}
+```
+
+---
+
+### **28. Promisify**
+
+```js
+const promisify = fn => (...a) =>
+  new Promise((res,rej)=>
+    fn(...a,(e,v)=> e?rej(e):res(v))
+  );
+```
+
+---
+
+### **29. Deserialize JSON**
+
+```js
+const myParse = str => JSON.parse(str);
+```
+
+---
+
+### **30. Keys to camelCase**
+
+```js
+function toCamel(s){return s.replace(/_([a-z])/g,(_,c)=>c.toUpperCase())}
+function keysToCamel(o){
+  if(Array.isArray(o)) return o.map(keysToCamel);
+  if(o&&typeof o==="object")
+    return Object.fromEntries(Object.entries(o).map(([k,v])=>[toCamel(k),keysToCamel(v)]));
+  return o;
+}
+```
+
+---

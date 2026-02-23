@@ -1,0 +1,109 @@
+flat(), at()
+🔹 flat() – Flattens Nested Arrays
+
+flat() creates a new array by flattening nested arrays.
+
+const arr = [1, 2, [3, 4], [5, [6]]];
+
+console.log(arr.flat());        // [1, 2, 3, 4, 5, [6]]
+console.log(arr.flat(2));       // [1, 2, 3, 4, 5, 6]
+
+🔸 Syntax:
+array.flat(depth)
+
+
+depth → How deep to flatten (default = 1)
+
+Returns a new array (does not mutate original)
+
+👉 Useful when dealing with nested API responses or grouped data.
+
+🔹 at() – Access Element by Index (Supports Negative Index)
+
+at() returns the element at a specific index.
+
+const arr = [10, 20, 30, 40];
+
+console.log(arr.at(1));   // 20
+console.log(arr.at(-1));  // 40 (last element)
+console.log(arr.at(-2));  // 30
+
+🔸 Why use at()?
+
+Before:
+
+arr[arr.length - 1]  // last element
+
+
+Now:
+
+arr.at(-1)
+
+
+👉 Cleaner and more readable.
+
+🔥 Interview-Level Difference
+Method	Purpose	Mutates?	Key Feature
+flat()	Flattens nested arrays	❌ No	Accepts depth
+at()	Gets element by index	❌ No	Supports negative indexing
+
+If you want, I can also explain:
+
+flatMap() (very commonly asked)
+
+Difference between map() and flatMap()
+
+Polyfill implementation of flat() or at()
+-------------------------------------------------------------------------------------
+
+Optional chaining ?.
+
+Nullish coalescing ??
+🔹 Optional Chaining ?.
+
+Used to safely access deeply nested properties without throwing an error if something is null or undefined.
+
+❌ Without Optional Chaining
+const user = {};
+console.log(user.address.city); 
+// ❌ Error: Cannot read property 'city' of undefined
+
+✅ With Optional Chaining
+console.log(user.address?.city);
+// ✅ undefined (no error)
+
+
+👉 It stops execution if the left side is null or undefined.
+
+🔹 Optional Chaining with Methods
+user.getName?.();
+
+
+Calls the function only if it exists.
+
+🔹 Nullish Coalescing ??
+
+Used to provide a default value only when the left side is null or undefined.
+
+const value = null;
+console.log(value ?? "Default"); // "Default"
+
+🔥 Difference Between || and ?? (Very Important)
+console.log(0 || 10);   // 10 ❌ (because 0 is falsy)
+console.log(0 ?? 10);   // 0  ✅ (0 is NOT null/undefined)
+
+
+|| checks for falsy values (0, "", false, null, undefined)
+?? checks only for null or undefined
+
+🔹 Combined Usage (Very Common in React)
+const city = user.address?.city ?? "Not Available";
+
+
+👉 If address doesn’t exist → no crash
+👉 If city is null/undefined → default value
+
+🔥 Interview-Ready Answer (Short)
+
+Optional chaining (?.) prevents runtime errors when accessing nested properties.
+Nullish coalescing (??) provides a default value only if the value is null or undefined, unlike || which checks all falsy values.

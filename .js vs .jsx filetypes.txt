@@ -1,0 +1,167 @@
+This confusion is **very common** — and you’re asking the *right* question.
+
+### Short truth
+
+> **`.jsx` and `.js` both end up returning JSX → compiled to JS → creates HTML in the browser.**
+> The difference is **not technical**, it’s about **clarity, tooling, and team discipline**.
+
+---
+
+## What actually happens under the hood
+
+JSX is **not HTML**.
+
+```jsx
+<h1>Hello</h1>
+```
+
+⬇️ compiled by Babel ⬇️
+
+```js
+React.createElement("h1", null, "Hello");
+```
+
+So whether the file is:
+
+* `App.js`
+* `App.jsx`
+
+👉 **the browser only sees JavaScript**.
+
+---
+
+## Why `.js` still works with JSX
+
+Modern setups (CRA, Vite, Next.js, Webpack) configure Babel to:
+
+* parse JSX in **both `.js` and `.jsx`**
+
+So this is valid:
+
+```js
+export default function App() {
+  return <h1>Hello</h1>;
+}
+```
+
+---
+
+## Why some devs prefer `.jsx`
+
+### 1️⃣ Clear intent (big reason)
+
+```txt
+Button.jsx  → React component
+utils.js    → plain JS logic
+```
+
+You instantly know:
+
+* this file **renders UI**
+* not a helper or service
+
+This matters in **large codebases**.
+
+---
+
+### 2️⃣ Tooling & editor support
+
+Some editors:
+
+* give better JSX highlighting
+* auto-import React types
+* smarter linting
+
+Especially useful with **TypeScript + JSX (`.tsx`)**.
+
+---
+
+### 3️⃣ Enforced architecture
+
+Teams use rules like:
+
+* `.jsx` → components only
+* `.js` → hooks, utils, services
+
+This improves **maintainability**.
+
+---
+
+## Why many devs still use `.js`
+
+### 1️⃣ Less noise
+
+React devs are used to JSX everywhere.
+
+```txt
+App.js
+Modal.js
+Header.js
+```
+
+Simple. Clean.
+
+---
+
+### 2️⃣ Framework conventions
+
+* **Next.js** → `.js` by default
+* **CRA** → `.js` everywhere
+* ESLint configs assume JSX in `.js`
+
+---
+
+## What senior teams usually do
+
+### Option A (most common)
+
+```txt
+components/
+  Modal.js
+  Header.js
+hooks/
+  useFetch.js
+utils/
+  formatDate.js
+```
+
+JSX inside `.js`, no problem.
+
+---
+
+### Option B (very structured teams)
+
+```txt
+components/
+  Modal.jsx
+  Header.jsx
+hooks/
+  useFetch.js
+services/
+  api.js
+```
+
+Clear separation.
+
+---
+
+## The only rule that matters
+
+> **Be consistent across the codebase.**
+
+Mixing randomly:
+
+```txt
+Modal.js
+Header.jsx
+Footer.js
+```
+
+❌ smells bad.
+
+---
+
+### Interview-ready answer 🧠
+
+> JSX is just syntax sugar compiled to JavaScript. Both `.js` and `.jsx` work because tooling supports JSX in `.js`. Teams choose `.jsx` mainly for clarity and architecture, not because it changes behavior.
+

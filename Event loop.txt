@@ -1,0 +1,112 @@
+Alright, this is one of the **MOST important JavaScript concepts** ⚡
+
+---
+
+## 🧠 What is the Event Loop?
+
+> The **event loop** is what allows JavaScript (single-threaded) to handle **async tasks** like timers, API calls, DOM events.
+
+JS can do **one thing at a time**, but the event loop manages *when* async callbacks run.
+
+---
+
+## 🧩 Main Parts
+
+| Part               | Role                                                       |
+| ------------------ | ---------------------------------------------------------- |
+| **Call Stack**     | Executes functions                                         |
+| **Web APIs**       | Browser handles async work (setTimeout, fetch, DOM events) |
+| **Callback Queue** | Holds completed async callbacks                            |
+| **Event Loop**     | Moves callbacks to stack when it's empty                   |
+
+---
+
+## 🔄 Flow
+
+1. Code runs → goes to **Call Stack**
+2. Async task starts → sent to **Web API**
+3. When done → callback goes to **Queue**
+4. Event loop checks:
+
+   > "Is stack empty?"
+   > YES → move callback to stack
+
+---
+
+## 🔥 Example
+
+```js
+console.log("Start");
+
+setTimeout(() => console.log("Timeout"), 0);
+
+console.log("End");
+```
+
+### Output:
+
+```
+Start
+End
+Timeout
+```
+
+Even `0ms` waits for stack to clear.
+
+---
+
+## ⚡ Microtasks vs Macrotasks
+
+| Type           | Examples                            | Priority |
+| -------------- | ----------------------------------- | -------- |
+| **Microtasks** | Promises, MutationObserver          | 🔥 First |
+| **Macrotasks** | setTimeout, setInterval, DOM events | After    |
+
+---
+
+### Example
+
+```js
+console.log("A");
+
+setTimeout(() => console.log("B"), 0);
+
+Promise.resolve().then(() => console.log("C"));
+
+console.log("D");
+```
+
+Output:
+
+```
+A
+D
+C   ← microtask
+B   ← macrotask
+```
+
+---
+
+## 🧠 Rule to remember
+
+> **Synchronous → Microtasks → Macrotasks**
+
+---
+
+## 💡 Why this matters
+
+Explains:
+
+* Why promises run before timeouts
+* Why UI sometimes freezes
+* Why `async/await` timing works
+
+---
+
+### One-line definition
+
+> Event loop = system that schedules async callbacks when the call stack is free.
+
+---
+
+Want a diagram-style breakdown for interviews?

@@ -1,0 +1,145 @@
+In JavaScript, promises are objects used for asynchronous operations. They represent a value that may be available now, in the future, or never. Promises are particularly useful for handling tasks like fetching data or performing computations that take time.
+
+### Key Features of Promises:
+1. **States**: A promise has three states:
+   - **Pending**: Initial state, the operation hasn't completed yet.
+   - **Fulfilled**: The operation completed successfully.
+   - **Rejected**: The operation failed.
+
+2. **Methods**:
+   - `.then()`: Handles the resolved value of a promise.
+   - `.catch()`: Handles any errors or rejected promises.
+   - `.finally()`: Executes code regardless of the promise's state.
+
+### Example Code:
+```javascript
+const myPromise = new Promise((resolve, reject) => {
+  let condition = true;
+  if (condition) {
+    resolve("Promise resolved!");
+  } else {
+    reject("Promise rejected.");
+  }
+});
+
+myPromise
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    console.log("Promise is settled.");
+  });
+```
+
+This demonstrates how you can create and use promises for asynchronous code. Do you want to dive deeper into chaining promises or learning about `async`/`await`? Let me know!
+
+| Method                 | When it resolves        | When it rejects                    | What you get                            |
+| ---------------------- | ----------------------- | ---------------------------------- | --------------------------------------- |
+| **Promise.all**        | When **all** succeed    | If **any one** fails (immediately) | Array of values                         |
+| **Promise.race**       | First promise to settle | First promise to settle            | Value OR error                          |
+| **Promise.any**        | First **success**       | If **all** fail                    | First success value or `AggregateError` |
+| **Promise.allSettled** | After **all settle**    | **Never rejects**                  | Array of `{status, value/reason}` 														{status:"fulfilled", value}
+												{status:"rejected", reason}      |
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Promises:  ❌  ❌  ✅  ❌
+
+all        → ❌
+race       → depends who finishes first
+any        → ✅
+allSettled → report of all 4pstatus:"fulfilled", value}{status:"rejected", reason}
+
+-----------------------------------------------------------------------------------------------------------------------------------
+| Inside `.catch`           | Resulting promise state     |
+| ------------------------- | --------------------------  |
+| return value              | ✅ RESOLVED with that value |
+| throw error               | ❌ REJECTED                 |
+| return Promise.resolve(x) | ✅ RESOLVED                 |
+| return Promise.reject(e)  | ❌ REJECTED                 |
+----------------------------------------------------------------------------
+
+A Promise can change state only once:
+After that it's locked forever 🔒
+
+So the first one that fires wins the race.
+
+Rule
+
+The first call to resolve or reject settles the promise. All later calls are silently ignored.
+------------------------------------------------------------------------------
+finally does NOT receive the result or error.
+
+.finally(e => console.log(e)) // e is always undefined
+
+
+Because finally is for cleanup, not data handling.
+If you need the value inside finally, you must store it earlier.
+
+Since `finally` gets nothing, you **capture the value/error earlier**.
+
+---
+
+### ✅ Method 1 — Store in outer variable
+
+```js
+let result;
+
+myPromise
+  .then(res => {
+    result = res;
+    console.log('Success', res);
+  })
+  .catch(err => {
+    result = err;
+    console.log('Failed', err);
+  })
+  .finally(() => {
+    console.log('Final', result);
+  });
+```
+
+Now `finally` can use it.
+
+---
+
+### ✅ Method 2 — Pass value forward (cleaner)
+
+```js
+myPromise
+  .then(res => {
+    console.log('Success', res);
+    return res;           // pass to next
+  })
+  .catch(err => {
+    console.log('Failed', err);
+    return err;           // pass to next
+  })
+  .then(value => {
+    console.log('Final', value);
+  });
+```
+
+Here the last `then` acts like a **smart finally with data**.
+
+---
+
+### ⚡ Pro pattern (real world)
+
+```js
+myPromise
+  .then(handleSuccess)
+  .catch(handleError)
+  .then(cleanup);   // always runs, with value or error
+```
+
+Because after `catch`, the chain becomes **resolved** again.
+
+---
+
+### Key idea
+
+`finally` = cleanup only
+`then after catch` = cleanup **with data** 🎯

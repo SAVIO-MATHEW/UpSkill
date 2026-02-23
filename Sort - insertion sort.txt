@@ -1,0 +1,62 @@
+Insertion sort = build the sorted array one item at a time by inserting each element into its correct position.
+
+🔹 Idea (simple)
+
+You split the array into:
+
+Left side → already sorted
+
+Right side → unsorted
+
+Pick one element from the unsorted side and insert it into the correct place in the sorted side (like arranging playing cards in your hand).
+
+🔹 Steps
+
+For each index i from 1 → n-1:
+
+Store current element → key = arr[i]
+
+Compare it with elements on the left
+
+Shift larger elements one position right
+
+Insert key in the gap
+
+🔹 Code (JS)
+function insertionSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let key = arr[i];
+    let j = i - 1;
+
+    while (j >= 0 && arr[j] > key) {
+      arr[j + 1] = arr[j]; // shift right
+      j--;
+    }
+
+    arr[j + 1] = key; // insert
+  }
+  return arr;
+}
+
+console.log(insertionSort([5, 3, 4, 1, 2]));
+
+🔹 Example Walkthrough
+
+Array: [5, 3, 4, 1]
+
+Step	Array State
+Start	5 **
+Insert 3	3 5 **
+Insert 4	3 4 5 **
+Insert 1
+-------------------------------------------------------------------------
+Normal insertion sort works backwards because shifting right is easy.
+
+If you go forward, you must find position first, then shift.
+Insertion Sort Complexity 👇
+
+⏱ Time Complexity
+Case	Why	Complexity
+Best	Already sorted → inner loop barely runs	O(n)
+Average	Random order → shifting happens often	O(n²)
+Worst	Reverse sorted → every element shifts fully	O(n²)

@@ -1,0 +1,11 @@
+A Pure Component is a special type of React class component that extends React.PureComponent instead of React.Component. It optimizes performance by automatically preventing unnecessary re-renders through a shallow comparison of props and state. This reduces the workload of the Virtual DOM’s reconciliation process, making apps more efficient.
+
+Purpose: To skip rendering when props and state haven’t changed, minimizing Virtual DOM diffing and real DOM updates.
+Key Feature: Implements shouldComponentUpdate with a shallow equality check (compares primitive values and reference equality for objects/arrays).
+
+Pure Components are specific to class-based components. For functional components, React.memo serves a similar purpose.
+
+Ideal Scenarios:
+Components with stable props and state (e.g., primitives like strings, numbers, or immutable objects).
+Performance-critical components in large apps (e.g., list items in a table, badges, or counters).
+When rendering is computationally expensive or triggers costly child renders.

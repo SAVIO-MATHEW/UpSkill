@@ -1,0 +1,35 @@
+var secondHighest = function(s) {
+    let set = new Set();
+
+    for (let ch of s) {
+        if (!isNaN(ch)) {
+            set.add(Number(ch));
+        }
+    }
+
+    let arr = [...set].sort((a, b) => b - a);
+
+    return arr.length >= 2 ? arr[1] : -1;
+};
+
+---------------------------------------------------------
+secondHighest("abc1111") // -1
+```````````````````````````````````````````````````````````
+var secondHighest = function(s) {
+    let max = -1, second = -1;
+
+    for (let ch of s) {
+        if (!isNaN(ch)) {
+            let num = Number(ch);
+
+            if (num > max) {
+                second = max;
+                max = num;
+            } else if (num < max && num > second) {
+                second = num;
+            }
+        }
+    }
+
+    return second;
+};

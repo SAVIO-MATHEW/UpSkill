@@ -1,0 +1,104 @@
+Alright Mathew, quick and clean ⚡
+
+## 🌍 What is a RESTful API?
+
+A **RESTful API** is a way for client (frontend/app) and server to communicate using:
+
+> **HTTP methods + URLs representing resources**
+
+REST = **Representational State Transfer**
+
+---
+
+## 🧱 Core Idea
+
+Everything is treated as a **resource** (noun), not action (verb).
+
+❌ Bad
+
+```
+/getUsers
+/createUser
+```
+
+✅ REST style
+
+```
+/users
+/users/10
+```
+
+---
+
+## 🔥 HTTP Methods (CRUD)
+
+| Method     | Action         | Example            |
+| ---------- | -------------- | ------------------ |
+| **GET**    | Read data      | `GET /users`       |
+| **POST**   | Create data    | `POST /users`      |
+| **PUT**    | Update whole   | `PUT /users/10`    |
+| **PATCH**  | Update partial | `PATCH /users/10`  |
+| **DELETE** | Remove         | `DELETE /users/10` |
+
+---
+
+## 📦 Example
+
+### Request
+
+```
+GET /users/5
+```
+
+### Response
+
+```json
+{
+  "id": 5,
+  "name": "Mathew",
+  "role": "Developer"
+}
+```
+
+---
+
+## 🧠 REST Principles
+
+| Principle             | Meaning                         |
+| --------------------- | ------------------------------- |
+| **Stateless**         | Server stores no client session |
+| **Client–Server**     | Frontend & backend separated    |
+| **Cacheable**         | Responses can be cached         |
+| **Uniform Interface** | Standard HTTP methods           |
+| **Resource-based**    | URLs = nouns                    |
+
+---
+
+## 🔑 Status Codes
+
+| Code | Meaning      |
+| ---- | ------------ |
+| 200  | Success      |
+| 201  | Created      |
+| 204  | No content   |
+| 400  | Bad request  |
+| 401  | Unauthorized |
+| 404  | Not found    |
+| 500  | Server error |
+
+---
+
+## 🧩 REST URL Design
+
+```
+/users           → all users
+/users/5         → one user
+/users/5/orders  → nested resource
+```
+
+---
+
+## 🧠 One-line understanding
+
+> REST API = **Use HTTP methods to perform CRUD on URL-based resources**
+

@@ -1,0 +1,65 @@
+You can multiply two numbers without using the `*` operator by employing alternative methods, such as repeated addition, bitwise shifting, or recursion. Here's how:
+
+---
+
+### **1. Using Repeated Addition**
+```javascript
+function multiply(a, b) {
+  let result = 0;
+  const positiveB = Math.abs(b);
+
+  for (let i = 0; i < positiveB; i++) {
+    result += a;
+  }
+
+  return b < 0 ? -result : result; // Handle negative numbers
+}
+
+// Example usage:
+console.log(multiply(5, -3)); // Output: -15
+```
+This approach repeatedly adds the first number to itself based on the second number. Negative numbers are handled separately.
+
+---
+
+### **2. Using Recursion**
+```javascript
+function multiplyRecursive(a, b) {
+  if (b === 0) return 0;
+  if (b > 0) return a + multiplyRecursive(a, b - 1);
+  return -multiplyRecursive(a, -b); // Handle negative numbers
+}
+
+// Example usage:
+console.log(multiplyRecursive(5, -3)); // Output: -15
+```
+This recursive method keeps adding `a` until `b` reaches zero, with special handling for negative values.
+
+---
+
+### **3. Using Bitwise Shifting**
+This method leverages the binary representation of numbers. For example, multiplying by 2 is equivalent to left-shifting the bits by 1 (`a << 1`).
+```javascript
+function multiplyBitwise(a, b) {
+  let result = 0;
+  const positiveB = Math.abs(b);
+
+  while (positiveB > 0) {
+    if (positiveB & 1) { // Check if the least significant bit is 1
+      result += a;
+    }
+    a = a << 1; // Left shift (equivalent to multiplying by 2)
+    b = b >> 1; // Right shift (divide b by 2)
+  }
+
+  return b < 0 ? -result : result;
+}
+
+// Example usage:
+console.log(multiplyBitwise(5, 3)); // Output: 15
+```
+This approach is more efficient, as it works with binary logic instead of direct iteration.
+
+---
+
+Let me know which of these methods you'd like to explore further or if you'd like to see this implemented in another programming language! 😊

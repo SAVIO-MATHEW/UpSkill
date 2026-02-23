@@ -1,0 +1,35 @@
+call: Invokes a function immediately, setting this explicitly and passing arguments individually.
+apply: Invokes a function immediately, setting this explicitly and passing arguments as an array.
+bind: Creates a new function with a fixed this context and optional preset arguments, but does not invoke it immediately.
+
+------------------------------------------------------------------------------------------------------
+// Object to act as the `this` context
+const user = {
+  name: "Alice",
+  role: "Developer"
+};
+
+// Function to display user info with a greeting
+function displayInfo(greeting, year) {
+  console.log(`${greeting}, ${this.name} (${this.role}) in ${year}`);
+}
+
+// Using call: Pass arguments individually
+displayInfo.call(user, "Hello", 2025);
+
+// Using apply: Pass arguments as an array
+displayInfo.apply(user, ["Hi", 2025]);
+
+// Using bind: Create a new function with fixed `this` and arguments
+const boundDisplay = displayInfo.bind(user, "Hey", 2025);
+boundDisplay(); // Invoke later
+
+/////////////////////////////////////////////////////////////////////////
+Using call:
+Hello, Alice (Developer) in 2025
+
+Using apply:
+Hi, Alice (Developer) in 2025
+
+Using bind:
+Hey, Alice (Developer) in 2025

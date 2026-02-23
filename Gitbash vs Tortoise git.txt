@@ -1,0 +1,8 @@
+| Feature        | TortoiseGit                           | Git Bash                                |
+| -------------- | ------------------------------------- | --------------------------------------- |
+| Interface      | GUI (right-click in Windows Explorer) | CLI (terminal-based)                    |
+| Integration    | Integrated into Windows Explorer      | Separate terminal window                |
+| Learning Curve | Beginner-friendly                     | Requires command knowledge              |
+| Power          | Good for basic tasks                  | Full Git control                        |
+| Portability    | Windows only                          | Works across OS (Linux, macOS, Windows) |
+| Prerequisite   | Needs Git installed                   | It *is* the Git CLI                     |

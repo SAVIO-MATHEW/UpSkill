@@ -1,0 +1,10 @@
+Why Redux Toolkit uses Immer
+
+Less boilerplate
+
+Safer immutable updates
+
+Cleaner reducer code
+
+Key rule:
+You can “mutate” state only inside reducers (because of Immer).

@@ -1,0 +1,156 @@
+Here are some common interview questions related to **hoisting** and **setTimeout** in JavaScript:
+
+---
+
+### **Hoisting Questions**
+1. **What is hoisting in JavaScript?**
+   - Hoisting is a mechanism where variable and function declarations are moved to the top of their scope before code execution.
+
+2. **What is the difference between variable hoisting and function hoisting?**
+   - Variable hoisting moves the declaration to the top but leaves the initialization in place, resulting in `undefined` if accessed before initialization.
+   - Function hoisting moves the entire function definition to the top, allowing it to be called before its declaration.
+
+3. **What happens when you use `let` or `const` with hoisting?**
+   - Variables declared with `let` or `const` are hoisted but remain in the **temporal dead zone** until their declaration is executed.
+
+4. **Predict the output:**
+   ```javascript
+   console.log(a); // ?
+   var a = 5;
+   console.log(a); // ?
+   ```
+   **Answer:**
+   - `undefined` (due to hoisting of `var a`).
+   - `5` (after initialization).
+
+5. **Predict the output:**
+   ```javascript
+   console.log(b); // ?
+   let b = 10;
+   console.log(b); // ?
+   ```
+   **Answer:**
+   - `ReferenceError` (due to the temporal dead zone).
+   - `10` (after initialization).
+
+---
+
+### **setTimeout Questions**
+1. **What is the difference between `setTimeout` and `setInterval`?**
+   - `setTimeout` executes a function once after a specified delay.
+   - `setInterval` executes a function repeatedly at specified intervals.
+
+2. **Predict the output:**
+   ```javascript
+   console.log(1);
+   setTimeout(() => console.log(2), 0);
+   console.log(3);
+   ```
+   **Answer:**
+   - `1`, `3`, `2` (due to the event loop; `setTimeout` is a macrotask).
+
+3. **Predict the output:**
+   ```javascript
+   for (var i = 0; i < 3; i++) {
+     setTimeout(() => console.log(i), 1000);
+   }
+   ```
+   **Answer:**
+   - `3`, `3`, `3` (because `var` is function-scoped, and all closures share the same `i`).
+
+4. **Predict the output:**
+   ```javascript
+   for (let i = 0; i < 3; i++) {
+     setTimeout(() => console.log(i), 1000);
+   }
+   ```
+   **Answer:**
+   - `0`, `1`, `2` (because `let` is block-scoped, creating a new `i` for each iteration).
+
+5. **Explain the event loop in relation to `setTimeout`.**
+   - The event loop processes microtasks (e.g., `Promise.then`) before macrotasks (e.g., `setTimeout`), even if the delay is `0`.
+
+---
+
+These questions are commonly asked in interviews to test your understanding of JavaScript's quirks and asynchronous behavior. Would you like to explore more examples or dive deeper into any of these topics?
+---------------------------------------------------------------------------------
+Nice, going deeper 😎 There are actually **several** ways to fix it besides just `let`.
+
+Problem recap: all callbacks share the same `i`.
+
+---
+
+## ✅ 1. Pass value as `setTimeout` argument
+
+People forget this exists.
+
+```js
+for (var i = 0; i < 3; i++) {
+  setTimeout((x) => console.log(x), 1000, i);
+}
+```
+
+`i` is copied into parameter `x`.
+
+---
+
+## ✅ 2. Use `bind`
+
+```js
+for (var i = 0; i < 3; i++) {
+  setTimeout(console.log.bind(null, i), 1000);
+}
+```
+
+`bind` locks the value.
+
+---
+
+## ✅ 3. Store in a new variable inside loop
+
+```js
+for (var i = 0; i < 3; i++) {
+  var j = i;
+  setTimeout(() => console.log(j), 1000);
+}
+```
+
+⚠️ Works only if inside a function scope that re-runs per iteration (not global). Safer inside IIFE/block.
+
+---
+
+## ✅ 4. Function wrapper (not arrow)
+
+```js
+for (var i = 0; i < 3; i++) {
+  setTimeout(function(x) {
+    console.log(x);
+  }, 1000, i);
+}
+```
+
+---
+
+## ✅ 5. Array iteration (no `var` loop)
+
+```js
+[0,1,2].forEach(i => {
+  setTimeout(() => console.log(i), 1000);
+});
+```
+
+---
+
+## 🧠 Why all these work
+
+They **capture the value**, not the shared variable.
+
+---
+
+### 🚀 Interview-level summary
+
+> The fix is to **create a new scope per iteration** or **pass the value directly** so the callback doesn’t reference the shared `var i`.
+
+---
+
+Want to see a version where numbers print **0,1,2 with increasing delay** (like 0s,1s,2s)?

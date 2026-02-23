@@ -1,0 +1,92 @@
+**Destructuring swap** is a shortcut in JavaScript to exchange values **without a temp variable**.
+
+---
+
+### 🔹 Normal swap (old way)
+
+```js
+let temp = a;
+a = b;
+b = temp;
+```
+
+---
+
+### 🔹 Destructuring swap (modern JS)
+
+```js
+[a, b] = [b, a];
+```
+
+Same result, cleaner.
+
+---
+
+### 🔥 How it works internally
+
+1. Right side `[b, a]` is evaluated first
+2. Values stored temporarily
+3. Assigned to left side positions
+
+So no data is lost.
+
+---
+
+### 🔹 Works with array elements too
+
+```js
+[arr[i], arr[j]] = [arr[j], arr[i]];
+```
+
+Used in:
+
+* Bubble sort
+* Selection sort
+* Reversing arrays
+
+---
+
+### 🔹 Example
+
+```js
+let x = 5, y = 10;
+[x, y] = [y, x];
+
+console.log(x, y); // 10 5
+```
+
+---
+
+### ⚠️ Important
+
+This is **array destructuring assignment**, not a special swap operator.
+
+---
+
+### 🧠 One-line memory trick
+
+> RHS builds a temporary array → LHS unpacks it.
+-------------------------------------------------------------------------------
+Yes — those two lines do the same swap ✅
+
+Version 1
+[arr[j], arr[j+1]] = [arr[j+1], arr[j]];
+
+Version 2
+[arr[j+1], arr[j]] = [arr[j], arr[j+1]];
+
+
+Both result in:
+
+arr[j]   ← old arr[j+1]
+arr[j+1] ← old arr[j]
+
+Why both work
+
+Destructuring works like:
+
+Evaluate right side first → store values temporarily
+
+Assign them to left side in order
+
+So order of variables on the left doesn’t matter as long as the right side is reversed accordingly.

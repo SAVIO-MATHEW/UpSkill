@@ -1,0 +1,37 @@
+Almost — reducers are NOT state values, they produce state values.
+
+configureStore({
+  reducer: {
+    count: counterReducer
+  },
+})
+
+What this means
+
+count → state key
+
+counterReducer → function that manages that state
+
+Summary (1-liner)
+
+reducer object keys = state keys
+
+reducer object values = reducer functions
+
+Reducers generate state, they are not the state themselves
+------------------------------------------------------------------
+const store = configureStore({
+  reducer: {
+    sliceB: sliceBReducer,  // sliceB runs first now
+    sliceA: sliceAReducer,
+  }
+});
+Dispatching actionX now runs:
+
+sliceB.addCase → sliceB.addMatcher
+
+sliceA.addCase → sliceA.addMatcher
+
+Inside each slice, addCase still runs before addMatcher.
+Slices run in the order they are combined in the store; within a slice, addCase handlers run first, followed by addMatcher handlers.
+----------------------------------------------------------------------------

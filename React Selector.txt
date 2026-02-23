@@ -1,0 +1,44 @@
+state is always passed in by Redux
+
+When you define a selector:
+
+const selectUsers = state => state.users.list;
+
+store.getState() is mostly used outside components — like in thunks, middleware, or debugging.
+
+Inside React components, always use useSelector.
+---------------------------------------------------------------------
+1️⃣ What store.getState() is
+
+store.getState() is a method on the Redux store that returns the entire current state of the store.
+
+It gives you read-only access to all slices of the state.
+
+const state = store.getState();
+console.log(state.users.list); // access a slice
+
+2️⃣ When we call store.getState()
+
+Outside React components, when you don’t have useSelector:
+
+Example: testing, debugging, or some external function
+````````````````````````````````````
+import { store } from './store';
+
+const users = store.getState().users.list;
+console.log(users);
+
+``````````````````````````````
+Inside Redux Thunks using thunkAPI.getState()
+``````````````````````````````
+export const fetchSomething = createAsyncThunk(
+  'data/fetch',
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    console.log(state.users.list);
+    // can read current state to decide what to fetch
+  }
+);
+````````````````````````````````````````
+
+Note: Inside components, you don’t need store.getState() — use useSelector instead.

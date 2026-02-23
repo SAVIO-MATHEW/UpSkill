@@ -1,0 +1,66 @@
+import { useState, useEffect, useRef, useCallback } from 'react';
+
+function useInfiniteScroll(fetchMoreData, threshold = 200) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [error, setError] = useState(null);
+
+  const isFetchingRef = useRef(false);
+  const initialLoadDone = useRef(false);
+
+  const stableFetchMoreData = useCallback(fetchMoreData, [fetchMoreData]);
+
+  const loadMore = useCallback(async () => {
+    if (isFetchingRef.current || !hasMore || isLoading) return;
+
+    isFetchingRef.current = true;
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const moreAvailable = await stableFetchMoreData();
+      setHasMore(moreAvailable);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Failed to fetch data'));
+    } finally {
+      setIsLoading(false);
+      isFetchingRef.current = false;
+    }
+  }, [stableFetchMoreData, hasMore, isLoading]);
+
+  const handleScroll = useCallback(() => {
+    if (typeof window === 'undefined') return;
+
+    const { pageYOffset, innerHeight } = window;
+    const { scrollHeight } = document.documentElement;
+
+    const nearBottom = pageYOffset + innerHeight >= scrollHeight - threshold;
+
+    if (nearBottom && !isFetchingRef.current && hasMore && !isLoading) {
+      loadMore();
+    }
+  }, [loadMore, threshold, hasMore, isLoading]);
+
+  // Initial load
+  useEffect(() => {
+    if (!initialLoadDone.current && hasMore) {
+      initialLoadDone.current = true;
+      loadMore();
+    }
+  }, [loadMore, hasMore]);
+
+  // Scroll listeners
+  useEffect(() => {
+    const onScroll = () => handleScroll();
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [handleScroll]);
+
+  return { isLoading, hasMore, error, loadMore };
+}
+
+export default useInfiniteScroll;

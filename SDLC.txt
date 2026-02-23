@@ -1,0 +1,39 @@
+What is SDLC?
+
+SDLC (Software Development Life Cycle) is a structured process used to develop high-quality software in a systematic way.
+
+🔹 Phases of SDLC
+
+1️⃣ Requirement Gathering
+Understand business needs and create documentation.
+
+2️⃣ System Design
+Define architecture, database design, UI flow.
+
+3️⃣ Development
+Actual coding (React frontend, API backend, etc.)
+
+4️⃣ Testing
+Unit testing, integration testing, UAT.
+
+5️⃣ Deployment
+Release to production environment.
+
+6️⃣ Maintenance
+Bug fixes, enhancements, performance improvements.
+
+🔹 Common SDLC Models
+
+Waterfall
+
+Agile
+
+Scrum
+
+DevOps
+
+Most modern companies (like product engineering firms such as Experion Technologies) follow Agile/Scrum.
+
+🔥 Interview-Ready Answer (Short)
+
+SDLC is a structured process that includes requirement analysis, design, development, testing, deployment, and maintenance to ensure high-quality software delivery.

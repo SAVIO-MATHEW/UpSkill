@@ -1,0 +1,274 @@
+Here are **3–4 sentence, interview-ready answers** for the key conceptual questions. These are concise but strong enough for a second-round discussion.
+
+---
+
+## Browser & Rendering
+
+### 1. How does a browser render a web page from URL to UI?
+
+When a URL is entered, the browser performs a DNS lookup to find the server’s IP, then sends an HTTP request. The server returns HTML, which the browser parses to build the DOM, while CSS builds the CSSOM. These are combined into a render tree, then layout and paint steps create the visible UI. JavaScript can modify the DOM during this process, which may trigger reflows or repaints.
+
+---
+
+### 2. Steps in the rendering pipeline
+
+The browser first parses HTML into the DOM and CSS into the CSSOM. These are combined into the render tree, which contains only visible elements. The layout step calculates positions and sizes, and the paint step draws pixels on the screen. Finally, compositing merges layers to display the final UI.
+
+---
+
+### 3. Reflow vs Repaint
+
+Reflow happens when layout changes, such as size or position changes, causing the browser to recalculate element geometry. Repaint occurs when only visual styles change, like color or background, without affecting layout. Reflows are more expensive than repaints because they affect the structure. Frequent reflows can significantly hurt performance.
+
+---
+
+### 4. What is the critical rendering path?
+
+It is the sequence of steps the browser performs to convert HTML, CSS, and JavaScript into pixels on the screen. It includes building the DOM, CSSOM, render tree, layout, and paint. Optimizing this path reduces page load time. Techniques include minimizing render-blocking resources and using code splitting.
+
+---
+
+### 5. How does the event loop work?
+
+JavaScript runs on a single thread using the call stack. When async operations complete, their callbacks are placed in task queues. The event loop continuously checks if the call stack is empty and pushes tasks from the queue to the stack. Microtasks are executed before macrotasks.
+
+---
+
+## React Internals
+
+### 6. How does React update the UI when state changes?
+
+When state changes, React creates a new Virtual DOM tree. It compares this with the previous tree using its diffing algorithm. Only the changed parts are updated in the real DOM. This minimizes expensive DOM operations and improves performance.
+
+---
+
+### 7. What is reconciliation?
+
+Reconciliation is the process React uses to compare the new Virtual DOM with the old one. It determines what changes are needed to update the UI. React uses a diffing algorithm that assumes elements of the same type are similar. This makes updates efficient and predictable.
+
+---
+
+### 8. How does the Virtual DOM improve performance?
+
+The Virtual DOM is a lightweight JavaScript representation of the real DOM. React updates this virtual structure first and calculates differences. It then updates only the necessary parts of the real DOM. This reduces expensive direct DOM manipulations.
+
+---
+
+### 9. What happens when state setter is called?
+
+When a state setter is called, React schedules a re-render of that component. It creates a new Virtual DOM for that component and its children. React then compares it with the previous version. Only the changed elements are updated in the actual DOM.
+
+---
+
+### 10. What is React batching?
+
+Batching means React groups multiple state updates into a single re-render. Instead of updating the UI after every state change, it processes them together. This improves performance by reducing unnecessary renders. React 18 supports automatic batching even in async operations.
+
+---
+
+## Lifecycle & Hooks
+
+### 11. Component lifecycle (functional view)
+
+During mount, the component renders and effects run after the DOM is updated. During updates, React re-renders when props or state change and re-runs effects if dependencies change. During unmount, cleanup functions in effects are executed. Hooks like `useEffect` manage these lifecycle stages.
+
+---
+
+### 12. What happens when `useEffect` runs?
+
+After the component renders and the DOM is updated, React executes the `useEffect` callback. If dependencies are provided, it runs only when they change. Before running again or unmounting, React executes the cleanup function. This is commonly used for subscriptions or API calls.
+
+---
+
+### 13. useEffect vs useLayoutEffect
+
+`useEffect` runs after the browser paints the UI. It is non-blocking and used for most side effects. `useLayoutEffect` runs synchronously after DOM updates but before painting. It is used when layout measurements or immediate DOM changes are needed.
+
+---
+
+### 14. When does React re-render a component?
+
+A component re-renders when its state changes, its props change, or its parent re-renders. Context changes can also trigger re-renders. React compares the new and old Virtual DOM. Only actual differences are applied to the real DOM.
+
+---
+
+## State & Redux
+
+### 15. How does data flow in React?
+
+React follows a unidirectional data flow. Data moves from parent components to child components through props. Child components communicate back using callbacks. This makes the application predictable and easier to debug.
+
+---
+
+### 16. How does Redux update the UI?
+
+An action is dispatched describing a change. The reducer receives the action and returns a new state. The Redux store updates and notifies subscribed components. React components using selectors re-render with the new state.
+
+---
+
+## Next.js
+
+### 17. How does SSR work in Next.js?
+
+In SSR, the server renders the React components into HTML for each request. This HTML is sent to the browser for immediate display. Then React hydrates the page, attaching event listeners. This improves SEO and initial load performance.
+
+---
+
+### 18. What is hydration?
+
+Hydration is the process where React attaches event listeners to server-rendered HTML. The UI is already visible, but not interactive. React matches the HTML with its Virtual DOM. After hydration, the page becomes fully interactive.
+
+---
+
+### 19. Client-side vs server-side navigation
+
+Client-side navigation loads pages using JavaScript without a full reload. It is faster and provides a smoother user experience. Server-side navigation reloads the entire page from the server. Next.js uses client-side routing with the `Link` component.
+
+---
+
+## Performance
+
+### 20. What causes unnecessary re-renders?
+
+Passing new object or function references on every render can trigger re-renders. Parent component updates also cause child re-renders. Lack of memoization can lead to extra renders. Tools like `React.memo`, `useMemo`, and `useCallback` help prevent this.
+
+---
+
+### 21. What is code splitting?
+
+Code splitting divides the application into smaller bundles. Only the required code is loaded when needed. This reduces initial load time. In React, it is done using `React.lazy` or dynamic imports.
+
+---
+
+## JavaScript Core
+
+### 22. What is the call stack?
+
+The call stack is where JavaScript keeps track of function execution. Functions are pushed onto the stack when called. They are removed when execution finishes. If the stack is blocked, the UI becomes unresponsive.
+
+---
+
+### 23. What happens when you call an async function?
+
+An async function returns a promise immediately. When it encounters `await`, execution pauses until the promise resolves. The rest of the function is scheduled as a microtask. The event loop processes it after the current stack is empty.
+
+---
+
+## Senior-Level Thinking
+
+### 24. If a page is loading slowly, how would you identify the cause?
+
+I would first use browser dev tools to analyze network requests and bundle size. Then I’d check performance timelines for long tasks or reflows. I’d also inspect React DevTools to find unnecessary re-renders. Based on findings, I’d apply code splitting, memoization, or API optimizations.
+
+---
+
+### 25. How do you ensure first-time code quality?
+
+I follow coding standards, write unit tests, and run linters before committing code. I also test edge cases and handle error states properly. Code reviews and automated CI checks help catch issues early. This ensures stable and maintainable code from the first release.
+
+---
+
+Here are **3–4 sentence interview-ready answers** for the **remaining 15 conceptual questions** from the earlier list.
+
+---
+
+## Browser & JavaScript Core
+
+### 26. What causes layout reflows and repaints?
+
+Layout reflows are triggered when properties affecting size or position change, such as width, height, margin, or font size. Repaints occur when only visual styles change, like color or background. Frequent DOM reads and writes can also cause forced reflows. Minimizing layout changes and batching DOM updates helps improve performance.
+
+---
+
+### 27. Difference between microtasks and macrotasks
+
+Macrotasks include events like `setTimeout`, `setInterval`, and I/O operations. Microtasks include promises, `queueMicrotask`, and mutation observers. After each macrotask, the event loop processes all microtasks before moving to the next macrotask. This is why promise callbacks run before `setTimeout` even with zero delay.
+
+---
+
+### 28. How does JavaScript block rendering?
+
+JavaScript runs on the main thread, which is also responsible for rendering. If long-running scripts execute, the browser cannot perform layout or paint operations. This causes the UI to freeze or appear unresponsive. That’s why large tasks should be broken into smaller chunks or handled asynchronously.
+
+------------------------------------------------------------
+
+## React Internals
+
+### 29. What is the diffing algorithm in React?
+
+React uses a heuristic diffing algorithm to compare the old and new Virtual DOM trees. It assumes elements of the same type are similar and only updates changed parts. For lists, keys help React identify which items changed. This approach reduces complexity from O(n³) to O(n).
+
+---
+
+### 30. What is the role of keys in React lists?
+
+Keys help React uniquely identify elements in a list. They allow React to track which items are added, removed, or reordered. Without stable keys, React may re-render or recreate elements unnecessarily. This can cause performance issues and unexpected UI behavior.
+
+---
+
+### 31. How does React decide whether to re-render a child component?
+
+By default, if a parent re-renders, all children also re-render. React compares props to determine if the output has changed. Using `React.memo`, `PureComponent`, or custom comparison functions can prevent unnecessary renders. Memoization ensures children only re-render when relevant data changes.
+
+---
+
+## State & Data Flow
+
+### 32. What is prop drilling and how do you avoid it?
+
+Prop drilling occurs when data is passed through multiple intermediate components just to reach a deeply nested component. This makes code harder to maintain. It can be avoided using Context API, Redux, or other state management libraries. These allow components to access shared state directly.
+
+---
+
+### 33. How does React know which component to update when Redux state changes?
+
+Components subscribe to the Redux store using selectors. When the store updates, React compares the previous and new selected state. If the selected data has changed, only those components re-render. This ensures efficient and targeted updates.
+
+---
+
+### 34. What happens when multiple state updates occur together?
+
+React batches multiple state updates into a single render cycle. Instead of re-rendering after each update, it processes them together. This improves performance and prevents unnecessary renders. In React 18, batching also works across async operations.
+
+---
+
+## Next.js Rendering
+
+### 35. When would you use `getServerSideProps` vs `getStaticProps`?
+
+`getStaticProps` is used when data can be fetched at build time and doesn’t change often. It provides faster performance and better caching. `getServerSideProps` is used when data must be fresh for every request, such as user-specific content. It runs on the server at request time.
+
+---
+
+### 36. What happens when a user requests a Next.js page?
+
+The request goes to the Next.js server. Depending on the page type, it either serves a pre-rendered static page or generates HTML on the server. The HTML is sent to the browser for initial display. React then hydrates the page to make it interactive.
+
+---
+
+### 37. What happens if hydration fails?
+
+Hydration fails when the server-rendered HTML doesn’t match the client-rendered Virtual DOM. React may discard the server HTML and re-render on the client. This can cause flickering or performance issues. It is usually caused by mismatched data, random values, or browser-only logic on the server.
+
+---
+
+## Performance & Optimization
+
+### 38. How does memoization improve performance?
+
+Memoization stores the result of expensive computations. If the inputs don’t change, the cached result is reused. In React, `useMemo` and `useCallback` prevent unnecessary recalculations and re-renders. This is especially useful for heavy computations or stable function references.
+
+---
+
+### 39. How does lazy loading work in React?
+
+Lazy loading loads components only when they are needed. React uses `React.lazy` with dynamic imports to split code into separate bundles. These bundles are fetched when the component is rendered. This reduces the initial bundle size and improves load time.
+
+---
+
+### 40. How would you debug a slow-rendering component?
+
+I would use React DevTools to check which components are re-rendering frequently. Then I’d analyze props and state changes causing the renders. I’d look for expensive computations or large DOM updates. Based on findings, I’d apply memoization, code splitting, or state optimization.
+
+---
+

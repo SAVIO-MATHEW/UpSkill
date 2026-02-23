@@ -1,0 +1,130 @@
+Ahhh now you’re thinking like a senior dev, nice 😎
+Code maintainability is what separates “it works” from “it survives 2 years of changes.”
+
+🧠 What is maintainable code
+
+Code that is easy to read, change, debug, and extend by someone who didn’t write it (including future you).
+
+🔑 Core Principles
+1️⃣ Readability > Cleverness
+
+Bad
+
+const x=a=a.map(b=b.n.length).sort((c,d)=c-d)[0]
+
+
+Good
+
+const getShortestNameLength = users =
+  users.map(u = u.name.length).sort((a, b) = a - b)[0];
+
+
+If someone needs 5 mins to understand it → not maintainable.
+
+2️⃣ Single Responsibility
+
+Each functioncomponent should do one job.
+
+❌ Component fetching + sorting + rendering + filtering
+✅ Separate logic
+
+useFetch()    data logic
+useSort()     sorting logic
+UserList      UI
+
+3️⃣ Avoid Repetition (DRY)
+
+Bad
+
+fetchUsers()
+fetchProducts()
+fetchOrders()
+
+
+Better
+
+useFetch(url)
+
+4️⃣ Predictable State
+
+Never mutate
+
+data.push(x) ❌
+data.sort() ❌
+
+
+Use immutable updates
+
+setData(prev = [...prev, x])
+
+
+Predictable code = fewer bugs.
+
+5️⃣ Clear Naming
+
+Bad
+
+const d = await f();
+
+
+Good
+
+const users = await fetchUsers();
+
+
+Names should explain intent, not mechanics.
+
+6️⃣ Small Components
+
+❌ 400-line component
+✅ Split
+
+App
+ ├── UserList
+ ├── UserItem
+ └── SortButton
+
+7️⃣ Error Handling
+
+Maintainable code doesn’t silently fail.
+
+if (!res.ok) throw new Error(Failed to fetch users);
+
+8️⃣ Consistency
+
+Pick one style and stick to it
+
+Arrow components or function components
+
+Semicolons or not
+
+Folder structure
+
+Inconsistency = mental load.
+
+🚨 Biggest maintainability killer
+
+Tightly coupled code
+
+Bad
+
+component → directly calls API → transforms → renders
+
+
+Better
+
+UI layer
+Logic layer (hooks)
+Service layer (API)
+
+🏆 Senior Mindset
+
+When writing code ask
+
+“Will this be easy to change later”
+
+“Can another dev understand this in 30 seconds”
+
+“If requirements change, do I rewrite everything”
+
+If answer = no → refactor.

@@ -1,0 +1,56 @@
+Object destructuring in JavaScript is a convenient way to extract values from objects and assign them to variables in a single step. It's part of ES6 (ECMAScript 2015) and is widely used for cleaner, more readable code.
+
+### Syntax and Example
+Here's how object destructuring works:
+
+```javascript
+const person = {
+  name: "Alice",
+  age: 25,
+  city: "New York"
+};
+
+const { name, age } = person;
+console.log(name); // Output: Alice
+console.log(age);  // Output: 25
+```
+
+In this example, the properties `name` and `age` from the `person` object are directly assigned to variables with the same names.
+
+---
+
+### Key Features of Object Destructuring
+
+1. **Default Values**: Provide default values if a property doesn't exist in the object.
+   ```javascript
+   const { name, country = "USA" } = person;
+   console.log(country); // Output: USA
+   ```
+
+2. **Renaming Variables**: Use a different variable name than the property.
+   ```javascript
+   const { name: fullName } = person;
+   console.log(fullName); // Output: Alice
+   ```
+
+3. **Nested Objects**: Extract properties from nested objects.
+   ```javascript
+   const student = {
+     info: {
+       firstName: "Bob",
+       lastName: "Smith"
+     }
+   };
+
+   const { info: { firstName, lastName } } = student;
+   console.log(firstName); // Output: Bob
+   console.log(lastName);  // Output: Smith
+   ```
+
+4. **Rest Properties**: Gather remaining properties into a new object.
+   ```javascript
+   const { name, ...rest } = person;
+   console.log(rest); // Output: { age: 25, city: "New York" }
+   ```
+
+---

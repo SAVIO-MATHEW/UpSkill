@@ -1,0 +1,23 @@
+
+## ⚖️ Comparison Table: `find()` vs `filter()`
+
+| Feature        | `find()`                          | `filter()`                        |
+|----------------|-----------------------------------|-----------------------------------|
+| Return value   | First matching element            | Array of all matching elements    |
+| Stops early    | ✅ Yes, after first match         | ❌ No, checks all elements        |
+| Typical use    | When you need **one item**        | When you need **multiple items**  |
+| Return type    | Single element or `undefined`     | Array (possibly empty)            |
+
+--------------------------------------------------
+
+const numbers = [5, 12, 8, 130, 44];
+
+const found = numbers.find(num => num > 10);
+console.log(found); // 12 (first match)
+
+-----------------------------------------------------------------
+
+const numbers = [5, 12, 8, 130, 44];
+
+const filtered = numbers.filter(num => num > 10);
+console.log(filtered); // [12, 130, 44] (all matches)

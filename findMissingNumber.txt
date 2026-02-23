@@ -1,0 +1,52 @@
+
+function findmissingNumber(arr) {
+  arr.sort((a, b) => a - b);
+  console.log("arr", arr);
+  let first = arr[0],
+    last = arr[arr.length - 1];
+  let count = arr.length + 1;
+  let diff = (last - first) / (count - 1);
+  let currentSum = arr.reduce((acc, num) => acc + num, 0);
+  let Sum = count/2 * (first + last);
+
+  return Sum - currentSum;
+}
+console.log("findMissingNUmber", findmissingNumber([3, 7, 23, 19, 15]));
+//output findMissingNUmber 11
+--------------------------------------------------------------------------
+function numberArithmeti(arr) {
+  arr.sort((a, b) => a - b);
+  let totalSum = arr.reduce((accu, num) => accu + num, 0);
+  let diffCheck = {};
+  let difference = null;
+  let missingNumber = 0;
+  for (let i = 0; i < arr.length - 1; i++) {
+    diffCheck[arr[i + 1] - arr[i]] = (diffCheck[arr[i + 1] - arr[i]] || 0) + 1;
+  }
+  console.log("difffcheck", diffCheck);
+  let MaxCountOfdifference = Math.max(...Object.values(diffCheck));
+  for (let key in diffCheck) {
+    if (diffCheck[key] === MaxCountOfdifference) {
+      difference = Number(key);
+    }
+  }
+  console.log("arr", arr);
+  for (let j = 0; j < arr.length - 1; j++) {
+    if (arr[j + 1] - arr[j] !== difference) {
+      missingNumber = arr[j] + difference;
+      break;
+    }
+  }
+  console.log("missingNUmber", missingNumber);
+
+  console.log("MaxCountOfdifference", MaxCountOfdifference);
+  console.log("difference", difference);
+}
+numberArithmeti([3, 7, 23, 19, 15]);
+
+////
+difffcheck {4: 3, 8: 1}
+arr (5) [3, 7, 15, 19, 23]
+missingNUmber 11
+MaxCountOfdifference 3
+difference 4

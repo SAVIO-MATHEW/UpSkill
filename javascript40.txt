@@ -1,0 +1,188 @@
+Understood 👍
+Below are **ALL 40 JavaScript interview answers**, **each elaborated in ~3 clear lines**, suitable for **mid–senior frontend interviews**.
+
+---
+
+## **1–10: JavaScript Basics**
+
+1. **What is JavaScript?**
+   JavaScript is a single-threaded, interpreted programming language mainly used for web development.
+   It enables dynamic content, event handling, and asynchronous operations in browsers.
+
+2. **Difference between let, const, and var**
+   `var` is function-scoped and allows re-declaration.
+   `let` and `const` are block-scoped; `const` prevents reassignment but allows mutation.
+
+3. **How does hoisting work?**
+   JavaScript moves declarations to the top of their scope during compilation.
+   `var` is initialized as `undefined`, while `let` and `const` stay in the Temporal Dead Zone.
+
+4. **What is a closure?**
+   A closure is created when a function remembers variables from its outer scope.
+   This allows data persistence even after the outer function has finished execution.
+
+5. **Explain the event loop**
+   The event loop manages asynchronous operations in JavaScript.
+   It processes the call stack first, then microtasks (Promises), then macrotasks.
+
+6. **Difference between == and ===**
+   `==` compares values after type coercion.
+   `===` compares both value and type, making it safer and preferred.
+
+7. **How do you check the type of a variable?**
+   `typeof` is used for primitives, while `Array.isArray()` checks arrays.
+   `instanceof` verifies object instances.
+
+8. **What is the this keyword?**
+   `this` refers to the execution context of a function.
+   Its value depends on how the function is called, not where it is defined.
+
+9. **Function declaration vs function expression**
+   Function declarations are hoisted and available before definition.
+   Function expressions are created at runtime and are not hoisted.
+
+10. **How does setTimeout work?**
+    `setTimeout` registers a callback with browser Web APIs.
+    The callback executes after delay once the call stack is empty.
+
+---
+
+## **11–20: Functions & Scope**
+
+11. **What is a callback function?**
+    A callback is a function passed as an argument to another function.
+    It is executed after a task completes, often used in async operations.
+
+12. **What is a pure function?**
+    A pure function returns the same output for the same input.
+    It does not modify external state or produce side effects.
+
+13. **call, apply, and bind differences**
+    All three methods explicitly set the `this` value.
+    `call` accepts arguments individually, `apply` as array, `bind` returns new function.
+
+14. **Purpose of arguments object**
+    It holds all arguments passed to a function dynamically.
+    It is array-like and not available in arrow functions.
+
+15. **How do you create a closure?**
+    Define a function inside another function.
+    The inner function accesses variables from the outer scope.
+
+16. **What is the use of bind()?**
+    `bind()` permanently sets the `this` value for a function.
+    Commonly used in event handlers and React class components.
+
+17. **Difference between shallow and deep copy**
+    Shallow copy duplicates top-level properties only.
+    Deep copy creates new references for all nested objects.
+
+18. **How does the call stack work?**
+    The call stack tracks function execution order.
+    It follows Last-In-First-Out (LIFO) principle.
+
+19. **What is function currying?**
+    Currying breaks a function with multiple arguments into smaller functions.
+    Each function takes one argument and returns another function.
+
+20. **How can you avoid callback hell?**
+    Use Promises or async/await for better readability.
+    Breaking logic into smaller functions also helps.
+
+---
+
+## **21–30: Objects & Prototypes**
+
+21. **What is prototypal inheritance?**
+    JavaScript objects inherit properties from other objects.
+    This inheritance happens through the prototype chain.
+
+22. **How do you create an object?**
+    Using object literals, constructor functions, or `Object.create()`.
+    Each method defines prototype behavior differently.
+
+23. **Purpose of prototype property**
+    It allows methods and properties to be shared across instances.
+    This improves memory efficiency.
+
+24. **Object.create vs constructor pattern**
+    `Object.create()` directly assigns a prototype.
+    Constructors create instances using the `new` keyword.
+
+25. **How do you add a property to an object?**
+    Use dot notation or bracket notation.
+    Bracket notation supports dynamic keys.
+
+26. **What is hasOwnProperty used for?**
+    Checks whether a property belongs directly to an object.
+    It excludes inherited properties.
+
+27. **How can you prevent object modification?**
+    `Object.freeze()` prevents all changes.
+    `Object.seal()` allows value modification but not structure changes.
+
+28. **Describe the use of the new keyword**
+    It creates a new object instance.
+    Binds `this` and links the prototype automatically.
+
+29. **What is object destructuring?**
+    Destructuring extracts properties into variables.
+    It improves readability and reduces repetitive code.
+
+30. **Difference between null and undefined**
+    `undefined` means a variable is declared but not assigned.
+    `null` is an intentional empty value.
+
+---
+
+## **31–40: DOM & Events**
+
+31. **What is the DOM?**
+    The DOM represents HTML as a tree structure.
+    JavaScript uses it to manipulate page content.
+
+32. **How do you select elements in JavaScript?**
+    Use `getElementById`, `querySelector`, or `querySelectorAll`.
+    Modern apps prefer query selectors.
+
+33. **Explain event delegation**
+    Events are handled at a parent level instead of children.
+    This improves performance and handles dynamic elements.
+
+34. **Purpose of addEventListener**
+    It attaches event handlers to elements.
+    Allows multiple handlers without overwriting.
+
+35. **How do you create and remove elements?**
+    Use `createElement` and `append`.
+    Remove elements using `remove()` or `removeChild()`.
+
+36. **Explain event propagation**
+    Events travel through capturing, target, and bubbling phases.
+    Understanding this helps control event flow.
+
+37. **How can you prevent default behavior?**
+    Call `event.preventDefault()`.
+    Commonly used in forms and anchor tags.
+
+38. **What are data- attributes?**
+    They store custom data in HTML elements.
+    Accessible via the `dataset` property.
+
+39. **innerHTML vs textContent**
+    `innerHTML` parses and renders HTML.
+    `textContent` safely inserts plain text.
+
+40. **How do you handle asynchronous code?**
+    Using callbacks, Promises, or async/await.
+    Async/await offers cleaner and readable code.
+
+---
+
+If you want next:
+
+* 📘 **Senior-level JS interview Q&A**
+* ⚛️ **React + JS combined explanations**
+* 🧪 **Real interview coding problems**
+
+Just tell me.

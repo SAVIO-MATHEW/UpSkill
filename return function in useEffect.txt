@@ -1,0 +1,282 @@
+This looks “odd” only until you see **what React is actually asking you to return**.
+
+### The real reason
+
+> **`useEffect` must return a function, not execute cleanup immediately.**
+
+So this:
+
+```js
+return () => {
+  document.removeEventListener("mousedown", handleClickOutside);
+};
+```
+
+means
+👉 “React, **call this later** when cleanup is needed.”
+
+---
+
+## Why React needs a function
+
+React runs effects in **two phases**:
+
+1. **Setup phase**
+
+```js
+document.addEventListener("mousedown", handleClickOutside);
+```
+
+2. **Cleanup phase**
+
+* before the next effect run
+* OR when component unmounts
+
+React decides **when**, not you.
+
+So you hand React a **callback**:
+
+```js
+() => removeEventListener(...)
+```
+
+---
+
+## What would be WRONG ❌
+
+```js
+return document.removeEventListener(
+  "mousedown",
+  handleClickOutside
+);
+```
+
+This:
+
+* runs immediately
+* returns `undefined`
+* React has nothing to call later
+* listener is never cleaned up
+
+---
+
+## Think of it like scheduling
+
+```js
+useEffect(() => {
+  startSomething();
+
+  return () => stopSomething(); // “Call me later”
+}, []);
+```
+
+Same mental model as:
+
+```js
+setTimeout(() => cleanup(), 1000);
+```
+
+---
+
+## Why arrow function is used
+
+Because React expects:
+
+```ts
+useEffect(() => void | (() => void))
+```
+
+So you must return:
+
+* nothing (`undefined`)
+* OR a function
+
+Arrow function is the simplest way to return a function.
+
+---
+
+## Interview one-liner 🧠
+
+> Cleanup in `useEffect` is written as a returned function because React needs a callback it can invoke later during unmount or before re-running the effect.
+
+---
+
+## Bonus: when cleanup runs
+
+```js
+useEffect(() => {
+  // setup
+  return () => {
+    // cleanup
+  };
+}, [dep]);
+```
+
+Cleanup runs:
+1️⃣ before effect re-runs (dep changes)
+2️⃣ on component unmount
+
+---
+
+If you want, I can:
+
+* 🔍 Show execution timeline with logs
+* 🧠 Compare with class component `componentWillUnmount`
+* ⚠️ Show bugs caused by missing cleanup
+* 🔁 Explain cleanup with async effects
+
+Just say 👍
+--------------------------------------------------------------------
+Yes — **this is an intentional, built-in feature of `useEffect` in React**, not magic and not JavaScript behavior.
+
+Let’s break it cleanly 👇
+
+---
+
+## Who calls that returned function?
+
+**React does.**
+
+You are **not executing** the cleanup.
+You are **handing React a function reference**.
+
+```js
+useEffect(() => {
+  // setup
+  return () => {
+    // cleanup
+  };
+}, []);
+```
+
+Think of it as:
+
+> “React, when you’re done with this effect, call this function.”
+
+---
+
+## When exactly does React call it?
+
+### Cleanup runs in two cases:
+
+### 1️⃣ Component unmounts
+
+```txt
+Component removed from DOM
+→ React calls cleanup
+→ event listeners removed
+```
+
+### 2️⃣ Before effect runs again
+
+```txt
+Dependency changes
+→ cleanup runs
+→ effect runs again
+```
+
+---
+
+## This is **defined behavior**, not convention
+
+From React’s design:
+
+```ts
+useEffect(
+  effect: () => void | (() => void),
+  deps?: any[]
+)
+```
+
+If the `effect` **returns a function**, React **stores it** internally.
+
+Later, React explicitly invokes it.
+
+---
+
+## Visual timeline (real mental model)
+
+```js
+useEffect(() => {
+  console.log("ADD listener");
+
+  return () => {
+    console.log("REMOVE listener");
+  };
+}, []);
+```
+
+### Mount
+
+```
+ADD listener
+```
+
+### Unmount
+
+```
+REMOVE listener   ← React executes returned function
+```
+
+---
+
+## Why React designed it this way
+
+* One place for setup + teardown
+* Prevents memory leaks
+* Works for:
+
+  * event listeners
+  * timers
+  * subscriptions
+  * observers
+  * sockets
+
+This replaces **3 lifecycle methods** from class components.
+
+---
+
+## Class component equivalent (for clarity)
+
+```js
+componentDidMount() {
+  document.addEventListener("mousedown", handler);
+}
+
+componentWillUnmount() {
+  document.removeEventListener("mousedown", handler);
+}
+```
+
+Hooks compress this into:
+
+```js
+useEffect(() => {
+  document.addEventListener("mousedown", handler);
+  return () => document.removeEventListener("mousedown", handler);
+}, []);
+```
+
+---
+
+## Important misconception to kill ❌
+
+This is **not** JavaScript calling the function.
+This is **React calling the function** as part of its lifecycle engine.
+
+---
+
+## Interview-ready answer 🧠
+
+> `useEffect` allows returning a cleanup function. React stores and automatically invokes this function when the component unmounts or before the effect re-runs. This is a built-in lifecycle feature of hooks.
+
+---
+
+If you want next:
+
+* 🔬 Internals: how React tracks effects
+* ⚠️ Bugs caused by missing cleanup
+* 🧠 Why cleanup runs *before* next effect
+* 🔁 Difference between `useEffect` and `useLayoutEffect`
+
+Say the word.

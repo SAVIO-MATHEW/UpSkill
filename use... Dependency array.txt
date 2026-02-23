@@ -1,0 +1,82 @@
+Ooo good question — and this is where people mix things up.
+
+### ❌ No — `React.memo` does **NOT** have a dependency array.
+
+That concept exists only in:
+
+* `useEffect`
+* `useMemo`
+* `useCallback`
+
+---
+
+## 🧠 Why?
+
+Those hooks run **inside** a component during render, so React needs dependencies to know **when to re-run logic**.
+
+But `React.memo` works at a **component level**, not inside render logic.
+
+---
+
+## 🔥 How `React.memo` decides to re-render
+
+Instead of a dependency array, it does:
+
+> **Shallow comparison of props**
+
+```js
+prevProps === nextProps ? skip : re-render
+```
+
+---
+
+## 🧩 You can customize comparison (THIS replaces dependency array idea)
+
+```js
+const MyComponent = React.memo(Component, (prev, next) => {
+  return prev.name === next.name;
+});
+```
+
+That function is like saying:
+
+> “Only re-render if this condition fails.”
+
+So this plays the role of dependencies, but in **comparison form**.
+
+---
+
+## 🔍 Big mental difference
+
+| Feature                | Hooks (`useMemo`, etc.) | React.memo             |
+| ---------------------- | ----------------------- | ---------------------- |
+| Controls               | Logic inside component  | Whole component render |
+| Uses dependency array  | ✅ Yes                   | ❌ No                   |
+| How change is detected | Dependency list         | Props comparison       |
+
+---
+
+## 🧠 One-line understanding
+
+> `useMemo/useCallback` → "When should this value/function update?"
+> `React.memo` → "Should this component re-render?"
+
+---
+
+If you want, next I can show a **diagram of how all three work together in a real component tree** — that makes the difference crystal clear.
+--------------------------------------------------------------------
+
+If no dependency array is provided, it runs after every render. 
+If an empty array [] is used, it runs only once after the first render.
+ If dependencies are provided, it runs when those values change. Cleanup functions run before the next effect or when the component unmounts. It mimics lifecycle methods.
+Case	Number of renders
+useEffect(() => {}, [])			1 render
+useEffect(() => { setState() }, [])	2 renders
+---------------------------------------
+useEffect(() => {
+  console.log("Effect runs");
+
+  return () => {
+    console.log("Cleanup runs");
+  };
+}, []);

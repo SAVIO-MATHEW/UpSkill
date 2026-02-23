@@ -1,0 +1,111 @@
+Here’s a curated list of Node.js interview questions covering beginner, intermediate, and advanced levels to help you prepare. These questions focus on core concepts, practical scenarios, and common tools used in Node.js development.
+
+### Beginner-Level Node.js Interview Questions
+1. **What is Node.js, and why is it used?**  
+   - Explain Node.js as a JavaScript runtime built on Chrome’s V8 engine, used for server-side development due to its non-blocking, event-driven architecture.
+
+2. **What is the difference between Node.js and JavaScript?**  
+   - JavaScript runs in browsers; Node.js runs JavaScript on the server, providing access to file systems, networking, etc.
+
+3. **What is the event loop in Node.js?**  
+   - Describe the event loop as a mechanism that handles asynchronous operations by offloading tasks and processing callbacks when they’re ready.
+
+4. **What is a module in Node.js, and how do you use it?**  
+   - Modules are reusable code blocks. Use `require()` to import and `module.exports` to export functionality.
+
+5. **What is the purpose of `package.json` in a Node.js project?**  
+   - It’s a metadata file that defines the project, its dependencies, scripts, and configurations.
+
+6. **Explain the difference between synchronous and asynchronous functions in Node.js.**  
+   - Synchronous functions block execution until complete; asynchronous functions allow other tasks to run while waiting (e.g., callbacks, Promises).
+
+7. **What is npm, and what are some common npm commands?**  
+   - npm is Node’s package manager. Commands: `npm init`, `npm install`, `npm start`, `npm run`.
+
+8. **What are the main components of a Node.js application?**  
+   - Core modules, third-party modules, custom modules, and the event-driven architecture.
+
+9. **How do you handle errors in Node.js?**  
+   - Use try-catch for synchronous code, error-first callbacks, or Promise `.catch()` for asynchronous code.
+
+10. **What is the difference between `process.nextTick()` and `setImmediate()`?**  
+    - `process.nextTick()` prioritizes callbacks before other I/O events; `setImmediate()` schedules them after I/O events.
+
+### Intermediate-Level Node.js Interview Questions
+11. **What is middleware in Express.js, and how does it work?**  
+    - Middleware are functions that process requests in the Express pipeline, executed in sequence, with access to `req`, `res`, and `next()`.
+
+12. **Explain the concept of streams in Node.js and their types.**  
+    - Streams process data in chunks. Types: Readable, Writable, Duplex, Transform.
+
+13. **How does Node.js handle concurrency?**  
+    - Through its single-threaded, non-blocking event loop, using asynchronous I/O and worker threads for heavy tasks.
+
+14. **What is the purpose of the `async/await` syntax in Node.js?**  
+    - Simplifies asynchronous code by allowing it to be written like synchronous code, using Promises under the hood.
+
+15. **How do you secure a Node.js application?**  
+    - Use HTTPS, sanitize inputs, validate data, implement rate-limiting, use helmet for HTTP headers, and avoid eval().
+
+16. **What is clustering in Node.js, and why is it used?**  
+    - Clustering forks multiple Node.js processes to utilize multiple CPU cores, improving performance.
+
+17. **What is the difference between `require()` and ES modules (`import`)?**  
+    - `require()` is CommonJS, synchronous; `import` is ES modules, asynchronous, and supports tree-shaking.
+
+18. **How do you handle environment variables in Node.js?**  
+    - Use `process.env` and libraries like `dotenv` to load variables from a `.env` file.
+
+19. **What is the role of the `fs` module in Node.js?**  
+    - The `fs` (file system) module provides APIs for reading, writing, and manipulating files (e.g., `fs.readFile`, `fs.writeFile`).
+
+20. **Explain RESTful APIs and how to create one in Node.js.**  
+    - RESTful APIs use HTTP methods (GET, POST, PUT, DELETE) for CRUD operations. Use Express.js to define routes and handle requests.
+
+### Advanced-Level Node.js Interview Questions
+21. **How does Node.js handle memory management?**  
+    - V8 engine uses garbage collection (mark-and-sweep). Developers must avoid memory leaks by managing closures and streams.
+
+22. **What are worker threads, and when should you use them?**  
+    - Worker threads run JavaScript in parallel threads for CPU-intensive tasks, bypassing the single-threaded event loop.
+
+23. **Explain the difference between `fork()`, `exec()`, and `spawn()` in the `child_process` module.**  
+    - `fork()` creates a new Node.js process; `spawn()` launches a command in a new process; `exec()` runs a command and buffers output.
+
+24. **How do you implement WebSockets in Node.js?**  
+    - Use libraries like `ws` or `Socket.IO` to establish real-time, bidirectional communication.
+
+25. **What is the role of the `libuv` library in Node.js?**  
+    - Libuv provides the event loop, thread pool, and asynchronous I/O operations for Node.js.
+
+26. **How do you optimize the performance of a Node.js application?**  
+    - Use clustering, caching (e.g., Redis), lazy loading, async operations, and profiling tools like `clinic.js`.
+
+27. **What are microservices, and how can Node.js be used to build them?**  
+    - Microservices are small, independent services. Node.js supports them with lightweight frameworks like Express and tools like Docker.
+
+28. **How do you handle versioning in a Node.js REST API?**  
+    - Use URL paths (e.g., `/v1/resource`), headers, or query parameters to manage API versions.
+
+29. **What is the difference between MongoDB and MySQL when used with Node.js?**  
+    - MongoDB is NoSQL, document-based, scalable for unstructured data; MySQL is relational, structured, and suited for complex queries.
+
+30. **How do you implement authentication in a Node.js application?**  
+    - Use JWT, OAuth, or Passport.js for token-based authentication, with secure storage (e.g., bcrypt for passwords).
+
+### Practical/Coding Questions
+31. **Write a simple Express.js server with a GET and POST endpoint.**  
+    - Expect code to set up Express, define routes, and handle JSON data.
+
+32. **How would you read a large file in Node.js without loading it into memory?**  
+    - Use `fs.createReadStream()` to process the file in chunks.
+
+33. **Implement a rate-limiting middleware for an Express.js application.**  
+    - Use `express-rate-limit` or custom logic to track requests per IP and block excess requests.
+
+34. **Write a Node.js script to fetch data from an external API and store it in a file.**  
+    - Use `axios` or `node-fetch` for HTTP requests and `fs` for file operations.
+
+35. **How would you handle a Promise rejection in an async function?**  
+    - Use try-catch with `await` or `.catch()` for the Promise chain.
+

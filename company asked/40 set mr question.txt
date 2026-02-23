@@ -1,0 +1,268 @@
+Good 👍 Since this is a **Senior React (5+ years) managerial round**, here are additional questions they can ask — beyond basic Agile/technical.
+
+I’ll group them by category.
+
+---
+
+# 🔹 🔥 Ownership & Decision-Making
+
+1. How do you handle ambiguous requirements?
+2. Tell me about a feature you designed end-to-end.
+3. How do you decide when to refactor vs move forward?
+4. What would you do if your estimate was wrong?
+5. How do you balance speed vs code quality?
+
+---
+
+# 🔹 🔥 Technical Leadership
+
+6. How do you review code effectively?
+7. What do you look for during PR reviews?
+8. How do you enforce coding standards?
+9. How do you handle repeated mistakes from a junior developer?
+10. Have you ever rejected a design decision? Why?
+
+---
+
+# 🔹 🔥 Architecture & Scaling
+
+11. How would you structure a large React application?
+12. How do you manage shared state in a large team?
+13. When would you use Context vs Redux?
+14. How do you avoid unnecessary re-renders?
+15. How do you handle performance bottlenecks?
+
+---
+
+# 🔹 🔥 Production & Stability
+
+16. Have you handled a production outage?
+17. How do you debug issues that you cannot reproduce locally?
+18. How do you ensure backward compatibility?
+19. How do you manage API failures gracefully?
+20. How do you monitor frontend errors?
+
+---
+
+# 🔹 🔥 Agile & Sprint Management
+
+21. What if sprint scope increases mid-sprint?
+22. How do you push back on unrealistic deadlines?
+23. How do you handle underperforming team members?
+24. What is your approach to story estimation?
+25. How do you improve sprint velocity?
+
+---
+
+# 🔹 🔥 Client Interaction
+
+26. Have you handled client demos?
+27. What if client changes requirement after approval?
+28. How do you explain technical constraints to non-technical clients?
+29. How do you manage stakeholder expectations?
+
+---
+
+# 🔹 🔥 Personal & Growth
+
+30. What is one technical mistake you made?
+31. What would your manager say about you?
+32. What kind of team environment do you prefer?
+33. Why should we consider you a senior engineer?
+34. Where do you want to grow next?
+
+---
+
+# 🔹 🚩 Tricky Questions
+
+35. If we don’t promote you in 2 years, what will you do?
+36. Why is your current salary low?
+37. Why didn’t you switch earlier?
+38. What if you get a better offer tomorrow?
+39. Would you relocate if needed?
+
+---
+
+# 🎯 If you want next
+
+I can:
+
+* Give model answers to the top 10 hardest ones
+* Simulate rapid-fire managerial round
+* Give “killer answers” that impress senior managers
+* Tell you how to structure answers using STAR method
+
+Tell me which direction you want 🚀
+
+`````````````````````````````````````````````````````````````````````````````````
+Perfect 👍 I’ll give you **concise, managerial-level answers** (clear, senior tone, not too long).
+
+---
+
+# 🔹 Ownership & Decision-Making
+
+**1. How do you handle ambiguous requirements?**
+I clarify with the Product Owner, confirm acceptance criteria, identify edge cases, and document assumptions before starting development.
+
+**2. Feature designed end-to-end?**
+I’ve handled dashboard modules from requirement analysis → component design → API integration → testing → deployment, ensuring performance and scalability.
+
+**3. Refactor vs move forward?**
+If refactor improves maintainability without delaying sprint goals significantly, I propose it. Otherwise, I create a technical debt task.
+
+**4. Wrong estimation?**
+I communicate early, explain the reason, and re-align sprint expectations transparently.
+
+**5. Speed vs quality?**
+I prioritize clean, maintainable code but adjust based on business urgency. Critical releases may prioritize delivery, followed by refactoring.
+
+---
+
+# 🔹 Technical Leadership
+
+**6. How do you review code?**
+I check readability, reusability, performance, edge cases, and adherence to standards.
+
+**7. What do you look for in PR?**
+Logic correctness, unnecessary re-renders, proper state handling, naming conventions, test coverage.
+
+**8. Enforce coding standards?**
+ESLint, Prettier, code reviews, and documented best practices.
+
+**9. Repeated junior mistakes?**
+Provide constructive feedback, explain reasoning, and mentor with examples.
+
+**10. Rejected a design decision?**
+Yes, when it impacted scalability. I proposed an alternative backed by technical reasoning.
+
+---
+
+# 🔹 Architecture & Scaling
+
+**11. Structure large React app?**
+Feature-based folder structure, shared components, centralized state management, service layer for APIs.
+
+**12. Manage shared state?**
+Redux Toolkit for global state; local state where possible to reduce complexity.
+
+**13. Context vs Redux?**
+Context for lightweight/global config; Redux for complex state with frequent updates.
+
+**14. Avoid re-renders?**
+React.memo, useMemo, useCallback, proper key usage.
+
+**15. Performance bottlenecks?**
+Profile with DevTools, optimize renders, lazy load, virtualize large lists.
+
+---
+
+# 🔹 Production & Stability
+
+**16. Production outage?**
+Stayed calm, analyzed logs, deployed hotfix, documented root cause.
+
+**17. Cannot reproduce locally?**
+Check logs, add temporary logging, test staging environment, compare environments.
+
+**18. Ensure backward compatibility?**
+Avoid breaking API contracts, support legacy props, gradual deprecation.
+
+**19. API failures?**
+Graceful error UI, retries, fallback messages.
+
+**20. Monitor frontend errors?**
+Use logging tools (e.g., Sentry-like systems) and browser console tracking.
+
+---
+
+# 🔹 Agile & Sprint
+
+**21. Scope increase mid-sprint?**
+Re-discuss with PO, adjust sprint backlog, avoid overcommitment.
+
+**22. Unrealistic deadlines?**
+Provide impact analysis and suggest phased delivery.
+
+**23. Underperforming member?**
+Support, mentor, understand challenges, escalate only if necessary.
+
+**24. Story estimation?**
+Break into subtasks, evaluate complexity, dependencies, and unknowns.
+
+**25. Improve velocity?**
+Better estimation, reduce technical debt, clear requirements.
+
+---
+
+# 🔹 Client Interaction
+
+**26. Client demos?**
+Yes, I explain functionality clearly and answer technical queries.
+
+**27. Requirement change?**
+Assess impact, communicate timeline changes.
+
+**28. Explain technical constraints?**
+Use simple language and business impact explanation.
+
+**29. Manage expectations?**
+Transparent communication and realistic timelines.
+
+---
+
+# 🔹 Personal & Growth
+
+**30. Technical mistake?**
+Underestimated integration complexity; learned better risk analysis.
+
+**31. Manager feedback?**
+Reliable, ownership-driven, calm under pressure.
+
+**32. Preferred team environment?**
+Collaborative, feedback-driven, Agile-based.
+
+**33. Why senior engineer?**
+Ownership, mentoring, architectural thinking, client handling.
+
+**34. Growth plan?**
+Move toward frontend architecture and technical leadership.
+
+---
+
+# 🔹 Tricky Questions
+
+**35. No promotion in 2 years?**
+I focus on learning and contribution; growth follows performance.
+
+**36. Salary low?**
+Previous role had different compensation structure; now aligning with market.
+
+**37. Why not switch earlier?**
+Focused on gaining strong project ownership experience.
+
+**38. Better offer tomorrow?**
+I evaluate long-term growth, not just salary.
+
+**39. Relocation?**
+Open if role and growth justify it.
+
+---
+
+# 🎯 Important Tip
+
+Answer:
+
+* Calm
+* Structured
+* Not too long
+* Confident tone
+
+---
+
+If you want next:
+
+* Rapid-fire mock interview
+* Top 10 toughest managerial traps
+* Final round closing strategy
+* Body language tips for HR round 🚀
+

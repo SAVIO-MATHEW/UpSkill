@@ -1,0 +1,114 @@
+Nice topic — there are **multiple styles** to write async logic in JS.
+
+---
+
+## 1️⃣ Classic `async/await`
+
+```js
+async function getData() {
+  const res = await fetch(url);
+  return res.json();
+}
+```
+
+Cleanest and most readable.
+
+---
+
+## 2️⃣ Async arrow function
+
+```js
+const getData = async () => {
+  const res = await fetch(url);
+  return res.json();
+};
+```
+
+Same behavior, shorter syntax.
+
+---
+
+## 3️⃣ Async function expression
+
+```js
+const getData = async function () {
+  const res = await fetch(url);
+  return res.json();
+};
+```
+
+---
+
+## 4️⃣ Promise chaining (without `async`)
+
+```js
+function getData() {
+  return fetch(url)
+    .then(res => res.json())
+    .then(data => data);
+}
+```
+
+Old-school but still valid.
+
+---
+
+## 5️⃣ Immediately Invoked Async Function (IIFE)
+
+```js
+(async function () {
+  const res = await fetch(url);
+  console.log(await res.json());
+})();
+```
+
+Runs immediately.
+
+---
+
+## 6️⃣ Async method inside object
+
+```js
+const api = {
+  async getData() {
+    const res = await fetch(url);
+    return res.json();
+  }
+};
+```
+
+---
+
+## 7️⃣ Async class method
+
+```js
+class API {
+  async getData() {
+    const res = await fetch(url);
+    return res.json();
+  }
+}
+```
+
+---
+
+## 8️⃣ Parallel async (with `Promise.all`)
+
+```js
+async function loadAll() {
+  const [a, b] = await Promise.all([fetch(aUrl), fetch(bUrl)]);
+}
+```
+
+---
+
+## Key idea
+
+| Style             | What changes       |
+| ----------------- | ------------------ |
+| `async function`  | syntax             |
+| arrow vs normal   | `this` behavior    |
+| promises vs await | readability        |
+| `Promise.all`     | parallel execution |
+
+All of them still return a **Promise** under the hood.

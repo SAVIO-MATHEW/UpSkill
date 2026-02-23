@@ -1,0 +1,7 @@
+Reconciliation is React’s process of comparing the current virtual DOM (a lightweight representation of the UI) with the previous virtual DOM to determine the minimal set of changes needed to update the actual DOM. It ensures efficient rendering when a component’s state or props change.
+
+Key Concepts:
+Virtual DOM: A JavaScript object representing the UI. React updates it when state/props change.
+Diffing Algorithm: Compares old and new virtual DOM trees to identify changes.
+Efficient Updates: Only applies necessary DOM changes, minimizing performance overhead.
+Key Role: The key prop helps React track elements in lists to optimize updates.

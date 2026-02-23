@@ -1,0 +1,5 @@
+The Shadow DOM is a web standard that allows encapsulation of a DOM subtree and styles, isolated from the main document DOM. It’s commonly used in web components to create reusable, self-contained UI elements with scoped styles and markup, preventing conflicts with global styles or scripts.
+Accessed via element.shadowRoot.
+Encapsulation: Styles and DOM are scoped to the component, unaffected by external CSS/JavaScript.
+Isolation: Prevents style leaks (e.g., global SCSS/CSS won’t affect Shadow DOM elements).
+Reusability: Used in custom elements (e.g., <input> or custom web components).

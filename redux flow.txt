@@ -1,0 +1,72 @@
+Redux follows a clear and structured flow to manage state in a predictable way for JavaScript applications. Here’s a breakdown of the process:
+
+### **1. Action**
+- **What**: Actions are plain JavaScript objects that describe what you want to do or change in the state.
+- **How**: They must have a `type` property (a string) that describes the action, and can optionally include a `payload` with additional data.
+- **Example**:
+  ```javascript
+  const incrementAction = { type: 'INCREMENT', payload: 1 };
+  ```
+
+---
+
+### **2. Reducer**
+- **What**: Reducers are functions that specify how the state should change based on the action.
+- **How**: It takes the current state and an action, and returns a new state.
+- **Example**:
+  ```javascript
+  const counterReducer = (state = 0, action) => {
+    switch (action.type) {
+      case 'INCREMENT':
+        return state + action.payload;
+      case 'DECREMENT':
+        return state - action.payload;
+      default:
+        return state;
+    }
+  };
+  ```
+
+---
+
+### **3. Store**
+- **What**: The store is a centralized place to keep your state.
+- **How**: It’s created using the `createStore()` method and holds the entire state tree of your application.
+- **Example**:
+  ```javascript
+  import { createStore } from 'redux';
+  const store = createStore(counterReducer);
+  ```
+
+---
+
+### **4. Dispatch**
+- **What**: Dispatch is the method used to send actions to the store.
+- **How**: When an action is dispatched, Redux forwards it to the reducer, which updates the state accordingly.
+- **Example**:
+  ```javascript
+  store.dispatch({ type: 'INCREMENT', payload: 1 });
+  ```
+
+---
+
+### **5. Subscription**
+- **What**: Subscriptions allow components to listen for changes in the store.
+- **How**: You use `store.subscribe()` to execute a function whenever the state changes.
+- **Example**:
+  ```javascript
+  store.subscribe(() => {
+    console.log('State updated:', store.getState());
+  });
+  ```
+
+---
+
+### **Flow Summary**
+1. **Action**: Describes the change you want to make.
+2. **Reducer**: Receives the action and updates the state.
+3. **Store**: Holds the state.
+4. **Dispatch**: Sends the action to the reducer.
+5. **Subscription**: Reacts to state changes.
+
+Let me know if you'd like help setting up Redux or need advanced examples!
