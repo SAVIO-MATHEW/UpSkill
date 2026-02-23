@@ -1,0 +1,99 @@
+debounce function
+----------------------------------------------------------------------
+Create a React auto-refresh feature that fetches data every 30 seconds. If the user manually refreshes, cancel any ongoing request and start a new one instantly. Ensure proper cleanup to avoid memory leaks.
+
+You need:
+
+* ✅ Auto API call every 30s
+* ✅ If user clicks → abort current request
+* ✅ Immediately trigger new call
+* ✅ Continue 30s cycle
+
+Use **`AbortController` + setInterval`**.
+
+---
+
+# ✅ Clean React Solution
+
+```javascript
+import { useEffect, useRef } from "react";
+
+function useAutoFetch() {
+  const controllerRef = useRef(null);
+  const intervalRef = useRef(null);
+
+  const fetchData = () => {
+    // Abort previous request if running
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    controllerRef.current = controller;
+
+    fetch("api/dashboard/id", { signal: controller.signal })
+      .then(res => res.json())
+      .then(data => {
+        console.log("Data:", data);
+      })
+      .catch(err => {
+        if (err.name !== "AbortError") {
+          console.error(err);
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchData(); // initial call
+
+    intervalRef.current = setInterval(fetchData, 30000);
+
+    return () => {
+      clearInterval(intervalRef.current);
+      controllerRef.current?.abort();
+    };
+  }, []);
+
+  return fetchData; // allow manual trigger
+}
+```
+
+---
+
+# ✅ Usage in Component
+
+```javascript
+const refetch = useAutoFetch();
+
+<button onClick={refetch}>Refresh Now</button>
+```
+
+---
+
+# 🔥 What Happens
+
+* Page loads → API called
+* Every 30s → API called
+* User clicks →
+
+  * Current request aborted
+  * New request triggered immediately
+* Component unmounts → cleanup
+
+---
+
+# 🎯 Why This Is Correct
+
+* `AbortController` cancels ongoing fetch
+* `setInterval` handles periodic calls
+* No memory leaks
+* No overlapping API calls
+
+---
+
+If you want interview-level explanation in 2 lines:
+
+> “I use AbortController to cancel in-flight requests and setInterval for polling. Manual triggers abort and restart the request to avoid race conditions.”
+
+Let me know if you want a Redux / production-grade version.
+--------------------------------------------------------------------------------------
