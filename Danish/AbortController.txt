@@ -128,3 +128,74 @@ const signal = controller.signal;
 Part		Purpose
 controller	Controls the operation
 signal		Passed to fetch to listen for abort
+
+-----------------------------------------------------------------------------------
+Short answer: No — you shouldn’t reuse the same AbortController again and again.
+
+Let’s understand why 👇
+
+🔹 1️⃣ AbortController Is One-Time Use
+
+When you do:
+
+const controller = new AbortController();
+controller.abort();
+
+Once .abort() is called:
+
+👉 controller.signal.aborted === true
+👉 That signal stays permanently aborted
+
+You cannot reset it.
+
+So if you reuse it:
+
+fetch(url, { signal: controller.signal });
+
+It will immediately reject because the signal is already aborted.
+
+🔥 2️⃣ Why We Create a New One Every Time
+
+In your polling example:
+
+if (controllerRef.current) {
+  controllerRef.current.abort();
+}
+
+const controller = new AbortController();
+controllerRef.current = controller;
+
+What we’re doing:
+
+Cancel previous request
+
+Create a fresh controller
+
+Attach fresh signal to new fetch
+
+Each request needs its own signal lifecycle.
+
+🔹 3️⃣ Think of It Like This
+
+An AbortController is like a fuse.
+
+Once blown, it cannot be reused.
+
+You must replace it.
+
+🔹 4️⃣ What Happens If You Reuse?
+
+If you try:
+
+const controller = new AbortController();
+
+fetch(url1, { signal: controller.signal });
+controller.abort();
+
+fetch(url2, { signal: controller.signal }); // ❌
+
+Second fetch will instantly fail.
+
+🎯 Interview-Ready Answer
+
+An AbortController cannot be reused once aborted because its signal remains permanently in the aborted state. So for every new request, we must create a new AbortController instance.
