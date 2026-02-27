@@ -125,3 +125,27 @@ This avoids session mismatch.
 🎤 Short 30-Second Version (If Interviewer Is Senior)
 
 We used Okta Sign-In Widget via npm for authentication and MFA. After successful login, Okta issues access and refresh tokens. The UI sends the access token to the backend for validation. The backend validates tokens with Okta and manages session cookies. If the access token expires, it uses the refresh token to obtain a new one. On logout, both Okta session and backend session are terminated to prevent unauthorized access.
+
+---------------------------------------------------------------------------------
+
+Ul Integerates okta sign in widget (using cdn, it can be added using as npm package, in interview for simplicity tell them we used npm package to avoid extra question on why cdn over npm)
+
+okta sign widget comes with implemented authentication methods (like mfa with support for email/phone authentication)
+
+1. sign in widget is initiliazed on dick of login. (okta package provides one function that takes config and ui element id, it renders widget in that container with given id).
+
+2. user enters credentials
+
+3. if MFA is enrolled, widget asks preference to get otp via email or phone, it validates otp, if mfa is not enrolled, it directly authenticates.
+
+4. Post authentication is successful, its sets idx(session is setup at okta 15mins and Ul refreshes at interval of 10mins if user
+
+is active) cookie at Ul and sends refresh and access token.
+
+5. refresh and access token are send to MS. MS validates with okta
+
+6. After validation ms sets cookies in Ul, these are validated for every requests
+
+7. MS validates access token, if access token is expired, ms request for new access token in exchange of refresh token from okta.
+
+8. Logout:- Ul sends logout request to okta to terminate the session at okta. Okta uses stored idx cookie to terminate session, after this UI Sends logout request to MS also, to logout dms session.
