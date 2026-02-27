@@ -1,0 +1,127 @@
+🔐 Authentication Flow Using Okta Sign-In Widget
+
+We integrated the Okta Sign-In Widget (installed via npm) to handle authentication and MFA flows in the React application.
+
+1️⃣ Widget Initialization
+
+When the user clicks Login:
+
+We initialize the Okta Sign-In Widget
+
+Pass configuration (clientId, issuer, redirectUri, scopes)
+
+Provide a container ID
+
+The widget renders inside that container
+
+Okta handles:
+
+Username/password authentication
+
+MFA enrollment
+
+OTP validation (email/SMS)
+
+2️⃣ User Authentication
+
+User enters credentials
+
+If MFA is enrolled → user selects email/SMS
+
+OTP is validated by Okta
+
+If MFA not enrolled → direct authentication
+
+All authentication logic is handled by Okta — not by our UI.
+
+3️⃣ Session & Token Creation
+
+After successful authentication:
+
+Okta establishes a session (typically 15 mins)
+
+UI receives:
+
+Access Token
+
+Refresh Token
+
+ID Token (if needed)
+
+Okta also sets an idx session cookie.
+
+If the user is active:
+
+UI refreshes the session every 10 minutes to avoid expiry.
+
+4️⃣ Token Flow to Backend (Microservice)
+
+UI sends Access Token to MS in Authorization header.
+
+MS validates Access Token with Okta (via public keys / introspection).
+
+If valid:
+
+MS sets its own secure session cookies for subsequent requests.
+
+Every API request:
+
+MS validates the token or session.
+
+5️⃣ Token Expiry Handling
+
+If Access Token expires:
+
+MS uses Refresh Token to request new Access Token from Okta.
+
+Okta validates refresh token.
+
+New Access Token is issued.
+
+MS continues serving secure APIs.
+
+This ensures seamless session continuation.
+
+6️⃣ Logout Flow
+
+When user logs out:
+
+UI sends logout request to Okta
+
+Okta terminates session using idx cookie
+
+UI also calls MS logout endpoint
+
+MS clears its own session cookies
+
+This ensures:
+
+Okta session is destroyed
+
+Backend session is destroyed
+
+No secure calls are allowed afterward
+
+🔥 Important Edge Case (Interview Bonus)
+
+If:
+
+Okta session is terminated
+
+But MS session is not cleared
+
+Then:
+
+If MS relies only on its own cookies, secure calls may still work.
+
+Proper implementation must ensure:
+
+MS validates token expiry
+
+MS session is also invalidated on logout
+
+This avoids session mismatch.
+
+🎤 Short 30-Second Version (If Interviewer Is Senior)
+
+We used Okta Sign-In Widget via npm for authentication and MFA. After successful login, Okta issues access and refresh tokens. The UI sends the access token to the backend for validation. The backend validates tokens with Okta and manages session cookies. If the access token expires, it uses the refresh token to obtain a new one. On logout, both Okta session and backend session are terminated to prevent unauthorized access.

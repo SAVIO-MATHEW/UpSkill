@@ -1,0 +1,73 @@
+Short, clear, interview-ready answer 👇
+
+# 🔹 `map()` vs `forEach()`
+
+## ✅ 1️⃣ Return Value (Biggest Difference)
+
+### `map()`
+
+* Returns a **new array**
+* Used when you want to **transform data**
+
+```js
+const nums = [1, 2, 3];
+
+const doubled = nums.map(n => n * 2);
+// [2, 4, 6]
+```
+
+---
+
+### `forEach()`
+
+* Returns **undefined**
+* Used for **side effects only**
+
+```js
+const nums = [1, 2, 3];
+
+nums.forEach(n => console.log(n));
+```
+
+---
+
+# 🔹 2️⃣ When to Use What
+
+| Use Case                                  | Use         |
+| ----------------------------------------- | ----------- |
+| Transform array                           | `map()`     |
+| Render list in React                      | `map()`     |
+| Just logging / mutating external variable | `forEach()` |
+| Need new array                            | `map()`     |
+| No return needed                          | `forEach()` |
+
+---
+
+# 🔹 3️⃣ React Rule
+
+In React JSX:
+
+```jsx
+{items.map(item => <Card key={item.id} />)}
+```
+
+You MUST use `map()` because React needs an array to render.
+
+`forEach()` won’t work.
+
+---
+
+# 🔹 4️⃣ Functional Programming Difference
+
+* `map()` is functional & pure
+* `forEach()` is imperative & side-effect driven
+
+---
+
+# 🎯 Interview-Ready One-Liner
+
+> `map()` is used to transform arrays and returns a new array, while `forEach()` is used for side effects and does not return anything.
+
+---
+
+If you want, I can also explain performance difference and edge cases (very common follow-up question).
